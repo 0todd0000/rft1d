@@ -255,10 +255,13 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 		   determining significant signals in images of cerebral
 		   activation. Human Brain Mapping 4:58-73.
 	'''
+	c        = _as_float(c)
+	k        = _as_float(k)
+	Z        = _as_float(Z)
 	D        = float(len(R))  #dimensionality
 	if R[1]==0:  #infinitely smooth field
 		R = R[0], eps  #to make the results numerically stable
-	R        = np.asarray(R)
+	R        = np.asarray(R, dtype=float)
 	EC       = ec_density(STAT, Z, df)
 	if version=='spm8':
 		EC   = EC + eps
@@ -294,7 +297,10 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 		beta = (gamma(0.5*D+1)/Ek) **(2/D)
 		p    = np.exp( -beta*(k**(2/D)) )
 	#Poisson clumping heuristic (for multiple clusters)
-	P        = 1 - poisson_cdf(c-1, (Ec + eps)*p)
+	if p==0:
+		P    = 0
+	else:
+		P    = 1 - poisson_cdf(c-1, (Ec + eps)*p)
 	#Non-implemented cases:
 	if version=='spm8':  #non-implemented flags are removed in spm12; rft1d validates all cases (see ./rft1d/examples/val*)
 		if STAT in ['T','X2']:
@@ -354,6 +360,14 @@ def isf(STAT, alpha, df, resels, n, Q=None, version='spm12'):
 ################################
 # Convienence classes
 ################################
+
+
+def _as_float(x):
+	if isinstance(x, (int,float)):
+		x = float(x)
+	elif isinstance(x, np.ndarray):
+		x = np.asarray(x, dtype=float)
+	return x
 
 
 def _float_if_possible(x):

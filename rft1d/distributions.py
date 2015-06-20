@@ -174,7 +174,7 @@ class _RFTDistribution(object):
 		'''
 		df = self._get_df(df)
 		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
-		return E.isf(alpha)
+		return E.isf( alpha )
 	def isf0d(self):
 		'''
 		Inverse survival function (0D);  equivalent to **scipy.stats.DISTFLAG.isf**
@@ -286,7 +286,7 @@ class _RFTDistribution(object):
 		'''
 		df   = self._get_df(df)
 		calc = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
-		return calc.sf(u)
+		return calc.sf( u )
 	def sf0d(self):
 		'''
 		Survival function (0D);  equivalent to **scipy.stats.DISTFLAG.sf**

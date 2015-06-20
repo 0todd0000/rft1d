@@ -468,6 +468,69 @@ class ClusterMetricCalculator(object):
 
 
 
+class ClusterMetricCalculatorInitialized(object):
+	def __init__(self, y, u, interp=True, wrap=False):
+		self.y      = y
+		self.u      = u
+		L,n         = bwlabel(y >= u, merge_wrapped=wrap)
+		self.L      = L
+		self.n      = n
+		self.interp = interp
+		self.wrap   = wrap
+		
+	
+	def cluster_centroids(self):
+		c = []
+		if self.n > 0:
+			for i in range(self.n):
+				i     = self.L==(i+1)
+				x     = np.arange(self.y.size)[i]
+				z     = self.y[i]
+				z0    = np.sign(z[0]) * self.u * np.ones(z.size)
+				z     = np.hstack([z,z0])
+				c.append( (x.mean(), z.mean()) )
+		return c
+		
+	
+	def cluster_extents(self):
+		if self.n==0:
+			m = []
+		else:
+			m   = []
+			for i in range(self.n):
+				b       = self.L==(i+1)
+				if np.all(b):
+					mm  = self.y.size - 1
+				elif self.interp:
+					up  = Upcrossing(self.y, b, self.interp, self.wrap)
+					mm  = up.extent(self.u)
+				else:
+					mm  = b.sum() - 1
+				m.append(mm)
+		return m
+	
+	def cluster_minima(self):
+		b   = self.y > self.u
+		if np.all(b):
+			m = [self.y.min()]
+		elif np.any(b):
+			if self.interp:
+				m      = [self.u]*self.n
+			else:
+				m      = [self.y[self.L==(i+1)].min()  for i in range(self.n)]
+		else:
+			m = []
+		return m
+	
+	def get_all(self):
+		if self.n > 0:
+			extents    = self.cluster_extents()
+			minima     = self.cluster_minima()
+			centroids  = self.cluster_centroids()
+		else:
+			extents=minima=centroids = []
+		return extents, minima, centroids, self.L
+
 
 
 
