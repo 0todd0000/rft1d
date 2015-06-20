@@ -1,5 +1,5 @@
 
-__version__  = '0.1.10'   #(2015.04.26)
+__version__  = '0.1.11'   #(2015.06.20)
 
 import data, distributions, geom, prob, random
 
