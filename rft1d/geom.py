@@ -528,7 +528,7 @@ class ClusterMetricCalculatorInitialized(object):
 			minima     = self.cluster_minima()
 			centroids  = self.cluster_centroids()
 		else:
-			extents=minima=centroids = []
+			extents,minima,centroids = [],[],[]
 		return extents, minima, centroids, self.L
 
 
