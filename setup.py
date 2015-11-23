@@ -21,6 +21,6 @@ setup(
 	packages         = ['rft1d'],
 	package_data     = {'rft1d' : ['examples/*.*', 'examples/paper/*.*', 'data/weather/*.*'] },
 	long_description = long_description,
-	keywords         = ['statistics', 'time series analysis'],
+	keywords         = ['future', 'statistics', 'time series analysis'],
 	classifiers      = [],
 ) 

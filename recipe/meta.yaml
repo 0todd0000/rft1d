@@ -15,11 +15,13 @@ requirements:
   build:
     - python
     - setuptools
+    - future
 
   run:
     - python
     - scipy >=0.15
     - numpy >=1.9
+    - future
 
 
 test:
