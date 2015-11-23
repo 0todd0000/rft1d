@@ -1,7 +1,10 @@
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import division
 
 __version__  = '0.1.2'   #(2015.06.22)
 
-import data, distributions, geom, prob, random
+from . import data, distributions, geom, prob, random
 
 randn1d      = random.randn1d
 multirandn1d = random.multirandn1d

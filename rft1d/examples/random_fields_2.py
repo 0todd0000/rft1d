@@ -8,6 +8,9 @@ generation.
 -- When FWHM gets large (2FWHM>nNodes), the data should be
 padded using the *pad* keyword.
 '''
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 
 
 

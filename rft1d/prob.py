@@ -4,6 +4,9 @@ Random Field Theory expectations and probabilities.
 The core RFT computations are conducted inside **prob.rft**, and the 
 **RFTCalculator** class serves as a high-level interface to **prob.rft**
 '''
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import division
 
 # Copyright (C) 2015  Todd Pataky
 # version: 0.1.1 (2015/04/26)
@@ -13,7 +16,7 @@ from math import pi,log,sqrt,exp
 import numpy as np
 from scipy import stats,optimize
 from scipy.special import gammaln,gamma
-import geom
+from . import geom
 
 # CONSTANTS:
 FOUR_LOG2   = 4*log(2)
@@ -144,7 +147,7 @@ def ec_density(STAT, z, df):
 		zz   = z * ( (m-p+1)/(p*m) )
 		return ec_density_F(zz, df_F)
 	else:
-		raise(ValueError('Statistic must be one of: ["Z", "T", "X2", "F", "T2"]'))
+		raise ValueError('Statistic must be one of: ["Z", "T", "X2", "F", "T2"]')
 
 
 def poisson_cdf(a, b):
@@ -268,7 +271,7 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 	elif version=='spm12':
 		EC   = np.array([max(ec,eps) for ec in EC])
 	else:
-		raise( ValueError('rft1d error:  unknown version "%s" (version must be "spm8" or "spm12")'%str(version)) )
+		raise ValueError('rft1d error:  unknown version "%s" (version must be "spm8" or "spm12")'%str(version))
 	if n==1:  #take a shortcut (Edit TCP 2014.08.11) -- about 9 times faster than the fast version below
 		EM   = R*EC
 		EN   = EC[0]*R[-1]
@@ -337,7 +340,7 @@ def _approx_threshold(STAT, alpha, df, resels, n):
 		fstar = stats.f.isf(a, df_F[0], df_F[1])
 		zstar = fstar / ( (m-p+1)/(p*m) )
 	else:
-		raise(ValueError, 'Statistic must be one of: "Z", "T", "X2", "F", "T2"')
+		raise ValueError('Statistic must be one of: "Z", "T", "X2", "F", "T2"')
 	return zstar
 
 def isf(STAT, alpha, df, resels, n, Q=None, version='spm12'):
@@ -615,11 +618,11 @@ class RFTCalculator(object):
 			self.nNodes = nodes
 		elif np.ma.is_mask(nodes):
 			if nodes.ndim!=1:
-				raise( ValueError('RFT1D Error:  the "nodes" argument must be a 1D boolean array. Received a %dD array'%arg.ndim)  )
+				raise ValueError('RFT1D Error:  the "nodes" argument must be a 1D boolean array. Received a %dD array'%arg.ndim)
 			self.nNodes = nodes.size
 			self.mask   = np.logical_not(nodes)
 		else:
-			raise( ValueError('RFT1D Error:  the "nodes" argument must be an integer or a 1D boolean array')  )
+			raise ValueError('RFT1D Error:  the "nodes" argument must be an integer or a 1D boolean array')
 	
 	def isf(self, alpha):
 		'''

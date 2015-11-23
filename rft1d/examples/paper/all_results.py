@@ -22,6 +22,9 @@ or
 2. Use the figure-specific scripts provided in:
    ./rft1d/examples/paper/fig*.py
 '''
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 
 
 
@@ -67,9 +70,9 @@ for i,(ax,w) in enumerate(zip(AX,W)):
 		s   = '(%s)  FWHM = %d%%' %(chr(97+i), w)
 	ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
 pyplot.show(block=False)
-print 'Figure 1 (Page 2):'
-print '   [see Figure 1]'
-print
+print('Figure 1 (Page 2):')
+print('   [see Figure 1]')
+print()
 
 
 
@@ -123,9 +126,9 @@ for i,(ax,ec,hc) in enumerate(zip(AX,EC,HC)):
 	s   = '(%s)  EC=%d, HC=%d' %(chr(97+i), ec, hc)
 	ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
 pyplot.show()
-print 'Figure 2 (Page 3):'
-print '   [see Figure 2]'
-print
+print('Figure 2 (Page 3):')
+print('   [see Figure 2]')
+print()
 
 
 
@@ -184,9 +187,9 @@ ax.legend()
 ax.set_xlabel('$u$', size=18)
 ax.set_ylabel('Topological characteristic', size=16)
 pyplot.show(block=False)
-print 'Figure 3 (Page 4):'
-print '   [see Figure 3]'
-print
+print('Figure 3 (Page 4):')
+print('   [see Figure 3]')
+print()
 
 
 
@@ -238,9 +241,9 @@ for i,(ax,w) in enumerate(zip(AX,FWHM)):
 [ax.set_xlabel('Field position  (%)', size=18)   for ax in AX]
 ax0.text(-0.15, 0.5, '$z$', size=24, transform=ax0.transAxes, rotation=90, va='center')
 pyplot.show(block=False)
-print 'Figure 4 (Page 5):'
-print '   [see Figure 4]'
-print
+print('Figure 4 (Page 5):')
+print('   [see Figure 4]')
+print()
 
 
 
@@ -321,9 +324,9 @@ ax.legend()
 ax.set_xlabel('$u$', size=18)
 ax.set_ylabel('Hadwiger characteristic', size=16)
 pyplot.show(block=False)
-print 'Figure 5 (Page 6):'
-print '   [see Figure 5]'
-print
+print('Figure 5 (Page 6):')
+print('   [see Figure 5]')
+print()
 
 
 
@@ -338,9 +341,9 @@ print
 from scipy import stats
 u = 2.0
 p = stats.norm.sf(u)
-print 'Example 8.1 (Page 8):'
-print '   p = stats.norm.sf(u) --> p = %.3f' %p
-print
+print('Example 8.1 (Page 8):')
+print('   p = stats.norm.sf(u) --> p = %.3f' %p)
+print()
 
 
 
@@ -350,9 +353,9 @@ u = 3.0
 nNodes = 101
 FWHM = 10.0
 p = rft1d.norm.sf(u, nNodes, FWHM)
-print 'Example 8.2 (Page 8):'
-print '   p = rft1d.norm.sf(u, nNodes, FWHM) --> p = %.3f' %p
-print
+print('Example 8.2 (Page 8):')
+print('   p = rft1d.norm.sf(u, nNodes, FWHM) --> p = %.3f' %p)
+print()
 
 
 #Example 8.3 (Page 8)
@@ -364,12 +367,12 @@ p0 = rft1d.t.sf(u, 8, nNodes, FWHM)
 p1 = rft1d.chi2.sf(u, 8, nNodes, FWHM)
 p2 = rft1d.f.sf(u, (2, 15), nNodes, FWHM)
 p3 = rft1d.T2.sf(u, (2, 15), nNodes, FWHM)
-print 'Example 8.3 (Page 8):'
-print '   p = rft1d.t.sf(u, 8, nNodes, FWHM) --> p = %.3f' %p0
-print '   p = rft1d.chi2.sf(u, 8, nNodes, FWHM) --> p = %.3f' %p1
-print '   p = rft1d.f.sf(u, (2, 15), nNodes, FWHM) --> p = %.3f' %p2
-print '   p = rft1d.T2.sf(u, (2, 15), nNodes, FWHM) --> p = %.3f' %p3
-print
+print('Example 8.3 (Page 8):')
+print('   p = rft1d.t.sf(u, 8, nNodes, FWHM) --> p = %.3f' %p0)
+print('   p = rft1d.chi2.sf(u, 8, nNodes, FWHM) --> p = %.3f' %p1)
+print('   p = rft1d.f.sf(u, (2, 15), nNodes, FWHM) --> p = %.3f' %p2)
+print('   p = rft1d.T2.sf(u, (2, 15), nNodes, FWHM) --> p = %.3f' %p3)
+print()
 
 
 #Example 8.4 (Pages 8-9)
@@ -383,13 +386,13 @@ u1 = rft1d.t.isf(alpha, 8, nNodes, FWHM)
 u2 = rft1d.chi2.isf(alpha, 8, nNodes, FWHM)
 u3 = rft1d.f.isf(alpha, (2, 15), nNodes, FWHM)
 u4 = rft1d.T2.isf(alpha, (2, 15), nNodes, FWHM)
-print 'Example 8.4 (Pages 8-9):'
-print '   u = rft1d.t.isf(alpha, 8, nNodes, FWHM) --> u = %.3f' %u0
-print '   u = rft1d.t.isf(alpha, 8, nNodes, FWHM) --> u = %.3f' %u1
-print '   u = rft1d.chi2.isf(alpha, 8, nNodes, FWHM) --> u = %.3f' %u2
-print '   u = rft1d.f.isf(alpha, (2, 15), nNodes, FWHM) --> u = %.3f' %u3
-print '   u = rft1d.T2.isf(alpha, (2, 15), nNodes, FWHM) --> u = %.3f' %u4
-print
+print('Example 8.4 (Pages 8-9):')
+print('   u = rft1d.t.isf(alpha, 8, nNodes, FWHM) --> u = %.3f' %u0)
+print('   u = rft1d.t.isf(alpha, 8, nNodes, FWHM) --> u = %.3f' %u1)
+print('   u = rft1d.chi2.isf(alpha, 8, nNodes, FWHM) --> u = %.3f' %u2)
+print('   u = rft1d.f.isf(alpha, (2, 15), nNodes, FWHM) --> u = %.3f' %u3)
+print('   u = rft1d.T2.isf(alpha, (2, 15), nNodes, FWHM) --> u = %.3f' %u4)
+print()
 
 
 
@@ -424,9 +427,9 @@ ax.text(-0.17, 0.5, 'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transA
 ax.set_ylim(0,0.35)
 ax.legend()
 pyplot.show(block=False)
-print 'Figure 6 (Page 9):'
-print '   [see Figure 6]'
-print
+print('Figure 6 (Page 9):')
+print('   [see Figure 6]')
+print()
 
 
 
@@ -440,10 +443,10 @@ nNodes = 101
 FWHM = 10.0
 heights = np.linspace(2, 4, 51)
 sf = rft1d.norm.sf(heights, nNodes, FWHM)
-print 'Example 9.1 (Page 9):'
-print '    sf = rft1d.norm.sf(heights, nNodes, FWHM) --> ndarray (51,) '
-print '    [see also Figure 6]'
-print
+print('Example 9.1 (Page 9):')
+print('    sf = rft1d.norm.sf(heights, nNodes, FWHM) --> ndarray (51,) ')
+print('    [see also Figure 6]')
+print()
 
 
 #Example 9.2 (Page 9)
@@ -452,9 +455,9 @@ alpha = [0.001, 0.01, 0.05, 0.1]
 nNodes = 101
 FWHM = 10.0
 u = rft1d.norm.isf(alpha, nNodes, FWHM)
-print 'Example 9.2 (Page 9):'
-print '   u = rft1d.norm.isf(alpha, nNodes, FWHM) --> u = [%.3f, %.3f, %.3f, %.3f]' %tuple(u)
-print
+print('Example 9.2 (Page 9):')
+print('   u = rft1d.norm.isf(alpha, nNodes, FWHM) --> u = [%.3f, %.3f, %.3f, %.3f]' %tuple(u))
+print()
 
 
 #Example 10.1 (Page 10)
@@ -464,9 +467,9 @@ FWHM = 8.0
 k = 1.7 / FWHM
 u = 3.0
 p = rft1d.norm.p_cluster(k, u, nNodes, FWHM)
-print 'Example 10.1 (Page 10):'
-print '   p = rft1d.norm.p_cluster(k, u, nNodes, FWHM) --> p = %.3f' %p
-print
+print('Example 10.1 (Page 10):')
+print('   p = rft1d.norm.p_cluster(k, u, nNodes, FWHM) --> p = %.3f' %p)
+print()
 
 
 
@@ -478,9 +481,9 @@ FWHM = 8.0
 k = 0.7 / FWHM
 u = 3.0
 p = rft1d.norm.p_set(c, k, u, nNodes, FWHM)
-print 'Example 10.2 (Page 10):'
-print '   p = rft1d.norm.p_set(c, k, u, nNodes, FWHM) --> p = %.5f' %p
-print
+print('Example 10.2 (Page 10):')
+print('   p = rft1d.norm.p_set(c, k, u, nNodes, FWHM) --> p = %.5f' %p)
+print()
 
 
 
@@ -491,9 +494,9 @@ df = (1, 19)
 nNodes = 101
 FWHM = 10.0
 calc = rft1d.prob.RFTCalculator(STAT, df, nNodes, FWHM)
-print 'Example 10.3 (Page 10):'
-print '   calc = rft1d.prob.RFTCalculator(STAT, df, nNodes, FWHM) --> an RFTCalculator object'
-print
+print('Example 10.3 (Page 10):')
+print('   calc = rft1d.prob.RFTCalculator(STAT, df, nNodes, FWHM) --> an RFTCalculator object')
+print()
 
 
 
@@ -508,11 +511,11 @@ u = 3.0
 c = calc.expected.number_of_upcrossings(u)
 k = calc.expected.resels_per_upcrossing(u)
 N = calc.expected.number_of_suprathreshold_nodes(u)
-print 'Example 10.4 (Page 10):'
-print '   c = calc.expected.number_of_upcrossings(u) --> c = %.3f' %c
-print '   k = calc.expected.resels_per_upcrossing(u) --> k = %.3f' %k
-print '   N = calc.expected.number_of_suprathreshold_nodes(u) --> N = %.3f' %N
-print
+print('Example 10.4 (Page 10):')
+print('   c = calc.expected.number_of_upcrossings(u) --> c = %.3f' %c)
+print('   k = calc.expected.resels_per_upcrossing(u) --> k = %.3f' %k)
+print('   N = calc.expected.number_of_suprathreshold_nodes(u) --> N = %.3f' %N)
+print()
 
 
 
@@ -529,11 +532,11 @@ c = 2
 p0 = calc.p.upcrossing(u)
 p1 = calc.p.cluster(k, u)
 p2 = calc.p.set(c, k, u)
-print 'Example 11.1 (Page 11):'
-print '   p = calc.p.upcrossing(u) --> p = %.3f' %p0
-print '   p = calc.p.cluster(k, u) --> p = %.3f' %p1
-print '   p = calc.p.sey(c, k, u) --> p = %.3f' %p2
-print
+print('Example 11.1 (Page 11):')
+print('   p = calc.p.upcrossing(u) --> p = %.3f' %p0)
+print('   p = calc.p.cluster(k, u) --> p = %.3f' %p1)
+print('   p = calc.p.sey(c, k, u) --> p = %.3f' %p2)
+print()
 
 
 
@@ -548,9 +551,9 @@ p = lambda x: rft1d.prob.p_bonferroni(STAT, x, df, nNodes)
 objective_fn = lambda x: (p(x) - alpha) ** 2
 x0 = 5.0
 u = scipy.optimize.fmin(objective_fn, x0, disp=0)
-print 'Example 11.2 (Page 11):'
-print '   u = scipy.optimize.fmin(objective_fn, x0) --> u = %.3f' %u
-print
+print('Example 11.2 (Page 11):')
+print('   u = scipy.optimize.fmin(objective_fn, x0) --> u = %.3f' %u)
+print()
 
 
 
@@ -561,10 +564,10 @@ nNodes = 101
 FWHM = 1.5
 p0 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=False)
 p1 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=True)
-print 'Example 11.3 (Page 11):'
-print '   p0 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=False) --> p0 = %.3f' %p0
-print '   p1 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=True) --> p0 = %.3f' %p1
-print
+print('Example 11.3 (Page 11):')
+print('   p0 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=False) --> p0 = %.3f' %p0)
+print('   p1 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=True) --> p0 = %.3f' %p1)
+print()
 
 
 
@@ -575,19 +578,19 @@ nNodes = 101
 FWHM = 5.0
 p0 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=False)
 p1 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=True)
-print 'Example 11.4 (Page 12):'
-print '   p0 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=False) --> p0 = %.3f' %p0
-print '   p1 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=True) --> p0 = %.3f' %p1
-print
+print('Example 11.4 (Page 12):')
+print('   p0 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=False) --> p0 = %.3f' %p0)
+print('   p1 = rft1d.norm.sf(u, nNodes, FWHM, withBonf=True) --> p0 = %.3f' %p1)
+print()
 
 
 
 # Example 12.2 (Page 12)
 import rft1d
 y = rft1d.random.randn1d(20, 101, FWHM=10)
-print 'Example 12.2 (Page 12):'
-print '   y = rft1d.random.randn1d(20, 101, FWHM=10) --> ndarray (20 x 101)'
-print
+print('Example 12.2 (Page 12):')
+print('   y = rft1d.random.randn1d(20, 101, FWHM=10) --> ndarray (20 x 101)')
+print()
 
 
 
@@ -621,9 +624,9 @@ ax.set_xlim(2.7,3.6)
 ax.set_ylim(0,0.30)
 ax.legend()
 pyplot.show(block=False)
-print 'Figure 7 (Page 12):'
-print '   [see Figure 7]'
-print
+print('Figure 7 (Page 12):')
+print('   [see Figure 7]')
+print()
 
 
 
@@ -675,9 +678,9 @@ ax.text(0.5, -0.15, 'FWHM  (%)', size=16, transform=ax.transAxes, ha='center')
 ax.text(-0.14, 0.5, '$z^*$', size=20, transform=ax.transAxes, va='center', rotation=90)
 ax.set_ylim(2.5, 5)
 pyplot.show(block=False)
-print 'Figure 8 (Page 13):'
-print '   [see Figure 8]'
-print
+print('Figure 8 (Page 13):')
+print('   [see Figure 8]')
+print()
 
 
 
@@ -687,9 +690,9 @@ print
 #Example 13.1 (Page 13)
 import rft1d
 y = rft1d.randn1d(20, 101, FWHM=10)
-print 'Example 13.1 (Page 13):'
-print '   y = rft1d.randn1d(20, 101, FWHM=10) --> ndarray (20 x 101)'
-print
+print('Example 13.1 (Page 13):')
+print('   y = rft1d.randn1d(20, 101, FWHM=10) --> ndarray (20 x 101)')
+print()
 
 
 
@@ -703,10 +706,10 @@ np.random.seed(0)
 yC = rft1d.randn1d(5, 101, FWHM=10)
 bool0 = np.all(yA == yB)
 bool1 = np.all(yA == yC)
-print 'Example 13.2 (Page 13):'
-print '   np.all(yA == yB) --> %s' %bool0
-print '   np.all(yA == yC) --> %s' %bool1
-print
+print('Example 13.2 (Page 13):')
+print('   np.all(yA == yB) --> %s' %bool0)
+print('   np.all(yA == yC) --> %s' %bool1)
+print()
 
 
 #Example 13.3 (Page 13)
@@ -716,9 +719,9 @@ b = np.array( [True] * 101)
 b[ 20 : 30 ] = False
 b[ 60 : 80 ] = False
 y = rft1d.randn1d(20, b, FWHM=10)
-print 'Example 13.3 (Page 13):'
-print '   y = rft1d.randn1d(20, b, FWHM=10) --> ndarray (20 x 101) {broken fields}'
-print
+print('Example 13.3 (Page 13):')
+print('   y = rft1d.randn1d(20, b, FWHM=10) --> ndarray (20 x 101) {broken fields}')
+print()
 
 
 
@@ -766,9 +769,9 @@ ax.text(-0.17, 0.5, 'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transA
 ax.set_ylim(0,0.35)
 ax.legend()
 pyplot.show(block=False)
-print 'Figure 9 (Page 14):'
-print '   [see Figure 9]'
-print
+print('Figure 9 (Page 14):')
+print('   [see Figure 9]')
+print()
 
 
 
@@ -785,10 +788,10 @@ ymax = y.max(axis=1)
 u = 3.0
 p_simulated = ( ymax > u ).mean()
 p_expected = rft1d.norm.sf(u, nNodes, FWHM)
-print 'Example 14.1 (Page 14):'
-print '   p_simulated = %.5f' %p_simulated
-print '   p_expected  = %.5f' %p_expected
-print
+print('Example 14.1 (Page 14):')
+print('   p_simulated = %.5f' %p_simulated)
+print('   p_expected  = %.5f' %p_expected)
+print()
 
 
 
@@ -807,10 +810,10 @@ k0_nodes = 2.0
 k0_resels = k0_nodes / FWHM
 p_simulated = (np.array(kmax) >= k0_nodes).mean()
 p_expected = rft1d.norm.p_cluster(k0_resels, u, nNodes, FWHM)
-print 'Example 14.2 (Pages 14-15):'
-print '   p_simulated = %.5f' %p_simulated
-print '   p_expected  = %.5f' %p_expected
-print
+print('Example 14.2 (Pages 14-15):')
+print('   p_simulated = %.5f' %p_simulated)
+print('   p_expected  = %.5f' %p_expected)
+print()
 
 
 #Example 15.2 (Pages 15-16)
@@ -828,10 +831,10 @@ y = rft1d.randn1d(1000, nNodes, FWHM)
 n = [calc.nUpcrossingsByExtent(yy, u, kmin_resels, interp, wrap)  for yy in y]
 p_simulated = (np.array(n) >= c).mean()
 p_expected = rft1d.norm.p_set(c, kmin_resels, u, nNodes, FWHM)
-print 'Example 15.1 (Pages 15-16):'
-print '   p_simulated = %.5f' %p_simulated
-print '   p_expected  = %.5f' %p_expected
-print
+print('Example 15.1 (Pages 15-16):')
+print('   p_simulated = %.5f' %p_simulated)
+print('   p_expected  = %.5f' %p_expected)
+print()
 
 
 
@@ -888,9 +891,9 @@ pyplot.setp(ax1, xlim=(23,39), ylim=(0.47,0.92))
 ax0.text(0.04, 0.91, '(a) Upcrossing', transform=ax0.transAxes)
 ax1.text(0.04, 0.91, '(b) Upcrossing  (zoomed)', transform=ax1.transAxes)
 pyplot.show(block=False)
-print 'Figure 10 (Page 15):'
-print '   [see Figure 10]'
-print
+print('Figure 10 (Page 15):')
+print('   [see Figure 10]')
+print()
 
 
 
@@ -936,9 +939,9 @@ ax.set_xlabel('$x$', size=16)
 ax.set_ylabel('$P(k_{max}) > x$', size=16)
 ax.set_ylim(0, 0.25)
 pyplot.show(block=False)
-print 'Figure 11 (Page 16):'
-print '   [see Figure 11]'
-print
+print('Figure 11 (Page 16):')
+print('   [see Figure 11]')
+print()
 
 
 
@@ -993,9 +996,9 @@ ax.set_xlabel('$k_\mathrm{min}$', size=16)
 ax.set_ylabel('$P(c | k_\mathrm{min}) >= 2$', size=16)
 ax.set_ylim(0, 0.08)
 pyplot.show(block=False)
-print 'Figure 12 (Page 17):'
-print '   [see Figure 12]'
-print
+print('Figure 12 (Page 17):')
+print('   [see Figure 12]')
+print()
 
 
 
@@ -1019,9 +1022,9 @@ rA,rB    = yA-mA, yB-mB  #residuals
 ### smoothness estimate:
 r        = np.vstack([rA,rB])
 FWHM     = rft1d.geom.estimate_fwhm(r)
-print 'Example 17.1 (Page 17):'
-print '   Estimated smoothness:  FWHM = %.1f' %FWHM
-print
+print('Example 17.1 (Page 17):')
+print('   Estimated smoothness:  FWHM = %.1f' %FWHM)
+print()
 
 
 
@@ -1059,9 +1062,9 @@ ax.set_xlabel('Day', size=16)
 ax.set_ylabel('Temperature', size=16)
 ax.set_ylim(-45, 25)
 pyplot.show(block=False)
-print 'Figure 13 (Page 18):'
-print '   [see Figure 13]'
-print
+print('Figure 13 (Page 18):')
+print('   [see Figure 13]')
+print()
 
 
 
@@ -1097,9 +1100,9 @@ ax.set_xlabel('Actual  FWHM  (%)')
 ax.set_ylabel('Estimated  FWHM  (%)')
 pyplot.setp(ax, xlim=(0,54), ylim=(0,54))
 pyplot.show(block=False)
-print 'Figure 14 (Page 18):'
-print '   [see Figure 14]'
-print
+print('Figure 14 (Page 18):')
+print('   [see Figure 14]')
+print()
 
 
 
@@ -1161,13 +1164,13 @@ ax.text(280, 2.1, r'$\alpha$ = %.3f'%alpha, color='r')
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('t value', size=16)
 pyplot.show(block=False)
-print 'Figure 15 & Example 19.1 (Sections 5.3-5.4, Pages 19-20):'
-print '   [see Figure 15]'
-print '   Critical t value (1D RFT):  t = %.3f' %tstar
-print '   Critical t value (0D):  t = %.3f' %scipy.stats.t.isf(alpha, df)
-print '   Probability (set-level):  p = %.6f' %Pset
-print '   Probability (cluster-level):  p = %.3f, %.3f' %tuple(Pcluster)
-print
+print('Figure 15 & Example 19.1 (Sections 5.3-5.4, Pages 19-20):')
+print('   [see Figure 15]')
+print('   Critical t value (1D RFT):  t = %.3f' %tstar)
+print('   Critical t value (0D):  t = %.3f' %scipy.stats.t.isf(alpha, df))
+print('   Probability (set-level):  p = %.6f' %Pset)
+print('   Probability (cluster-level):  p = %.3f, %.3f' %tuple(Pcluster))
+print()
 
 
 
@@ -1230,13 +1233,13 @@ ax.text(280, 2.1, r'$\alpha$ = %.3f'%alpha, color='r')
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('t value', size=16)
 pyplot.show(block=False)
-print 'Figure 16 (Page 20):'
-print '   [see Figure 16]'
-print '   Critical t value (1D RFT):  t = %.3f' %tstar
-print '   Critical t value (0D):  t = %.3f' %scipy.stats.t.isf(alpha, df)
-print '   Probability (set-level, circular):  p = %.6f' %Psetcirc
-print '   Probability (cluster-level, circular):  p = %.6f' %Pclustercirc
-print
+print('Figure 16 (Page 20):')
+print('   [see Figure 16]')
+print('   Critical t value (1D RFT):  t = %.3f' %tstar)
+print('   Critical t value (0D):  t = %.3f' %scipy.stats.t.isf(alpha, df))
+print('   Probability (set-level, circular):  p = %.6f' %Psetcirc)
+print('   Probability (cluster-level, circular):  p = %.6f' %Pclustercirc)
+print()
 
 
 
@@ -1313,15 +1316,15 @@ ax.text(280, 1.8, r'$\alpha$ = %.3f'%alpha, color='r')
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('t value', size=16)
 pyplot.show(block=False)
-print 'Figure 17 (Page 21):'
-print '   [see Figure 17]'
-print '   Critical t value (non-parametric):  t = %.3f' %tstar
-print '   Probability (cluster-level):  p = %.3f, %.3f' %tuple(Pcluster)
-print
+print('Figure 17 (Page 21):')
+print('   [see Figure 17]')
+print('   Critical t value (non-parametric):  t = %.3f' %tstar)
+print('   Probability (cluster-level):  p = %.3f, %.3f' %tuple(Pcluster))
+print()
 
 
 
 
-print '\n\n\nSCRIPT FINISHED.'
+print('\n\n\nSCRIPT FINISHED.')
 
 

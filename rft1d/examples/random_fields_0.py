@@ -6,6 +6,9 @@ Note:
 When FWHM gets large (2FWHM>nNodes), the data should be padded prior to filtering.
 Use **rft1d.random.randn1d** for optional padding.
 '''
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 
 
 

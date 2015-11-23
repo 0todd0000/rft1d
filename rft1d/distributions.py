@@ -99,13 +99,16 @@ All distributions share the following functions:
 		>>> rft1d.norm.sf(3, 101, np.inf) #yields 0.02275
 
 '''
+from __future__ import absolute_import
+from __future__ import print_function
+from __future__ import division
 
 # Copyright (C) 2015  Todd Pataky
 # version: 0.1.1 (2015/04/26)
 
 import numpy as np
 from scipy import stats
-from prob import RFTCalculator
+from .prob import RFTCalculator
 
 
 def add_docstrings(distname, ndf=0):

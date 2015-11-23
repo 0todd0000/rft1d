@@ -4,6 +4,9 @@ Geometry module
 This module contains functions for computing various geomtric characteristics
 of 1D fields and upcrossings.
 '''
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 
 # Copyright (C) 2015  Todd Pataky
 # version: 0.1.1 (2015/04/26)
