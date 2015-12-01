@@ -102,6 +102,12 @@ All distributions share the following functions:
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import map
+from builtins import *
+from builtins import object
 
 # Copyright (C) 2015  Todd Pataky
 # version: 0.1.1 (2015/04/26)
@@ -115,7 +121,7 @@ def add_docstrings(distname, ndf=0):
 	def add_docstrings_decorator(cls):
 		### this decorator was adapted from:
 		### http://stackoverflow.com/questions/8100166/inheriting-methods-docstrings-in-python
-		for name, func in vars(cls).items():
+		for name, func in list(vars(cls).items()):
 			if not func.__doc__:
 				for parent in cls.__bases__:
 					parfunc            = getattr(parent, name)
@@ -393,7 +399,7 @@ class HotellingsT2(_RFTDistribution):
 			>>> rft1d.T2.isf0d(0.05, (2,14))
 			>>> rft1d.T2.isf0d([0.01, 0.05, 0.10], (2,14))
 		'''
-		p,m    = map(float,df)
+		p,m    = list(map(float,df))
 		df_F   = p, m - p + 1
 		fstar  = stats.f.isf(alpha, df_F[0], df_F[1])
 		T2star = fstar / ( (m-p+1)/(p*m) )
@@ -413,7 +419,7 @@ class HotellingsT2(_RFTDistribution):
 
 			>>> rft1d.T2.sf0d([0,1,2], (2,14))
 		'''
-		p,m    = map(float,df)
+		p,m    = list(map(float,df))
 		if isinstance(u, (int,float)):
 			uF = u * ( (m-p+1)/(p*m) )
 		else:

@@ -25,6 +25,13 @@ or
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from builtins import chr
+from builtins import range
+from builtins import *
 
 
 
@@ -864,7 +871,7 @@ for ax in [ax0,ax1]:
 	ax.hlines(0, 0, 100, color='k', linestyle='-', lw=0.5)
 	ax.hlines(h, 0, 100, color=color0, linestyle='--')
 ### plot nNodes:
-ind   = range(25,38)
+ind   = list(range(25,38))
 ax1.plot(ind, y[ind], 'o', markersize=6, markerfacecolor=color1, markeredgecolor=color0)
 ax1.plot(ind, [h]*len(ind), 'o', markersize=6, markerfacecolor=color1, markeredgecolor=color0)
 for i in ind:

@@ -9,6 +9,11 @@ it may be more efficient to use the **Generator1D** and **GeneratorMulti1D** cla
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import *
+from builtins import object
 
 # Copyright (C) 2015  Todd Pataky
 # version: 0.1.1 (2015/04/26)

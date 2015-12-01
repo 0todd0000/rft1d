@@ -1,6 +1,13 @@
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from builtins import chr
+from builtins import range
+from builtins import *
 
 import numpy as np
 from matplotlib import pyplot,cm
@@ -43,7 +50,7 @@ seed        = [18]*5 + [0]
 nResponses  = 8
 nNodes      = 101
 W           = [0, 5, 10, 20, 50, np.inf]
-colors      = scalar2color(range(nResponses+3), cmap=cm.PuRd)
+colors      = scalar2color(list(range(nResponses+3)), cmap=cm.PuRd)
 # Y           = [rft1d.random.randn1d(nNodes, w, nResponses)  for w in W]
 Y           = []
 for s,w in zip(seed,W):

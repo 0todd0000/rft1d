@@ -1,6 +1,12 @@
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from builtins import range
+from builtins import *
 
 import numpy as np
 from scipy import stats,optimize
@@ -65,7 +71,7 @@ sfB        = [rft1d.prob.p_bonferroni('Z', u, None, nNodes)  for u in heights]
 #(2) Plot results:
 pyplot.close('all')
 ax         = pyplot.axes([0.15,0.14,0.82,0.84])
-colors     = scalar2color(range(len(FWHMs)+2), cmap=cm.PuRd)
+colors     = scalar2color(list(range(len(FWHMs)+2)), cmap=cm.PuRd)
 for W,sfE,c in zip(FWHMs,SFE,colors[2:]):
 	ax.plot(heights, sfE, '-', lw=2, color=c, label='FWHM = %d%%'%W)
 ax.plot(heights, sfB, 'k--', lw=4, label='Bonferroni')

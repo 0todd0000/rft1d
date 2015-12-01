@@ -7,6 +7,13 @@ The core RFT computations are conducted inside **prob.rft**, and the
 from __future__ import absolute_import
 from __future__ import print_function
 from __future__ import division
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import map
+from builtins import str
+from builtins import *
+from builtins import object
 
 # Copyright (C) 2015  Todd Pataky
 # version: 0.1.1 (2015/04/26)
@@ -65,7 +72,7 @@ def p_bonferroni(STAT, z, df, Q, n=1):
 	elif STAT=='X2':
 		p     = stats.chi2.sf(z, df[1])
 	elif STAT=='T2':
-		p,m   = map(float,df)
+		p,m   = list(map(float,df))
 		v0,v1 = p, m - p + 1
 		zz    = z * ( (m-p+1)/(p*m) )
 		p     = stats.f.sf(zz, v0, v1)
@@ -113,7 +120,7 @@ def ec_density_T(z, df):
 def ec_density_F(z, df):
 	if z<0:   
 		return [1, np.inf]    #to bypass warnings in critical threshold calculation
-	k,v  = map(float, df)
+	k,v  = list(map(float, df))
 	k    = max(k, 1.0)        #stats.f.cdf will return nan if k is less than 1
 	a    = FOUR_LOG2/TWO_PI
 	b    = gammaln(v/2) + gammaln(k/2)
@@ -142,7 +149,7 @@ def ec_density(STAT, z, df):
 	elif STAT=='X2':
 		return ec_density_X2(z, df)
 	elif STAT=='T2':
-		p,m  = map(float,df)
+		p,m  = list(map(float,df))
 		df_F = p, m - p + 1
 		zz   = z * ( (m-p+1)/(p*m) )
 		return ec_density_F(zz, df_F)
@@ -335,7 +342,7 @@ def _approx_threshold(STAT, alpha, df, resels, n):
 	elif STAT=='F':
 		zstar = stats.f.isf(a, df[0], df[1])
 	elif STAT=='T2':
-		p,m   = map(float,df)
+		p,m   = list(map(float,df))
 		df_F  = p, m - p + 1
 		fstar = stats.f.isf(a, df_F[0], df_F[1])
 		zstar = fstar / ( (m-p+1)/(p*m) )

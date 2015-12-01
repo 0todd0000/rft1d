@@ -1,6 +1,13 @@
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from builtins import chr
+from builtins import range
+from builtins import *
 
 import numpy as np
 from scipy import stats
@@ -72,7 +79,7 @@ axx         = np.linspace(0.04, 0.695, 3)
 AX          = [pyplot.axes([xx,0.18,0.29,0.8])   for xx in axx]
 ax0,ax1,ax2 = AX
 ### plot fields:
-colors      = scalar2color(range(nResponses+3), cmap=cm.RdPu)
+colors      = scalar2color(list(range(nResponses+3)), cmap=cm.RdPu)
 [ax0.plot(yy, color=color)  for yy,color in zip(y0,colors)]
 [ax1.plot(yy, color=color)  for yy,color in zip(y1,colors)]
 [ax2.plot(yy, color=color)  for yy,color in zip(y2,colors)]

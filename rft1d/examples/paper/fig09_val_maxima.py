@@ -1,6 +1,12 @@
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import zip
+from builtins import range
+from builtins import *
 
 import numpy as np
 from scipy import stats
@@ -74,7 +80,7 @@ sfN        = stats.norm.sf(heights)
 #(4) Plot results:
 pyplot.close('all')
 ax         = pyplot.axes([0.15,0.14,0.82,0.84])
-colors     = scalar2color(range(len(WW)+2), cmap=cm.PuRd)
+colors     = scalar2color(list(range(len(WW)+2)), cmap=cm.PuRd)
 for W,sf,sfE,c in zip(WW,SF,SFE,colors[2:]):
 	ax.plot(heights, sf,  'o', color=c, markersize=5, label='FWHM = %d%%'%W)
 	ax.plot(heights, sfE, '-', color=c)

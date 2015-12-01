@@ -1,6 +1,13 @@
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from __future__ import unicode_literals
+from future import standard_library
+standard_library.install_aliases()
+from builtins import chr
+from builtins import zip
+from builtins import range
+from builtins import *
 
 import numpy as np
 from matplotlib import pyplot
@@ -60,7 +67,7 @@ def plot_filled(y, ax, thresh=None, plot_thresh=True, color='k', lw=2, facecolor
 				dx      = x0[ind[-1]+1] - x0[ind[-1]]
 				dy      = (csign*thresh - y0[ind[-1]])  / (y0[ind[-1]+1] - y0[ind[-1]])
 				x[-1]  += dy*dx
-			polyg.append(  Polygon(zip(x,y))  )
+			polyg.append(  Polygon(list(zip(x,y)))  )
 		patches         = PatchCollection(polyg, edgecolors=None)
 		ax.add_collection(patches)
 		pyplot.setp(patches, facecolor=facecolor, edgecolor=facecolor)
