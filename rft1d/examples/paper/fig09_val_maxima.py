@@ -22,7 +22,7 @@ def scalar2color(x, cmap=cm.jet, xmin=None, xmax=None):
 		xmax   = x.max()
 	xn         = (x - xmin)  / (xmax-xmin)
 	xn        *= 255
-	xn         = np.asarray(xn, dtype=int)
+	xn         = np.asarray(xn, dtype=np.int)
 	colors     = cmap(xn)
 	return colors
 	
