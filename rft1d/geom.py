@@ -6,7 +6,7 @@ of 1D fields and upcrossings.
 '''
 
 # Copyright (C) 2015  Todd Pataky
-# version: 0.1.1 (2015/04/26)
+# version: 0.1.3 (2015/12/27)
 
 from math import log
 import numpy as np
@@ -140,7 +140,7 @@ class Upcrossing(object):
 				yi      = self.y[i0:]
 		return yi
 
-	def extent(self, h):
+	def extent(self, h, endpoints=False):
 		if np.all(self.b):
 			m      = self.y.size - 1
 		elif self.interp:
@@ -207,7 +207,8 @@ class ClusterMetricCalculator(object):
 			
 		.. danger:: Setting *interp* to False is faster, but it will cause disagreements between node-based and element-based sampling. If the upcrossing is large this difference is negligible, but for small upcrossing there may be strange results (e.g. upcrossing with an extent of zero). Recommendation: **always interpolate**.
 		'''
-		L,n = bwlabel(y >= u, merge_wrapped=wrap)
+		# L,n = bwlabel(y >= u, merge_wrapped=wrap)
+		L,n = bwlabel(np.array(y >= u), merge_wrapped=wrap)
 		if n==0:
 			m = [0]
 		else:
@@ -249,7 +250,7 @@ class ClusterMetricCalculator(object):
 		.. danger:: If *u* is zero and *interp* is *True* the user may be unable to distinguish between two cases: (i) no upcrossings and (ii) one upcrossing with a minimum of zero. Most thresholds we're interested in are much higher than zero, so this buggy behavior is not deemed serious. To check the number of upcrossings use the **nMaxima** method.
 		
 		'''
-		b   = y > u
+		b   = np.array(y > u)
 		if np.all(b):
 			m = [y.min()]
 		elif np.any(b):
@@ -392,7 +393,7 @@ class ClusterMetricCalculator(object):
 			>>> c = calc.nUpcrossings(y, 0.5)
 		
 		'''
-		b   = y > u
+		b   = np.array(y > u)
 		if np.any(b):
 			L,n        = bwlabel(b)
 		else:
@@ -472,7 +473,7 @@ class ClusterMetricCalculatorInitialized(object):
 	def __init__(self, y, u, interp=True, wrap=False):
 		self.y      = y
 		self.u      = u
-		L,n         = bwlabel(y >= u, merge_wrapped=wrap)
+		L,n         = bwlabel(np.array(y >= u), merge_wrapped=wrap)
 		self.L      = L
 		self.n      = n
 		self.interp = interp
@@ -508,6 +509,7 @@ class ClusterMetricCalculatorInitialized(object):
 					mm  = b.sum() - 1
 				m.append(mm)
 		return m
+	
 	
 	def cluster_minima(self):
 		b   = self.y > self.u

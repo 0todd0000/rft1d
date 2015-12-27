@@ -8,7 +8,7 @@ it may be more efficient to use the **Generator1D** and **GeneratorMulti1D** cla
 '''
 
 # Copyright (C) 2015  Todd Pataky
-# version: 0.1.1 (2015/04/26)
+# version: 0.1.3 (2015/12/27)
 
 
 from math import sqrt,log
@@ -136,7 +136,7 @@ class Generator1D(object):
 			y   = np.random.randn(self.nResponses, self.q)
 			y   = self._smooth(y)
 			y   = y[:,self.i0:self.i1]
-		if self.mask!=None:
+		if self.mask is not None:
 			y[:,self.mask] = np.nan
 		return y
 
@@ -184,7 +184,7 @@ class GeneratorMulti1D(Generator1D):
 	def __init__(self, nResponses=1, nodes=101, nComponents=2, FWHM=10, W=None, pad=False):
 		super(GeneratorMulti1D, self).__init__(nResponses, nodes, FWHM, pad)
 		self.nComponents   = int(nComponents)
-		if W==None:
+		if W is None:
 			self.W         = np.eye(self.nComponents)
 		else:
 			self.W         = np.asarray(W, dtype=float)
@@ -213,7 +213,7 @@ class GeneratorMulti1D(Generator1D):
 			y   = np.random.multivariate_normal(self.mu, self.W, (self.nResponses,self.q))
 			y   = self._smooth(y)
 			y   = y[:,self.i0:self.i1,:]
-		if self.mask!=None:
+		if self.mask is not None:
 			y[:,self.mask,:] = np.nan
 		return y
 

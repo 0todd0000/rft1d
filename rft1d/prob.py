@@ -6,7 +6,7 @@ The core RFT computations are conducted inside **prob.rft**, and the
 '''
 
 # Copyright (C) 2015  Todd Pataky
-# version: 0.1.1 (2015/04/26)
+# version: 0.1.3 (2015/12/27)
 
 
 from math import pi,log,sqrt,exp
@@ -71,7 +71,7 @@ def p_bonferroni(STAT, z, df, Q, n=1):
 
 
 def _replaceWithBonferroniIfPossible(STAT, P, c, csize, z, df, Q, n=1):
-	if None in [csize, z, Q, n]:
+	if (csize is None) or (z is None) or (Q is None) or (n is None):
 		return P
 	if (c==1) & (csize==0) :
 		Pbonf  = p_bonferroni(STAT, z, df, Q, n)
@@ -647,7 +647,7 @@ class RFTCalculator(object):
 		self.Q        = float(self.nNodes) if self.withBonf else None
 	def set_fwhm(self, w):
 		self.FWHM   = float(w)
-		if self.mask==None:
+		if self.mask is None:
 			self.resels = 1, (self.nNodes-1)/self.FWHM  #field length is (nNodes - 1)
 		else:
 			self.resels = geom.resel_counts(self.mask, fwhm=self.FWHM)

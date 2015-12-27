@@ -10,7 +10,7 @@ import rft1d
 def plot_filled(y, ax, thresh=None, plot_thresh=True, color='k', lw=2, facecolor='0.8', two_tailed=False, thresh_color='k'):
 	y        = np.asarray(y, dtype=float)
 	x        = np.arange(y.size)
-	if thresh==None:
+	if thresh is None:
 		thresh      = 0
 	x0,y0,ind0      = x.copy(), y.copy(), np.arange(y.size)
 	### threshold:
@@ -47,7 +47,7 @@ def plot_filled(y, ax, thresh=None, plot_thresh=True, color='k', lw=2, facecolor
 	#set axis limits:
 	pyplot.setp(ax, xlim=(x0.min(), x0.max())  )
 	#plot threshold(s):
-	if (thresh!=None) and plot_thresh:
+	if (thresh is not None) and plot_thresh:
 		h      = [ax.hlines(thresh, x0.min(), x0.max())]
 		if two_tailed:
 			h.append( ax.hlines(-thresh, x0.min(), x0.max()) )

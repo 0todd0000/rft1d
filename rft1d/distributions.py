@@ -101,7 +101,7 @@ All distributions share the following functions:
 '''
 
 # Copyright (C) 2015  Todd Pataky
-# version: 0.1.1 (2015/04/26)
+# version: 0.1.3 (2015/12/27)
 
 import numpy as np
 from scipy import stats

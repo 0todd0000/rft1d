@@ -12,7 +12,7 @@ observed in experimentally measured 1D continua including scalar and vector time
 
 setup(
 	name             = 'rft1d',
-	version          = '0.1.2',
+	version          = '0.1.3',
 	description      = 'One-Dimensional Random Field Theory',
 	author           = 'Todd Pataky',
 	author_email     = 'spm1d.mail@gmail.com',

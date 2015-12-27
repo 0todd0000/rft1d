@@ -7,9 +7,9 @@ import rft1d
 
 def scalar2color(x, cmap=cm.jet, xmin=None, xmax=None):
 	x          = np.asarray(x, dtype=float)
-	if xmin==None:
+	if xmin is None:
 		xmin   = x.min()
-	if xmax==None:
+	if xmax is None:
 		xmax   = x.max()
 	xn         = (x - xmin)  / (xmax-xmin)
 	xn        *= 255
