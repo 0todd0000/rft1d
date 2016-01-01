@@ -672,7 +672,83 @@ class RFTCalculator(object):
 			>>> calc.sf(3.5)
 		'''
 		return _float_if_possible(  self.p.upcrossing(u)  ) 
+
+
+
+class RFTCalculatorResels(RFTCalculator):
+	'''
+	A convenience class for high-level access to RFT probabilities (based on resel counts).
+	
+	:Parameters:
+	
+		*STAT* --- test statistic (one of:  "Z", "T", "F", "X2", "T2")
 		
+		*df* --- degrees of freedom [df{interest} df{error}]
+		
+		*resels* --- resolution element counts
+
+		*n* --- number of test statistic fields in conjunction
+		
+		*withBonf* --- use a Bonferroni correction if less severe than the RFT correction
+		
+		*nNodes* --- number of field nodes (int)  (must be specified if "withBonf" is True)
+		
+		*version* --- "spm8" or "spm12" (see below)
+	
+	:Returns:
+	
+		An instance of the RFTCalculator class.
+	
+	:Attributes:
+	
+		*expected* --- access to RFT expectations
+		
+		*p* --- access to RFT probabilities
+		
+	:Methods:
+	
+		*isf* --- inverse survival function
+		
+		*sf* --- survival function
+	
+	:Examples:
+	
+		>>> calc = rft1d.prob.RFTCalculatorResels('T', (1,8), [1, 6.667])
+		>>> calc.expected.number_of_upcrossings(1.0) #yields 1.343
+		>>> calc.expected.number_of_upcrossings(4.5) #yields 0.0223
+	'''
+	
+	def __init__(self, STAT='Z', df=None, resels=[1,10], n=1, withBonf=False, nNodes=None, version='spm12'):
+		self.FWHM     = None
+		self.Q        = None
+		self.STAT     = STAT
+		self.df       = df
+		self.mask     = None
+		self.nNodes   = nNodes
+		self.n        = n
+		self.resels   = tuple(resels)
+		self.version  = 'spm12'
+		self.withBonf = None
+		self.set_bonf(withBonf)
+		self.expected = _Expected(self)
+		self.p        = _Probability(self)
+		
+	def __repr__(self):
+		s    = ''
+		s   += 'RFT1D RFTCalculatorResels object:\n'
+		s   += '   STAT     :  %s\n' %self.STAT
+		s   += '   df       :  %s\n' %str(self.df)
+		s   += '   resels   :  (%d, %.3f)\n' %self.resels
+		s   += '   FWHM     :  %.1f\n' %self.FWHM
+		s   += '   withBonf :  %s\n' %self.withBonf
+		return s
+		
+	def set_bonf(self, wBonf):
+		self.withBonf = bool(wBonf)
+		if self.withBonf and (self.nNodes is None):
+			raise( ValueError('Must specify an integer value for "nNodes" when "withBonf" is True.') )
+		self.Q        = float(self.nNodes) if self.withBonf else None
+
 
 rftcalc  =  RFTCalculator()   #instantiated only for auto-doc generation
 expected = _Expected(None)    #instantiated only for auto-doc generation

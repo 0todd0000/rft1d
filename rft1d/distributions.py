@@ -105,7 +105,7 @@ All distributions share the following functions:
 
 import numpy as np
 from scipy import stats
-from prob import RFTCalculator
+from prob import RFTCalculator, RFTCalculatorResels
 
 
 def add_docstrings(distname, ndf=0):
@@ -175,6 +175,36 @@ class _RFTDistribution(object):
 		df = self._get_df(df)
 		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
 		return E.isf( alpha )
+
+	def isf_resels(self, alpha, df, resels, withBonf=False, nNodes=None):
+		'''
+		RFT inverse survival function.
+		(see also the survival function: **rft1d.DISTFLAG.sf**)
+
+		:Parameters:
+
+			*alpha* -- upper tail probability (float;  0 < alpha < 1)
+
+			*df* -- degrees of freedom (int or float)
+			
+			*resels* -- resolution element counts
+
+			*withBonf* -- use a Bonferroni correction if less severe than the RFT correction (bool)
+			
+			*nNodes* --- number of field nodes (int)  (must be specified if "withBonf" is True)
+
+		:Returns:
+
+			Quantile corresponding to upper-tail probability alpha.
+			Equivalently: critical threshold at a Type I error rate of alpha.
+
+		:Examples:
+
+			>>> rft1d.DISTFLAG.isf(0.05,DOFFLAG 101, 10.0)
+		'''
+		df = self._get_df(df)
+		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes)
+		return E.isf( alpha )
 	def isf0d(self):
 		'''
 		Inverse survival function (0D);  equivalent to **scipy.stats.DISTFLAG.isf**
@@ -220,6 +250,43 @@ class _RFTDistribution(object):
 		df = self._get_df(df)
 		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
 		return E.p.cluster(k, u)
+
+	def p_cluster_resels(self, k, u, df, resels, withBonf=False, nNodes=None):
+		'''
+		RFT cluster-level inference.
+		
+		Probability that 1D Gaussian fields with a smoothness of *FWHM* would produce
+		an upcrossing of extent *k* when thresholded at *u*.
+		For set-specific probabilities use **rft1d.DISTFLAG.p_set**
+		
+		.. warning:: The threshold *u* should generally be chosen objectively. One possibility is to calculate the *alpha*-based critical threshold using the inverse survival function: **rft1d.DISTFLAG.isf**
+		
+		:Parameters:
+
+			*k* -- cluster extent (resels)
+			
+			*u* -- threshold
+
+			*df* -- degrees of freedom (int or float)
+			
+			*resels* -- resolution element counts
+
+			*withBonf* -- use a Bonferroni correction if less severe than the RFT correction (bool)
+
+			*nNodes* --- number of field nodes (int)  (must be specified if "withBonf" is True)
+
+		:Returns:
+
+			Cluster-specific probability value.
+
+		:Examples:
+
+			>>> rft1d.DISTFLAG.p_cluster(0.5, 3.0,DOFFLAG 101, 15.0)
+		'''
+		df = self._get_df(df)
+		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes)
+		return E.p.cluster(k, u)
+
 	def p_set(self, c, k, u, df, nodes, FWHM, withBonf=False):
 		'''
 		RFT set-level inference.
@@ -258,6 +325,46 @@ class _RFTDistribution(object):
 		df = self._get_df(df)
 		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
 		return E.p.set(c, k, u)
+		
+	def p_set_resels(self, c, k, u, df, resels, withBonf=False, nNodes=None):
+		'''
+		RFT set-level inference.
+		
+		Probability that 1D Gaussian fields with a smoothness of *FWHM* would produce
+		at least *c* upcrossings with a minimum extent of *k* when thresholded at *u*.
+		This probability pertains to the entire excursion set.
+		For cluster-specific probabilities use **rft1d.DISTFLAG.p_cluster**
+		
+		.. warning:: The threshold *u* should generally be chosen objectively. One possibility is to calculate the *alpha*-based critical threshold using the inverse survival function: **rft1d.DISTFLAG.isf**
+		
+		:Parameters:
+
+			*c* -- number of upcrossings
+			
+			*k* -- minimum cluster extent (resels)
+			
+			*u* -- threshold
+
+			*df* -- degrees of freedom (int or float)
+			
+			*resels* -- resolution element counts
+
+			*withBonf* -- use a Bonferroni correction if less severe than the RFT correction (bool)
+
+			*nNodes* --- number of field nodes (int)  (must be specified if "withBonf" is True)
+
+		:Returns:
+
+			Set-specific probability value.
+
+		:Examples:
+
+			>>> rft1d.DISTFLAG.p_set(2, 0.5, 3.0,DOFFLAG 101, 15.0)
+		'''
+		df = self._get_df(df)
+		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes)
+		return E.p.set(c, k, u)
+	
 	def sf(self, u, df, nodes, FWHM, withBonf=False):
 		'''
 		RFT survival function.
@@ -287,6 +394,38 @@ class _RFTDistribution(object):
 		df   = self._get_df(df)
 		calc = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
 		return calc.sf( u )
+
+	def sf_resels(self, u, df, resels, withBonf=False, nNodes=None):
+		'''
+		RFT survival function.
+		
+		Probability that 1D Gaussian fields with a smoothness *FWHM* would produce a 1D statistic field whose maximum exceeds *u*.
+
+		:Parameters:
+
+			*u* -- threshold (int, float, or sequence of int or float)
+
+			*df* -- degrees of freedom (int or float)
+			
+			*resels* -- resolution element counts
+
+			*withBonf* -- use a Bonferroni correction if less severe than the RFT correction (bool)
+
+			*nNodes* --- number of field nodes (int)  (must be specified if "withBonf" is True)
+
+		:Returns:
+
+			The probability of exceeding the specified heights.
+
+		:Examples:
+
+			>>> rft1d.DISTFLAG.sf([1,2,3,4,5],DOFFLAG 101, 10.0)
+		'''
+		df   = self._get_df(df)
+		calc = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes)
+		return calc.sf( u )
+
+
 	def sf0d(self):
 		'''
 		Survival function (0D);  equivalent to **scipy.stats.DISTFLAG.sf**
