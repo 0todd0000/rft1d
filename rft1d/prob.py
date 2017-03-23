@@ -5,15 +5,15 @@ The core RFT computations are conducted inside **prob.rft**, and the
 **RFTCalculator** class serves as a high-level interface to **prob.rft**
 '''
 
-# Copyright (C) 2015  Todd Pataky
-# version: 0.1.3 (2015/12/27)
+# Copyright (C) 2017  Todd Pataky
+
 
 
 from math import pi,log,sqrt,exp
 import numpy as np
 from scipy import stats,optimize
 from scipy.special import gammaln,gamma
-import geom
+from . import geom
 
 # CONSTANTS:
 FOUR_LOG2   = 4*log(2)
@@ -24,7 +24,7 @@ eps         = np.finfo(np.float).eps
 
 
 
-def p_bonferroni(STAT, z, df, Q, n=1):
+def p_bonferroni(STAT, z, df, Q, n=1, delta=None):
 	'''
 	Bonferroni correction.
 	
@@ -66,22 +66,24 @@ def p_bonferroni(STAT, z, df, Q, n=1):
 		v0,v1 = p, m - p + 1
 		zz    = z * ( (m-p+1)/(p*m) )
 		p     = stats.f.sf(zz, v0, v1)
+	elif STAT=='NCT':
+		p     = stats.nct.sf(z, df[1], delta)
 	p         = Q * (p**n)
 	return min(p, 1)
 
 
-def _replaceWithBonferroniIfPossible(STAT, P, c, csize, z, df, Q, n=1):
+def _replaceWithBonferroniIfPossible(STAT, P, c, csize, z, df, Q, n=1, delta=None):
 	if (csize is None) or (z is None) or (Q is None) or (n is None):
 		return P
 	if (c==1) & (csize==0) :
-		Pbonf  = p_bonferroni(STAT, z, df, Q, n)
+		Pbonf  = p_bonferroni(STAT, z, df, Q, n, delta=delta)
 		P      =  min(P, Pbonf)
 	return P
 
-def _replaceWith0DpValueIfPossible(STAT, P, c, csize, z, df, Q, n=1):
+def _replaceWith0DpValueIfPossible(STAT, P, c, csize, z, df, Q, n=1, delta=None):
 	if (c>1) or (csize>0):
 		return P
-	p = p_bonferroni(STAT, z, df, 1, n)
+	p = p_bonferroni(STAT, z, df, 1, n, delta=delta)
 	if p>P:
 		return p
 	else:
@@ -129,7 +131,47 @@ def ec_density_X2(z, df):
 	return EC
 
 
-def ec_density(STAT, z, df):
+def pm_Exp_ncX(df, delta, r):
+	'''
+	Non-central chi-square moments around zero
+
+	Adapted from "pm_Exp_ncX.m" in "PowerMap" by Satoru Hayasaka (Version 0.85beta; formula by Johnson & Kotz)
+
+	df:    degrees of freedom (positive float)
+	delta: non-centrality parameter (float)
+	r:     the power (positive float)
+	'''
+	tol     = eps**7.0/8
+	isum    = 0
+	iisum   = 1
+	j       = 0
+	while abs(iisum) > tol:
+		gam    = 1 / gamma(j+1)
+		d      = exp( gammaln(r+j+0.5*df)  - gammaln(j + 0.5*df)  )  * (0.5*delta)**j
+		iisum  = gam * d
+		isum  += iisum
+		j     += 1
+	mr = 2**r  * exp(-0.5*delta) * isum
+	return mr
+
+
+def ec_density_ncT(z, df, delta):
+	'''
+	Adapted from "pm_ECncT.m" in "PowerMap" by Satoru Hayasaka
+	'''
+	v    = float(df[1])
+	a    = FOUR_LOG2
+	b    = TWO_PI
+	c    = z**2 / v
+	d    = 1 + c
+	EC   = []
+	EC.append(  1 - stats.nct.cdf(z, v, delta)  )  #dim: 0
+	EC.append(  a**0.5 * b**-0.5 * v**0.5 * d * pm_Exp_ncX(v+1, delta**2, -0.5)  * stats.nct.pdf(z, v, delta)  )   #dim: 1
+	return EC
+
+
+
+def ec_density(STAT, z, df, *args):
 	if STAT=='Z':
 		return ec_density_Z(z)
 	if STAT=='T':
@@ -143,6 +185,8 @@ def ec_density(STAT, z, df):
 		df_F = p, m - p + 1
 		zz   = z * ( (m-p+1)/(p*m) )
 		return ec_density_F(zz, df_F)
+	elif STAT=='NCT':
+		return ec_density_ncT(z, df, args[0])
 	else:
 		raise(ValueError('Statistic must be one of: ["Z", "T", "X2", "F", "T2"]'))
 
@@ -157,7 +201,7 @@ def poisson_cdf(a, b):
 	return p
 
 
-def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm12'):
+def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm12', delta=None):
 	'''
 	Random Field Theory probabilities and expectations using unified Euler Characteristic (EC) theory.
 	This code is based on "spm_P_RF.m" and "spm_P.m" from the spm8 and spm12 Matlab packages
@@ -262,7 +306,7 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 	if R[1]==0:  #infinitely smooth field
 		R = R[0], eps  #to make the results numerically stable
 	R        = np.asarray(R, dtype=float)
-	EC       = ec_density(STAT, Z, df)
+	EC       = ec_density(STAT, Z, df, delta)
 	if version=='spm8':
 		EC   = EC + eps
 	elif version=='spm12':
@@ -309,8 +353,8 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 		elif STAT=='F':
 			if k>0:
 				P,p   = None, None
-	P        = _replaceWithBonferroniIfPossible(STAT, P, c, k, Z, df, Q, n)
-	P        = _replaceWith0DpValueIfPossible(STAT, P, c, k, Z, df, Q, n)
+	P        = _replaceWithBonferroniIfPossible(STAT, P, c, k, Z, df, Q, n, delta=delta)
+	P        = _replaceWith0DpValueIfPossible(STAT, P, c, k, Z, df, Q, n, delta=delta)
 	return P, p, Ec, Ek, EN
 
 
@@ -319,7 +363,7 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 # Crtical threshold computations
 ################################
 
-def _approx_threshold(STAT, alpha, df, resels, n):
+def _approx_threshold(STAT, alpha, df, resels, n, delta=0):
 	# if two_tailed:
 	# 	alpha   = 0.5*alpha
 	a   = (alpha/sum(resels))**(1.0/n)
@@ -336,11 +380,13 @@ def _approx_threshold(STAT, alpha, df, resels, n):
 		df_F  = p, m - p + 1
 		fstar = stats.f.isf(a, df_F[0], df_F[1])
 		zstar = fstar / ( (m-p+1)/(p*m) )
+	elif STAT=='NCT':
+		zstar = stats.nct.isf(a, df[1], delta)
 	else:
-		raise(ValueError, 'Statistic must be one of: "Z", "T", "X2", "F", "T2"')
+		raise(ValueError, 'Statistic must be one of: "Z", "T", "X2", "F", "T2", "NCT"')
 	return zstar
 
-def isf(STAT, alpha, df, resels, n, Q=None, version='spm12'):
+def isf(STAT, alpha, df, resels, n, Q=None, version='spm12', delta=0):
 	'''
 	Inverse survival function
 	'''
@@ -348,8 +394,8 @@ def isf(STAT, alpha, df, resels, n, Q=None, version='spm12'):
 		alpha       = [alpha]
 	zstar = []
 	for aaa in alpha:
-		z0    = _approx_threshold(STAT, aaa, df, resels, n)
-		fn    = lambda x : (rft(1, 0, STAT, x[0], df, resels, n, Q, False, version)[0] - aaa)**2
+		z0    = _approx_threshold(STAT, aaa, df, resels, n, delta=delta)
+		fn    = lambda x : (rft(1, 0, STAT, x[0], df, resels, n, Q, False, version, delta=delta)[0] - aaa)**2
 		zzz   = optimize.fmin(fn, z0, xtol=1e-9, disp=0)[0]
 		zstar.append(zzz)
 	return np.asarray(zstar)
@@ -478,7 +524,7 @@ class _Probability(object):
 			>>> calc = rft1d.prob.RFTCalculator('T', (1,8), 101, 15.0)
 			>>> calc.p.cluster(0.1, 3.0)
 		'''
-		return rft(1, k, self._calc.STAT, u, self._calc.df, self._calc.resels, self._calc.n, self._calc.Q, False, self._calc.version)[0]
+		return rft(1, k, self._calc.STAT, u, self._calc.df, self._calc.resels, self._calc.n, self._calc.Q, False, self._calc.version, delta=self.delta)[0]
 		
 	def set(self, c, k, u):
 		'''
@@ -507,7 +553,7 @@ class _Probability(object):
 			>>> calc = rft1d.prob.RFTCalculator('T', (1,8), 101, 15.0)
 			>>> calc.p.set(2, 0.1, 2.7)
 		'''
-		return rft(c, k, self._calc.STAT, u, self._calc.df, self._calc.resels, self._calc.n, self._calc.Q, False, self._calc.version)[0]
+		return rft(c, k, self._calc.STAT, u, self._calc.df, self._calc.resels, self._calc.n, self._calc.Q, False, self._calc.version, delta=self.delta)[0]
 	
 	def upcrossing(self, u):
 		'''
@@ -578,10 +624,11 @@ class RFTCalculator(object):
 		>>> calc.expected.number_of_upcrossings(4.5) #yields 0.0223
 	'''
 	
-	def __init__(self, STAT='Z', df=None, nodes=101, FWHM=10.0, n=1, withBonf=False, version='spm12'):
+	def __init__(self, STAT='Z', df=None, nodes=101, FWHM=10.0, n=1, withBonf=False, delta=None, version='spm12'):
 		self.FWHM     = None
 		self.Q        = None
 		self.STAT     = STAT
+		self.delta    = delta
 		self.df       = df
 		self.mask     = None
 		self.nNodes   = None
@@ -608,7 +655,7 @@ class RFTCalculator(object):
 	def _get_all(self, u, expectations_only=False):
 		if isinstance(u, (int,float)):
 			u       = [u]
-		return np.array([rft(1, 0, self.STAT, uu, self.df, self.resels, self.n, self.Q, expectations_only, self.version)   for uu in u])
+		return np.array([rft(1, 0, self.STAT, uu, self.df, self.resels, self.n, self.Q, expectations_only, self.version, delta=self.delta)   for uu in u])
 	
 	def _parse_nodes_argument(self, nodes):
 		if isinstance(nodes, int):
@@ -640,7 +687,7 @@ class RFTCalculator(object):
 			>>> calc = rft1d.prob.RFTCalculator('T', (1,8), 101, 15.0)
 			>>> calc.isf(0.05)
 		'''
-		x = isf(self.STAT, alpha, self.df, self.resels, self.n, self.Q, self.version)
+		x = isf(self.STAT, alpha, self.df, self.resels, self.n, self.Q, self.version, delta=self.delta)
 		return _float_if_possible(x)
 	def set_bonf(self, wBonf):
 		self.withBonf = bool(wBonf)
@@ -718,10 +765,11 @@ class RFTCalculatorResels(RFTCalculator):
 		>>> calc.expected.number_of_upcrossings(4.5) #yields 0.0223
 	'''
 	
-	def __init__(self, STAT='Z', df=None, resels=[1,10], n=1, withBonf=False, nNodes=None, version='spm12'):
+	def __init__(self, STAT='Z', df=None, resels=[1,10], n=1, withBonf=False, nNodes=None, version='spm12', delta=None):
 		self.FWHM     = None
 		self.Q        = None
 		self.STAT     = STAT
+		self.delta    = delta
 		self.df       = df
 		self.mask     = None
 		self.nNodes   = nNodes

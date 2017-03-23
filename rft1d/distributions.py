@@ -146,7 +146,7 @@ class _RFTDistribution(object):
 		if self._ndf==1:
 			df = 1, df
 		return df
-	def isf(self, alpha, df, nodes, FWHM, withBonf=False):
+	def isf(self, alpha, df, nodes, FWHM, withBonf=False, delta=0):
 		'''
 		RFT inverse survival function.
 		(see also the survival function: **rft1d.DISTFLAG.sf**)
@@ -173,10 +173,10 @@ class _RFTDistribution(object):
 			>>> rft1d.DISTFLAG.isf(0.05,DOFFLAG 101, 10.0)
 		'''
 		df = self._get_df(df)
-		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
+		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf, delta=delta)
 		return E.isf( alpha )
 
-	def isf_resels(self, alpha, df, resels, withBonf=False, nNodes=None):
+	def isf_resels(self, alpha, df, resels, withBonf=False, nNodes=None, delta=0):
 		'''
 		RFT inverse survival function.
 		(see also the survival function: **rft1d.DISTFLAG.sf**)
@@ -203,7 +203,7 @@ class _RFTDistribution(object):
 			>>> rft1d.DISTFLAG.isf(0.05,DOFFLAG 101, 10.0)
 		'''
 		df = self._get_df(df)
-		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes)
+		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes, delta=delta)
 		return E.isf( alpha )
 	def isf0d(self):
 		'''
@@ -215,7 +215,7 @@ class _RFTDistribution(object):
 			>>> scipy.stats.DISTFLAG.isf([0.01, 0.05, 0.1]DOFFLAG3)
 		'''
 		pass
-	def p_cluster(self, k, u, df, nodes, FWHM, withBonf=False):
+	def p_cluster(self, k, u, df, nodes, FWHM, withBonf=False, delta=0):
 		'''
 		RFT cluster-level inference.
 		
@@ -248,10 +248,10 @@ class _RFTDistribution(object):
 			>>> rft1d.DISTFLAG.p_cluster(0.5, 3.0,DOFFLAG 101, 15.0)
 		'''
 		df = self._get_df(df)
-		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
+		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf, delta=delta)
 		return E.p.cluster(k, u)
 
-	def p_cluster_resels(self, k, u, df, resels, withBonf=False, nNodes=None):
+	def p_cluster_resels(self, k, u, df, resels, withBonf=False, nNodes=None, delta=0):
 		'''
 		RFT cluster-level inference.
 		
@@ -284,10 +284,10 @@ class _RFTDistribution(object):
 			>>> rft1d.DISTFLAG.p_cluster(0.5, 3.0,DOFFLAG 101, 15.0)
 		'''
 		df = self._get_df(df)
-		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes)
+		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes, delta=delta)
 		return E.p.cluster(k, u)
 
-	def p_set(self, c, k, u, df, nodes, FWHM, withBonf=False):
+	def p_set(self, c, k, u, df, nodes, FWHM, withBonf=False, delta=0):
 		'''
 		RFT set-level inference.
 		
@@ -323,10 +323,10 @@ class _RFTDistribution(object):
 			>>> rft1d.DISTFLAG.p_set(2, 0.5, 3.0,DOFFLAG 101, 15.0)
 		'''
 		df = self._get_df(df)
-		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
+		E  = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf, delta=delta)
 		return E.p.set(c, k, u)
 		
-	def p_set_resels(self, c, k, u, df, resels, withBonf=False, nNodes=None):
+	def p_set_resels(self, c, k, u, df, resels, withBonf=False, nNodes=None, delta=0):
 		'''
 		RFT set-level inference.
 		
@@ -362,10 +362,10 @@ class _RFTDistribution(object):
 			>>> rft1d.DISTFLAG.p_set(2, 0.5, 3.0,DOFFLAG 101, 15.0)
 		'''
 		df = self._get_df(df)
-		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes)
+		E  = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes, delta=delta)
 		return E.p.set(c, k, u)
 	
-	def sf(self, u, df, nodes, FWHM, withBonf=False):
+	def sf(self, u, df, nodes, FWHM, withBonf=False, delta=None):
 		'''
 		RFT survival function.
 		
@@ -382,6 +382,8 @@ class _RFTDistribution(object):
 			*FWHM* -- field smoothness (float)
 
 			*withBonf* -- use a Bonferroni correction if less severe than the RFT correction (bool)
+		
+			*delta* -- non-centrality parameter (non-central distributions only)
 
 		:Returns:
 
@@ -392,10 +394,10 @@ class _RFTDistribution(object):
 			>>> rft1d.DISTFLAG.sf([1,2,3,4,5],DOFFLAG 101, 10.0)
 		'''
 		df   = self._get_df(df)
-		calc = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf)
+		calc = RFTCalculator(STAT=self._STAT, df=df, nodes=nodes, FWHM=FWHM, withBonf=withBonf, delta=delta)
 		return calc.sf( u )
 
-	def sf_resels(self, u, df, resels, withBonf=False, nNodes=None):
+	def sf_resels(self, u, df, resels, withBonf=False, nNodes=None, delta=0):
 		'''
 		RFT survival function.
 		
@@ -422,7 +424,7 @@ class _RFTDistribution(object):
 			>>> rft1d.DISTFLAG.sf([1,2,3,4,5],DOFFLAG 101, 10.0)
 		'''
 		df   = self._get_df(df)
-		calc = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes)
+		calc = RFTCalculatorResels(STAT=self._STAT, df=df, resels=resels, withBonf=withBonf, nNodes=nNodes, delta=delta)
 		return calc.sf( u )
 
 
@@ -559,6 +561,22 @@ class HotellingsT2(_RFTDistribution):
 
 
 
+@add_docstrings('nct', ndf=1)
+class NonCentralT(_RFTDistribution):
+	def __init__(self):
+		super(NonCentralT, self).__init__('NCT', 1)
+	def isf(self, alpha, df, nodes, FWHM, delta=0, withBonf=False):
+		return super(NonCentralT, self).isf(alpha, df, nodes, FWHM, withBonf, delta=delta)
+	def isf0d(self, alpha, df, delta):
+		return stats.nct.isf(alpha, df, delta)
+	def p_cluster(self):
+		raise NotImplentedError('cluster-level probabilities not implemented for non-central fields')
+	def p_set(self):
+		raise NotImplentedError('set-level probabilities not implemented for non-central fields')
+	def sf(self, u, df, nodes, FWHM, delta=0, withBonf=False):
+		return super(NonCentralT, self).sf(u, df, nodes, FWHM, withBonf=withBonf, delta=delta)
+	# def sf0d(self, u, df):
+	# 	return stats.t.sf(u, df)
 
 
 norm   = Gaussian()
@@ -566,6 +584,7 @@ t      = StudentsT()
 chi2   = Chi2()
 f      = FisherSnedecorF()
 T2     = HotellingsT2()
+nct    = NonCentralT()
 
 
 
