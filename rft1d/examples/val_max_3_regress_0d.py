@@ -2,7 +2,7 @@
 from math import sqrt
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 
 
 
@@ -52,8 +52,8 @@ sfN         = stats.norm.sf(heights)  #standard normal (for comparison)
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax            = pyplot.axes()
+plt.close('all')
+ax            = plt.axes()
 ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.plot(heights, sfN, 'r-', label='Standard normal')
@@ -61,7 +61,7 @@ ax.set_xlabel('$u$', size=20)
 ax.set_ylabel('$P (t > u)$', size=20)
 ax.legend()
 ax.set_title('Linear regression validation (0D)', size=20)
-pyplot.show()
+plt.show()
 
 
 

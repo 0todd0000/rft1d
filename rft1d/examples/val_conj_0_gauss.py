@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -37,12 +37,12 @@ sfE         = rftcalc.sf(heights)  #theoretical
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax          = pyplot.axes()
+plt.close('all')
+ax          = plt.axes()
 ax.plot(heights, sf,   'o',  label='Simulated')
 ax.plot(heights, sfE,  '-',  label='Theoretical')
 ax.set_xlabel('$u$', size=20)
 ax.set_ylabel('$P(z_\mathrm{conj} > u)$', size=20)
 ax.legend()
 ax.set_title('Conjunction validation (Gaussian fields)', size=20)
-pyplot.show()
+plt.show()

@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot,cm
+import matplotlib.pyplot as plt,cm
 import rft1d
 
 
@@ -33,7 +33,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -59,8 +59,8 @@ sfB        = [rft1d.prob.p_bonferroni('Z', u, None, nNodes)  for u in heights]
 
 
 #(2) Plot results:
-pyplot.close('all')
-ax         = pyplot.axes([0.15,0.14,0.82,0.84])
+plt.close('all')
+ax         = plt.axes([0.15,0.14,0.82,0.84])
 colors     = scalar2color(range(len(FWHMs)+2), cmap=cm.PuRd)
 for W,sfE,c in zip(FWHMs,SFE,colors[2:]):
 	ax.plot(heights, sfE, '-', lw=2, color=c, label='FWHM = %d%%'%W)
@@ -70,8 +70,8 @@ ax.text(-0.17, 0.5, 'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transA
 ax.set_xlim(2.7,3.6)
 ax.set_ylim(0,0.30)
 ax.legend()
-pyplot.show()
+plt.show()
 
 
 
-# pyplot.savefig('fig_bonf_A.pdf')
+# plt.savefig('fig_bonf_A.pdf')

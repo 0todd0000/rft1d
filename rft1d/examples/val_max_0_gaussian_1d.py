@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -24,8 +24,8 @@ sfE        = rft1d.norm.sf(heights, nNodes, FWHM)  #theoretical
 sfN        = rft1d.norm.sf0d(heights) #theoretical (0D)
 
 #(3) Plot results:
-pyplot.close('all')
-ax         = pyplot.axes()
+plt.close('all')
+ax         = plt.axes()
 ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.plot(heights, sfN, 'r-', label='Standard normal')
@@ -33,4 +33,4 @@ ax.set_xlabel('x', size=16)
 ax.set_ylabel('$P (z_\mathrm{max} > x)$', size=20)
 ax.legend()
 ax.set_title('Gaussian univariate validation (1D)', size=20)
-pyplot.show()
+plt.show()

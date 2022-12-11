@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot,cm
+import matplotlib.pyplot as plt,cm
 import rft1d
 
 
@@ -30,7 +30,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -50,20 +50,20 @@ for s,w in zip(seed,W):
 
 
 #(1) Plot results:
-pyplot.close('all')
+plt.close('all')
 ### create axes:
 axx,axy     = np.linspace(0.04,0.69,3), [0.55,0.09]
 axw,axh     = 0.295, 0.44
-AX          = [pyplot.axes([xx, yy, axw, axh])   for yy in axy for xx in axx]
+AX          = [plt.axes([xx, yy, axw, axh])   for yy in axy for xx in axx]
 ax0,ax1,ax2 = AX[:3]
 ax3,ax4,ax5 = AX[3:]
 ### plot:
 [ax.plot(yy, lw=0.8, color=c)   for ax,y in zip(AX,Y) for yy,c in zip(y,colors[3:])]
 [ax.hlines(0, 0, 100, color='k', linestyle='-', lw=2)  for ax in AX]
-pyplot.setp(AX, xlim=(0,100), ylim=(-4.5, 4.5))
+plt.setp(AX, xlim=(0,100), ylim=(-4.5, 4.5))
 ### set ticklabels:
-pyplot.setp(AX[:3], xticklabels=[])
-pyplot.setp([ax1,ax2,ax4,ax5], yticklabels=[])
+plt.setp(AX[:3], xticklabels=[])
+plt.setp([ax1,ax2,ax4,ax5], yticklabels=[])
 ### axes labels:
 [ax.set_xlabel('Field position  (%)')    for ax in AX[3:]]
 # [ax.set_ylabel('Continuum height')    for ax in (ax0,ax3)]
@@ -76,6 +76,6 @@ for i,(ax,w) in enumerate(zip(AX,W)):
 	else:
 		s   = '(%s)  FWHM = %d%%' %(chr(97+i), w)
 	ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
-pyplot.show()
+plt.show()
 
 

@@ -30,7 +30,7 @@ or
 
 #Figure 1 (Page 2)
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### generate random data:
 seed        = [18]*5 + [0]
@@ -42,20 +42,20 @@ for s,w in zip(seed,W):
 	np.random.seed(s)
 	Y.append(rft1d.random.randn1d(nResponses, nNodes, w))
 ### plot:
-pyplot.figure(1, figsize=(12,6))
+plt.figure(1, figsize=(12,6))
 ### create axes:
 axx,axy     = np.linspace(0.04,0.69,3), [0.55,0.09]
 axw,axh     = 0.295, 0.44
-AX          = [pyplot.axes([xx, yy, axw, axh])   for yy in axy for xx in axx]
+AX          = [plt.axes([xx, yy, axw, axh])   for yy in axy for xx in axx]
 ax0,ax1,ax2 = AX[:3]
 ax3,ax4,ax5 = AX[3:]
 ### plot:
 [ax.plot(yy, lw=0.8, color='b')   for ax,y in zip(AX,Y) for yy in y]
 [ax.hlines(0, 0, 100, color='k', linestyle='-', lw=2)  for ax in AX]
-pyplot.setp(AX, xlim=(0,100), ylim=(-4.5, 4.5))
+plt.setp(AX, xlim=(0,100), ylim=(-4.5, 4.5))
 ### set ticklabels:
-pyplot.setp(AX[:3], xticklabels=[])
-pyplot.setp([ax1,ax2,ax4,ax5], yticklabels=[])
+plt.setp(AX[:3], xticklabels=[])
+plt.setp([ax1,ax2,ax4,ax5], yticklabels=[])
 ### axes labels:
 [ax.set_xlabel('Field position  (%)')    for ax in AX[3:]]
 [ax.text(-0.15, 0.5, '$z$', size=24, transform=ax.transAxes, rotation=90, va='center')  for ax in (ax0,ax3)]
@@ -66,7 +66,7 @@ for i,(ax,w) in enumerate(zip(AX,W)):
 	else:
 		s   = '(%s)  FWHM = %d%%' %(chr(97+i), w)
 	ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 1 (Page 2):' )
 print( '   [see Figure 1]' )
 print
@@ -76,7 +76,7 @@ print
 
 # Figure 2 (Page 3)
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
 import rft1d
@@ -93,12 +93,12 @@ for seed,pad in zip(seeds,pads):
 	y       = rft1d.random.randn1d(1, nNodes, W, pad=pad)
 	Y.append(y)
 #(1) Plot results:
-pyplot.figure(2, figsize=(12,6))
+plt.figure(2, figsize=(12,6))
 color       = 0.24, 0.41, 0.72
 ### create axes:
 axx,axy     = np.linspace(0.04,0.69,3), [0.55,0.09]
 axw,axh     = 0.295, 0.44
-AX          = [pyplot.axes([xx, yy, axw, axh])   for yy in axy for xx in axx]
+AX          = [plt.axes([xx, yy, axw, axh])   for yy in axy for xx in axx]
 ax0,ax1,ax2 = AX[:3]
 ax3,ax4,ax5 = AX[3:]
 ### plot:
@@ -109,10 +109,10 @@ for ax,y,u,xpos,ypos in zip(AX, Y, U, XPOS, YPOS):
 	ax.hlines(u, 0, 100, linestyle='--', color='k')
 	# plot_filled(y, ax, thresh=u, plot_thresh=True, color=color, lw=2, facecolor=color, two_tailed=False, thresh_color='k')
 	ax.text(xpos, u+ypos, '$u$ = %.1f'%u)
-pyplot.setp(AX, xlim=(0,100), ylim=(-2.5, 4.0))
+plt.setp(AX, xlim=(0,100), ylim=(-2.5, 4.0))
 ### set ticklabels:
-pyplot.setp(AX[:3], xticklabels=[])
-pyplot.setp([ax1,ax2,ax4,ax5], yticklabels=[])
+plt.setp(AX[:3], xticklabels=[])
+plt.setp([ax1,ax2,ax4,ax5], yticklabels=[])
 ### axes labels:
 [ax.set_xlabel('Field position  (%)')    for ax in AX[3:]]
 [ax.text(-0.15, 0.5, '$z$', size=24, transform=ax.transAxes, rotation=90, va='center')  for ax in (ax0,ax3)]
@@ -122,7 +122,7 @@ HC      = [1, 1, 1,   2, 2, 2]
 for i,(ax,ec,hc) in enumerate(zip(AX,EC,HC)):
 	s   = '(%s)  EC=%d, HC=%d' %(chr(97+i), ec, hc)
 	ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
-pyplot.show()
+plt.show()
 print( 'Figure 2 (Page 3):' )
 print( '   [see Figure 2]' )
 print
@@ -134,7 +134,7 @@ print
 from math import pi,sqrt,log,exp
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 def here_expected_ec_0d(u):
 	return stats.norm.sf(u)
@@ -165,8 +165,8 @@ for W in FWHM:
 	E0.append(e0)
 	E1.append(e1)
 ### plot:
-pyplot.figure(3)
-ax      = pyplot.axes([0.11,0.14,0.86,0.84])
+plt.figure(3)
+ax      = plt.axes([0.11,0.14,0.86,0.84])
 colors  = ['b', 'g', 'r']
 for color,e0,e1,ec in zip(colors, E0, E1, EC):
 	ax.plot(heights, e1, '--', color=color)    #just the 1D EC density
@@ -183,7 +183,7 @@ ax.legend()
 ### label the axes:
 ax.set_xlabel('$u$', size=18)
 ax.set_ylabel('Topological characteristic', size=16)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 3 (Page 4):' )
 print( '   [see Figure 3]' )
 print
@@ -198,7 +198,7 @@ print
 
 #Figure 4 (Page 5)
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### specify parameters:
 np.random.seed(0)
@@ -219,17 +219,17 @@ y0           = rft1d.randn1d(nResponses, nodes, FWHM[0], pad=True)
 y1           = rft1d.randn1d(nResponses, nodes, FWHM[1], pad=True)
 y2           = rft1d.randn1d(nResponses, nodes, FWHM[2], pad=True)
 ### plot:
-pyplot.figure(4, figsize=(10,4))
+plt.figure(4, figsize=(10,4))
 axx         = np.linspace(0.04, 0.695, 3)
-AX          = [pyplot.axes([xx,0.18,0.29,0.8])   for xx in axx]
+AX          = [plt.axes([xx,0.18,0.29,0.8])   for xx in axx]
 ax0,ax1,ax2 = AX
 ### plot fields:
 [ax0.plot(yy, color='b')  for yy in y0]
 [ax1.plot(yy, color='b')  for yy in y1]
 [ax2.plot(yy, color='b')  for yy in y2]
 ### adjust axes:
-pyplot.setp(AX, xlim=(0,100), ylim=(-3.8,3.8))
-pyplot.setp([ax1,ax2], yticklabels=[])
+plt.setp(AX, xlim=(0,100), ylim=(-3.8,3.8))
+plt.setp([ax1,ax2], yticklabels=[])
 ### panel labels:
 for i,(ax,w) in enumerate(zip(AX,FWHM)):
 	s   = '(%s)  FWHM = %d%%' %(chr(97+i), w)
@@ -237,7 +237,7 @@ for i,(ax,w) in enumerate(zip(AX,FWHM)):
 ### label the axes:
 [ax.set_xlabel('Field position  (%)', size=18)   for ax in AX]
 ax0.text(-0.15, 0.5, '$z$', size=24, transform=ax0.transAxes, rotation=90, va='center')
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 4 (Page 5):' )
 print( '   [see Figure 4]' )
 print
@@ -248,7 +248,7 @@ print
 from math import pi,log,sqrt,exp
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### specify functions:
 def here_ec_0d(u, nSegments):   #0D component
@@ -301,8 +301,8 @@ for W in FWHM:
 	EC.append(ec)
 EC          = np.array(EC)
 ### plot
-pyplot.figure(5)
-ax      = pyplot.axes([0.11,0.14,0.86,0.84])
+plt.figure(5)
+ax      = plt.axes([0.11,0.14,0.86,0.84])
 colors  = ['b', 'r', 'g']
 for color,ec0,ec0u,ec in zip(colors, expectedEC, expectedECunbroken, EC):
 	ax.plot(heights, ec0u, '-', lw=1, color=color)    #expectation for an unbroken field
@@ -320,7 +320,7 @@ ax.legend()
 ### label the axes:
 ax.set_xlabel('$u$', size=18)
 ax.set_ylabel('Hadwiger characteristic', size=16)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 5 (Page 6):' )
 print( '   [see Figure 5]' )
 print
@@ -398,7 +398,7 @@ print
 #Figure 6 (Page 9)
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### set parameters:
 nNodes     = 101
@@ -414,8 +414,8 @@ for W in WW:
 ### standard normal for comparison:
 sfN        = stats.norm.sf(heights)
 ### plot:
-pyplot.figure(6)
-ax         = pyplot.axes([0.15,0.14,0.82,0.84])
+plt.figure(6)
+ax         = plt.axes([0.15,0.14,0.82,0.84])
 for W,sfE in zip(WW, SFE):
 	ax.plot(heights, sfE, '-', label='FWHM = %d%%'%W)
 ax.plot(heights, sfN, 'k-', lw=3, label='Standard normal')
@@ -423,7 +423,7 @@ ax.text(0.5, -0.15, '$u$', size=20, transform=ax.transAxes, ha='center')
 ax.text(-0.17, 0.5, 'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transAxes, va='center', rotation=90)
 ax.set_ylim(0,0.35)
 ax.legend()
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 6 (Page 9):' )
 print( '   [see Figure 6]' )
 print
@@ -594,7 +594,7 @@ print
 
 #Figure 7 (Page 12)
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### set parameters:
 nNodes     = 101
@@ -610,8 +610,8 @@ for W in FWHMs:
 ### Bonferroni-corrected survival function:
 sfB        = [rft1d.prob.p_bonferroni('Z', u, None, nNodes)  for u in heights]
 ### plot:
-pyplot.figure(7)
-ax         = pyplot.axes([0.15,0.14,0.82,0.84])
+plt.figure(7)
+ax         = plt.axes([0.15,0.14,0.82,0.84])
 for W,sfE in zip(FWHMs,SFE):
 	ax.plot(heights, sfE, '-', lw=2, label='FWHM = %d%%'%W)
 ax.plot(heights, sfB, 'k--', lw=4, label='Bonferroni')
@@ -620,7 +620,7 @@ ax.text(-0.17, 0.5, 'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transA
 ax.set_xlim(2.7,3.6)
 ax.set_ylim(0,0.30)
 ax.legend()
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 7 (Page 12):' )
 print( '   [see Figure 7]' )
 print
@@ -635,7 +635,7 @@ print
 #Figure 8 (Page 13)
 import numpy as np
 from scipy import optimize
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### set parameters:
 nNodes     = 101
@@ -656,8 +656,8 @@ for W in FWHMs:
 	ISF.append(  [rftcalc.isf(alpha) for alpha in ALPHAs]  )
 ISF        = np.asarray(ISF).T
 ### plot:
-pyplot.figure(8)
-ax         = pyplot.axes([0.12,0.14,0.86,0.84])
+plt.figure(8)
+ax         = plt.axes([0.12,0.14,0.86,0.84])
 colors     = ['b', 'g', 'r', 'orange']
 for alpha,isf,isfbonf,color in zip(ALPHAs,ISF,ISFbonf,colors):
 	ax.plot(FWHMs, isf, color=color, lw=1)
@@ -674,7 +674,7 @@ ax.legend()
 ax.text(0.5, -0.15, 'FWHM  (%)', size=16, transform=ax.transAxes, ha='center')
 ax.text(-0.14, 0.5, '$z^*$', size=20, transform=ax.transAxes, va='center', rotation=90)
 ax.set_ylim(2.5, 5)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 8 (Page 13):' )
 print( '   [see Figure 8]' )
 print
@@ -729,7 +729,7 @@ print
 #Figure 9 (Page 14)
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### set parameters:
 np.random.seed(0)
@@ -753,8 +753,8 @@ for W in WW:
 ### standard normal for comparison:
 sfN        = stats.norm.sf(heights)
 ### plot:
-pyplot.figure(9)
-ax         = pyplot.axes([0.15,0.14,0.82,0.84])
+plt.figure(9)
+ax         = plt.axes([0.15,0.14,0.82,0.84])
 colors     = ['b', 'g', 'r', 'orange']
 for W,sf,sfE,c in zip(WW,SF,SFE,colors):
 	ax.plot(heights, sf,  'o', color=c, markersize=5, label='FWHM = %d%%'%W)
@@ -765,7 +765,7 @@ ax.text(0.5, -0.15, '$u$', size=20, transform=ax.transAxes, ha='center')
 ax.text(-0.17, 0.5, 'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transAxes, va='center', rotation=90)
 ax.set_ylim(0,0.35)
 ax.legend()
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 9 (Page 14):' )
 print( '   [see Figure 9]' )
 print
@@ -840,7 +840,7 @@ print
 
 #Figure 10 (Page 15)
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### set parameters:
 np.random.seed(0)
@@ -849,12 +849,12 @@ W           = 20
 h           = 0.55
 y           = rft1d.random.randn1d(1, nNodes, W, pad=True)
 ### plot:
-pyplot.figure(10, figsize=(10,4))
+plt.figure(10, figsize=(10,4))
 color0      = 0.24, 0.41, 0.72
 color1      = 0.74, 0.76, 0.89
 ### create axes:
-ax0   = pyplot.axes([0.06,0.14,0.44,0.84])
-ax1   = pyplot.axes([0.55,0.14,0.44,0.84])
+ax0   = plt.axes([0.06,0.14,0.44,0.84])
+ax1   = plt.axes([0.55,0.14,0.44,0.84])
 AX    = ax0,ax1
 for ax in [ax0,ax1]:
 	ax.plot(y, color='k', lw=2)
@@ -882,12 +882,12 @@ ax1.text(31, 0.49, 'extent (interpolated)', color=color0, ha='center', size=14)
 [ax.set_xlabel('Field position  (%)')   for ax in AX]
 ax0.text(-0.15, 0.5, '$z$', size=24, transform=ax0.transAxes, rotation=90, va='center')
 ### annotate:
-pyplot.setp(ax0, xlim=(0,100), ylim=(-1.2,1.2))
-pyplot.setp(ax1, xlim=(23,39), ylim=(0.47,0.92))
+plt.setp(ax0, xlim=(0,100), ylim=(-1.2,1.2))
+plt.setp(ax1, xlim=(23,39), ylim=(0.47,0.92))
 ### panel labels:
 ax0.text(0.04, 0.91, '(a) Upcrossing', transform=ax0.transAxes)
 ax1.text(0.04, 0.91, '(b) Upcrossing  (zoomed)', transform=ax1.transAxes)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 10 (Page 15):' )
 print( '   [see Figure 10]' )
 print
@@ -901,7 +901,7 @@ print
 
 #Figure 11 (Page 16)
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### set parameters:
 eps        = np.finfo(float).eps   #smallest float
@@ -922,10 +922,10 @@ K       = np.array([[calc.max_cluster_extent(yy, h, interp, wrap)   for yy in y]
 P       = np.array([(K>=k0).mean(axis=1)  for k0 in K0]).T
 P0      = np.array([[rftcalc.p.cluster(k0, h)  for k0 in K0/FWHM]  for h in heights])
 ### plot:
-pyplot.figure(11)
+plt.figure(11)
 colors  = ['b', 'g', 'r', 'orange']
 labels  = ['$u$ = %.1f'%h for h in heights]
-ax      = pyplot.axes([0.17,0.14,0.80,0.84])
+ax      = plt.axes([0.17,0.14,0.80,0.84])
 for color,p,p0,label in zip(colors,P,P0,labels):
 	ax.plot(K0, p,  'o', color=color, markersize=5)
 	ax.plot(K0, p0, '-', color=color, label=label)
@@ -935,7 +935,7 @@ ax.legend()
 ax.set_xlabel('$x$', size=16)
 ax.set_ylabel('$P(k_{max}) > x$', size=16)
 ax.set_ylim(0, 0.25)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 11 (Page 16):' )
 print( '   [see Figure 11]' )
 print
@@ -954,7 +954,7 @@ print
 
 #Figure 12 (Page 17)
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### set parameters:
 eps        = np.finfo(float).eps   #smallest float
@@ -978,9 +978,9 @@ C       = np.array([[[  sum([kkk>=k0 for kkk in kk])  for kk in k]  for k in K] 
 P       = np.mean(C>=c, axis=2).T
 P0      = np.array([[rftcalc.p.set(c, k0, h)  for h in heights]  for k0 in K0/FWHM]).T
 ### plot results:
-pyplot.figure(12)
+plt.figure(12)
 colors  = ['b', 'g', 'r']
-ax      = pyplot.axes([0.17,0.14,0.80,0.84])
+ax      = plt.axes([0.17,0.14,0.80,0.84])
 for color,p,p0,u in zip(colors,P,P0,heights):
 	ax.plot(K0, p,  'o', color=color, markersize=5)
 	ax.plot(K0, p0, '-', color=color, label='$u$ = %.1f'%u)
@@ -992,7 +992,7 @@ ax.legend()
 ax.set_xlabel('$k_\mathrm{min}$', size=16)
 ax.set_ylabel('$P(c | k_\mathrm{min}) >= 2$', size=16)
 ax.set_ylim(0, 0.08)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 12 (Page 17):' )
 print( '   [see Figure 12]' )
 print
@@ -1032,7 +1032,7 @@ print
 #Figure 13 (Page 18)
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### load data
 weather  = rft1d.data.weather() #dictionay containing geographical locations
@@ -1047,10 +1047,10 @@ y1       = gaussian_filter1d(y1, 8.0, axis=1, mode='wrap')
 y2       = gaussian_filter1d(y2, 8.0, axis=1, mode='wrap')
 y3       = gaussian_filter1d(y3, 8.0, axis=1, mode='wrap')
 ### plot:
-pyplot.figure(13)
+plt.figure(13)
 labels = ['Atlantic', 'Pacific', 'Continental', 'Artic']
 colors = ['r', 'g', 'b', 'k']
-ax     = pyplot.axes([0.13,0.15,0.84,0.83])
+ax     = plt.axes([0.13,0.15,0.84,0.83])
 for y,color,label in zip((y0,y1,y2,y3), colors, labels):
 	h  = ax.plot(y.T, color=color)
 	h[0].set_label(label)
@@ -1058,7 +1058,7 @@ ax.legend(loc='lower center')
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('Temperature', size=16)
 ax.set_ylim(-45, 25)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 13 (Page 18):' )
 print( '   [see Figure 13]' )
 print
@@ -1070,7 +1070,7 @@ print
 
 #Figure 14 (Page 18)
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### set parameters:
 np.random.seed(0)
@@ -1088,15 +1088,15 @@ for w in W:
 	We.append(we)
 We          = np.array(We)
 ### plot:
-pyplot.figure(14)
-ax   = pyplot.axes([0.11,0.14,0.86,0.84])
+plt.figure(14)
+ax   = plt.axes([0.11,0.14,0.86,0.84])
 ax.plot(W, W,  'k-', lw=2, label='Actual')
 ax.errorbar(W, We.mean(axis=1), yerr=We.std(ddof=1, axis=1), fmt='bo', ecolor='b', label='Estimated')
 ax.legend(loc='upper left')
 ax.set_xlabel('Actual  FWHM  (%)')
 ax.set_ylabel('Estimated  FWHM  (%)')
-pyplot.setp(ax, xlim=(0,54), ylim=(0,54))
-pyplot.show(block=False)
+plt.setp(ax, xlim=(0,54), ylim=(0,54))
+plt.show(block=False)
 print( 'Figure 14 (Page 18):' )
 print( '   [see Figure 14]' )
 print
@@ -1113,7 +1113,7 @@ print
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
 import scipy.stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### load data:
 weather  = rft1d.data.weather() #dictionay containing geographical locations
@@ -1147,8 +1147,8 @@ rftcalc  = rft1d.prob.RFTCalculator(STAT='T', df=(1,df), nodes=Q, FWHM=FWHM)
 Pset     = rftcalc.p.set(nClusters, min(k_resels), tstar)
 Pcluster = [rftcalc.p.cluster(kk, tstar)   for kk in k_resels]
 ### plot:
-pyplot.figure(15)
-ax     = pyplot.axes([0.08,0.15,0.89,0.83])
+plt.figure(15)
+ax     = plt.axes([0.08,0.15,0.89,0.83])
 ax.plot(t, 'k', lw=3, label='t field')
 ax.plot([0,Q], [tstar]*2, 'r--', label='Critical threshold')
 ### legend:
@@ -1160,7 +1160,7 @@ ax.text(280, 2.1, r'$\alpha$ = %.3f'%alpha, color='r')
 ### axis labels:
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('t value', size=16)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 15 & Example 19.1 (Sections 5.3-5.4, Pages 19-20):' )
 print( '   [see Figure 15]' )
 print( '   Critical t value (1D RFT):  t = %.3f' %tstar) 
@@ -1180,7 +1180,7 @@ print
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
 import scipy.stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### load data:
 weather  = rft1d.data.weather() #dictionay containing geographical locations
@@ -1214,8 +1214,8 @@ rftcalc  = rft1d.prob.RFTCalculator(STAT='T', df=(1,df), nodes=Q, FWHM=FWHM)
 Psetcirc = rftcalc.p.set(ccirc, kcirc, tstar)
 Pclustercirc = rftcalc.p.cluster(kcirc, tstar)
 ### plot:
-pyplot.figure(16)
-ax     = pyplot.axes([0.08,0.15,0.89,0.83])
+plt.figure(16)
+ax     = plt.axes([0.08,0.15,0.89,0.83])
 ax.plot(t, 'k', lw=3, label='t field')
 ax.plot([0,Q], [tstar]*2, 'r--', label='Critical threshold')
 ### legend:
@@ -1229,7 +1229,7 @@ ax.text(280, 2.1, r'$\alpha$ = %.3f'%alpha, color='r')
 ### axis labels:
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('t value', size=16)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 16 (Page 20):' )
 print( '   [see Figure 16]' )
 print( '   Critical t value (1D RFT):  t = %.3f' %tstar) 
@@ -1249,7 +1249,7 @@ print
 #Figure 17 (Page 21)
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 ### load data:
 weather  = rft1d.data.weather() #dictionay containing geographical locations
@@ -1299,8 +1299,8 @@ for iii in range(nIter):
 K        = np.array(K)
 Pcluster = [(K>=kk).mean()  for kk in k0]
 ### plot:
-pyplot.figure(17)
-ax     = pyplot.axes([0.08,0.15,0.89,0.83])
+plt.figure(17)
+ax     = plt.axes([0.08,0.15,0.89,0.83])
 ax.plot(t0, 'k', lw=3, label='t field')
 ax.plot([0,t.size], [tstar]*2, 'r--', label='Critical threshold')
 ### legend:
@@ -1312,7 +1312,7 @@ ax.text(280, 1.8, r'$\alpha$ = %.3f'%alpha, color='r')
 ### axis labels:
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('t value', size=16)
-pyplot.show(block=False)
+plt.show(block=False)
 print( 'Figure 17 (Page 21):' )
 print( '   [see Figure 17]' )
 print( '   Critical t value (non-parametric):  t = %.3f' %tstar) 

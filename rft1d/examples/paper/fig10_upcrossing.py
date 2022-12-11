@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
 import rft1d
@@ -43,15 +43,15 @@ def plot_filled(y, ax, thresh=None, plot_thresh=True, color='k', lw=2, facecolor
 			polyg.append(  Polygon( np.array((x,y)).T  )  )
 		patches         = PatchCollection(polyg, edgecolors=None)
 		ax.add_collection(patches)
-		pyplot.setp(patches, facecolor=facecolor, edgecolor=facecolor)
+		plt.setp(patches, facecolor=facecolor, edgecolor=facecolor)
 	#set axis limits:
-	pyplot.setp(ax, xlim=(x0.min(), x0.max())  )
+	plt.setp(ax, xlim=(x0.min(), x0.max())  )
 	#plot threshold(s):
 	if (thresh is not None) and plot_thresh:
 		h      = [ax.hlines(thresh, x0.min(), x0.max())]
 		if two_tailed:
 			h.append( ax.hlines(-thresh, x0.min(), x0.max()) )
-		pyplot.setp(h, color=thresh_color, lw=1, linestyle='--')
+		plt.setp(h, color=thresh_color, lw=1, linestyle='--')
 
 
 
@@ -69,7 +69,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -84,13 +84,13 @@ y           = rft1d.random.randn1d(1, nNodes, W, pad=True)
 
 
 #(1) Plot results:
-pyplot.close('all')
+plt.close('all')
 color0      = 0.24, 0.41, 0.72
 color1      = 0.74, 0.76, 0.89
 color2      = 0.21, 0.57, 0.89
 ### create axes:
-ax0   = pyplot.axes([0.06,0.14,0.44,0.84])
-ax1   = pyplot.axes([0.55,0.14,0.44,0.84])
+ax0   = plt.axes([0.06,0.14,0.44,0.84])
+ax1   = plt.axes([0.55,0.14,0.44,0.84])
 AX    = ax0,ax1
 for ax in [ax0,ax1]:
 	plot_filled(y, ax, thresh=h, plot_thresh=False, color='k', lw=2, facecolor=color0)
@@ -118,12 +118,12 @@ ax1.text(31, 0.49, 'extent (interpolated)', color=color0, ha='center', size=14)
 [ax.set_xlabel('Field position  (%)')   for ax in AX]
 ax0.text(-0.15, 0.5, '$z$', size=24, transform=ax0.transAxes, rotation=90, va='center')
 ### annotate:
-pyplot.setp(ax0, xlim=(0,100), ylim=(-1.2,1.2))
-pyplot.setp(ax1, xlim=(23,39), ylim=(0.47,0.92))
+plt.setp(ax0, xlim=(0,100), ylim=(-1.2,1.2))
+plt.setp(ax1, xlim=(23,39), ylim=(0.47,0.92))
 ### panel labels:
 ax0.text(0.04, 0.91, '(a) Upcrossing', transform=ax0.transAxes)
 ax1.text(0.04, 0.91, '(b) Upcrossing  (zoomed)', transform=ax1.transAxes)
-pyplot.show()
+plt.show()
 
 
 

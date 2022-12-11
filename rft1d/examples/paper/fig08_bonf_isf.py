@@ -1,7 +1,7 @@
 
 import numpy as np
 from scipy import stats,optimize
-from matplotlib import pyplot,cm
+import matplotlib.pyplot as plt,cm
 import rft1d
 
 
@@ -20,7 +20,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -53,8 +53,8 @@ ISF        = np.asarray(ISF).T
 
 
 #(4) Plot results:
-pyplot.close('all')
-ax         = pyplot.axes([0.12,0.14,0.86,0.84])
+plt.close('all')
+ax         = plt.axes([0.12,0.14,0.86,0.84])
 colors     = ['b', 'g', 'r', 'orange']
 for alpha,isf,isfbonf,color in zip(ALPHAs,ISF,ISFbonf,colors):
 	ax.plot(FWHMs, isf, color=color, lw=1)
@@ -71,7 +71,7 @@ ax.legend()
 ax.text(0.5, -0.15, 'FWHM  (%)', size=16, transform=ax.transAxes, ha='center')
 ax.text(-0.14, 0.5, '$z^*$', size=20, transform=ax.transAxes, va='center', rotation=90)
 ax.set_ylim(2.5, 5)
-pyplot.show()
+plt.show()
 
 
-# pyplot.savefig('fig_bonf_B.pdf')
+# plt.savefig('fig_bonf_B.pdf')

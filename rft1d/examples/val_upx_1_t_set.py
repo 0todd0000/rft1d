@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 eps        = np.finfo(float).eps   #smallest float
@@ -48,13 +48,13 @@ P0      = np.array([[rftcalc.p.set(c, k0, h)  for h in heights]  for k0 in K0/FW
 
 
 #(3) Plot results:
-pyplot.close('all')
+plt.close('all')
 colors  = ['b', 'g', 'r']
-ax      = pyplot.axes()
+ax      = plt.axes()
 for color,p,p0,u in zip(colors,P,P0,heights):
 	ax.plot(K0, p,  'o', color=color)
 	ax.plot(K0, p0, '-', color=color, label='u = %.1f'%u)
 ax.set_xlabel('x', size=16)
 ax.set_ylabel('P(c, k_min) > x', size=16)
 ax.set_title('Set-level inference validations (t fields)', size=20)
-pyplot.show()
+plt.show()

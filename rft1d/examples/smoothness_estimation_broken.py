@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 '''
@@ -29,11 +29,11 @@ for w in FWHM:
 
 
 #(2) Plot results:
-pyplot.close('all')
-pyplot.plot(FWHM, FWHM,  'k:', label='Actual')
-pyplot.plot(FWHM, FWHMe, 'go', label='Estimated')
-pyplot.legend(loc='upper left')
-pyplot.xlabel('Actual FWHM', size=16)
-pyplot.ylabel('Estimated FWHM', size=16)
-pyplot.title('FWHM estimation validation (broken fields)', size=20)
-pyplot.show()
+plt.close('all')
+plt.plot(FWHM, FWHM,  'k:', label='Actual')
+plt.plot(FWHM, FWHMe, 'go', label='Estimated')
+plt.legend(loc='upper left')
+plt.xlabel('Actual FWHM', size=16)
+plt.ylabel('Estimated FWHM', size=16)
+plt.title('FWHM estimation validation (broken fields)', size=20)
+plt.show()

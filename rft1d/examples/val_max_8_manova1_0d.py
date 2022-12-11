@@ -2,7 +2,7 @@
 from math import log
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 
 
 def here_manova1(Y, GROUP):
@@ -72,13 +72,13 @@ sfE         = stats.chi2.sf(heights, df)
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax          = pyplot.axes()
+plt.close('all')
+ax          = plt.axes()
 ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.set_xlabel('$u$', size=20)
 ax.set_ylabel('$P (\chi^2 > u)$', size=20)
 ax.legend()
 ax.set_title("MANOVA validation (0D)", size=20)
-pyplot.show()
+plt.show()
 

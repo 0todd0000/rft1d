@@ -12,7 +12,7 @@ padded using the *pad* keyword.
 
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -32,10 +32,10 @@ y          = generator.generate_sample()
 
 
 #(2) Plot fields:
-pyplot.close('all')
-pyplot.plot(y.T)
-pyplot.plot([0,100], [0,0], 'k:')
-pyplot.xlabel('Field position', size=16)
-pyplot.ylabel('z', size=20)
-pyplot.title('Random (Gaussian) fields', size=20)
-pyplot.show()
+plt.close('all')
+plt.plot(y.T)
+plt.plot([0,100], [0,0], 'k:')
+plt.xlabel('Field position', size=16)
+plt.ylabel('z', size=20)
+plt.title('Random (Gaussian) fields', size=20)
+plt.show()

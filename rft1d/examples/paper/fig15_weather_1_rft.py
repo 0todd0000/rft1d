@@ -1,7 +1,7 @@
 
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -21,7 +21,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -79,8 +79,8 @@ Pcluster = [rftcalc.p.cluster(kk, tstar)   for kk in k_resels]
 
 
 #(6) Plot:
-pyplot.close('all')
-ax     = pyplot.axes([0.08,0.15,0.89,0.83])
+plt.close('all')
+ax     = plt.axes([0.08,0.15,0.89,0.83])
 ax.plot(t, 'k', lw=3, label='t field')
 ax.plot([0,Q], [tstar]*2, 'r--', label='Critical threshold')
 ### legend:
@@ -92,10 +92,10 @@ ax.text(280, 2.1, r'$\alpha$ = %.3f'%alpha, color='r')
 ### axis labels:
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('t value', size=16)
-pyplot.show()
+plt.show()
 
 
 
-# pyplot.savefig('fig_weather_1_rft.pdf')
+# plt.savefig('fig_weather_1_rft.pdf')
 
 

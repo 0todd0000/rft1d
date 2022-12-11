@@ -2,7 +2,7 @@
 from math import pi,log,sqrt,exp
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -22,7 +22,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -67,8 +67,8 @@ for W in FWHM:
 
 
 #(2) Plot results:
-pyplot.close('all')
-ax      = pyplot.axes([0.11,0.14,0.86,0.84])
+plt.close('all')
+ax      = plt.axes([0.11,0.14,0.86,0.84])
 colors  = ['b', 'g', 'r']
 for color,e0,e1,ec in zip(colors, E0, E1, EC):
 	ax.plot(heights, e1, '--', color=color)    #just the 1D EC density
@@ -85,7 +85,7 @@ ax.legend()
 ### label the axes:
 ax.set_xlabel('$u$', size=18)
 ax.set_ylabel('Topological characteristic', size=16)
-pyplot.show()
+plt.show()
 
 
 

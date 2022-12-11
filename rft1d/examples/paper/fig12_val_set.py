@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -22,7 +22,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -57,9 +57,9 @@ P0      = np.array([[rftcalc.p.set(c, k0, h)  for h in heights]  for k0 in K0/FW
 
 
 #(2) Plot results:
-pyplot.close('all')
+plt.close('all')
 colors  = ['b', 'g', 'r']
-ax      = pyplot.axes([0.17,0.14,0.80,0.84])
+ax      = plt.axes([0.17,0.14,0.80,0.84])
 for color,p,p0,u in zip(colors,P,P0,heights):
 	ax.plot(K0, p,  'o', color=color, markersize=5)
 	ax.plot(K0, p0, '-', color=color, label='$u$ = %.1f'%u)
@@ -71,7 +71,7 @@ ax.legend()
 ax.set_xlabel('$k_\mathrm{min}$', size=16)
 ax.set_ylabel('$P(c | k_\mathrm{min}) >= 2$', size=16)
 ax.set_ylim(0, 0.08)
-pyplot.show()
+plt.show()
 
 
-# pyplot.savefig('fig_valid_gauss1d_set.pdf')
+# plt.savefig('fig_valid_gauss1d_set.pdf')

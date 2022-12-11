@@ -1,7 +1,7 @@
 
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 
 
 
@@ -21,12 +21,12 @@ sfE           = stats.norm.sf(heights)  #theoretical
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax            = pyplot.axes()
+plt.close('all')
+ax            = plt.axes()
 ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.set_xlabel('$u$', size=20)
 ax.set_ylabel('$P (z > u)$', size=20)
 ax.legend()
 ax.set_title('Gaussian univariate validation (0D)', size=20)
-pyplot.show()
+plt.show()

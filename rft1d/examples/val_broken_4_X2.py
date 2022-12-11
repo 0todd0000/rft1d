@@ -1,7 +1,7 @@
 
 from math import sqrt,log
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 eps            = np.finfo(float).eps
@@ -85,8 +85,8 @@ sfE_broken = rft1d.chi2.sf(heights, df, nodes, FWHM)   #theoretical (broken)
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax         = pyplot.axes()
+plt.close('all')
+ax         = plt.axes()
 ax.plot(heights, sfE_full,   'b-', label='Theoretical (full)')
 ax.plot(heights, sfE_broken, 'r-', label='Theoretical (broken)')
 ax.plot(heights, sf,         'ro', label='Simulated (broken)')
@@ -94,5 +94,5 @@ ax.set_xlabel('x', size=16)
 ax.set_ylabel('$P (\chi^2_\mathrm{max} > x)$', size=20)
 ax.legend()
 ax.set_title('Broken field validation ($\chi^2$)', size=20)
-pyplot.show()
+plt.show()
 

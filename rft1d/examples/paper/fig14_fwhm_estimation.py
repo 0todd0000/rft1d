@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -18,7 +18,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -51,16 +51,16 @@ We          = np.array(We)
 
 
 #(2) Plot results:
-pyplot.close('all')
-ax   = pyplot.axes([0.11,0.14,0.86,0.84])
+plt.close('all')
+ax   = plt.axes([0.11,0.14,0.86,0.84])
 ax.plot(W, W,  'k-', lw=2, label='Actual')
 ax.errorbar(W, We.mean(axis=1), yerr=We.std(ddof=1, axis=1), fmt='bo', ecolor='b', label='Estimated')
 ax.legend(loc='upper left')
 ax.set_xlabel('Actual  FWHM  (%)')
 ax.set_ylabel('Estimated  FWHM  (%)')
 ### annotate:
-pyplot.setp(ax, xlim=(0,54), ylim=(0,54))
-pyplot.show()
+plt.setp(ax, xlim=(0,54), ylim=(0,54))
+plt.show()
 
 
-# pyplot.savefig('fig_fwhm_estimatation.pdf')
+# plt.savefig('fig_fwhm_estimatation.pdf')

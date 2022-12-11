@@ -1,7 +1,7 @@
 
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot,cm
+import matplotlib.pyplot as plt,cm
 import rft1d
 
 
@@ -32,7 +32,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -69,8 +69,8 @@ sfN        = stats.norm.sf(heights)
 
 
 #(4) Plot results:
-pyplot.close('all')
-ax         = pyplot.axes([0.15,0.14,0.82,0.84])
+plt.close('all')
+ax         = plt.axes([0.15,0.14,0.82,0.84])
 colors     = scalar2color(range(len(WW)+2), cmap=cm.PuRd)
 for W,sf,sfE,c in zip(WW,SF,SFE,colors[2:]):
 	ax.plot(heights, sf,  'o', color=c, markersize=5, label='FWHM = %d%%'%W)
@@ -81,8 +81,8 @@ ax.text(0.5, -0.15, '$u$', size=20, transform=ax.transAxes, ha='center')
 ax.text(-0.17, 0.5, 'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transAxes, va='center', rotation=90)
 ax.set_ylim(0,0.35)
 ax.legend()
-pyplot.show()
+plt.show()
 
 
 
-# pyplot.savefig('fig_valid_gauss1d.pdf')
+# plt.savefig('fig_valid_gauss1d.pdf')

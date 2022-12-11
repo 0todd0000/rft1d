@@ -2,7 +2,7 @@
 from math import sqrt
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 
 eps           = np.finfo(float).eps
 
@@ -62,15 +62,15 @@ sfE           = stats.f.sf(heights, df[0], df[1])
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax            = pyplot.axes()
+plt.close('all')
+ax            = plt.axes()
 ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.set_xlabel('$u$', size=20)
 ax.set_ylabel('$P (F > u)$', size=20)
 ax.legend()
 ax.set_title('ANOVA validation (0D)', size=20)
-pyplot.show()
+plt.show()
 
 
 

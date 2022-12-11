@@ -1,7 +1,7 @@
 
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -23,10 +23,10 @@ y3       = gaussian_filter1d(y3, 8.0, axis=1, mode='wrap')
 
 
 #(1) Plot:
-pyplot.close('all')
+plt.close('all')
 labels = ['Atlantic', 'Pacific', 'Continental', 'Artic']
 colors = ['r', 'g', 'b', 'k']
-ax     = pyplot.axes()
+ax     = plt.axes()
 for y,color,label in zip((y0,y1,y2,y3), colors, labels):
 	h  = ax.plot(y.T, color=color)
 	h[0].set_label(label)
@@ -34,7 +34,7 @@ ax.set_xlabel('Day', size=16)
 ax.set_ylabel('Temperature', size=16)
 ax.legend()
 ax.set_title('Weather dataset (Ramsay et al. 2005)', size=20)
-pyplot.show()
+plt.show()
 
 
 

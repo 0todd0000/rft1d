@@ -1,7 +1,7 @@
 
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot,cm
+import matplotlib.pyplot as plt,cm
 import rft1d
 
 
@@ -32,7 +32,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -64,9 +64,9 @@ y2           = rft1d.randn1d(nResponses, nodes, FWHM[2], pad=True)
 
 
 #(2) Plot results:
-pyplot.close('all')
+plt.close('all')
 axx         = np.linspace(0.04, 0.695, 3)
-AX          = [pyplot.axes([xx,0.18,0.29,0.8])   for xx in axx]
+AX          = [plt.axes([xx,0.18,0.29,0.8])   for xx in axx]
 ax0,ax1,ax2 = AX
 ### plot fields:
 colors      = scalar2color(range(nResponses+3), cmap=cm.RdPu)
@@ -74,8 +74,8 @@ colors      = scalar2color(range(nResponses+3), cmap=cm.RdPu)
 [ax1.plot(yy, color=color)  for yy,color in zip(y1,colors)]
 [ax2.plot(yy, color=color)  for yy,color in zip(y2,colors)]
 ### adjust axes:
-pyplot.setp(AX, xlim=(0,100), ylim=(-3.8,3.8))
-pyplot.setp([ax1,ax2], yticklabels=[])
+plt.setp(AX, xlim=(0,100), ylim=(-3.8,3.8))
+plt.setp([ax1,ax2], yticklabels=[])
 ### panel labels:
 for i,(ax,w) in enumerate(zip(AX,FWHM)):
 	s   = '(%s)  FWHM = %d%%' %(chr(97+i), w)
@@ -83,10 +83,10 @@ for i,(ax,w) in enumerate(zip(AX,FWHM)):
 ### label the axes:
 [ax.set_xlabel('Field position  (%)', size=18)   for ax in AX]
 ax0.text(-0.15, 0.5, '$z$', size=24, transform=ax0.transAxes, rotation=90, va='center')
-pyplot.show()
+plt.show()
 
 
-# pyplot.savefig('fig_fields1d_broken.pdf')
+# plt.savefig('fig_fields1d_broken.pdf')
 
 
 

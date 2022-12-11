@@ -1,7 +1,7 @@
 
 import numpy as np
 from scipy.ndimage.filters import gaussian_filter1d
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -18,7 +18,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -40,10 +40,10 @@ y3       = gaussian_filter1d(y3, 8.0, axis=1, mode='wrap')
 
 
 #(1) Plot:
-pyplot.close('all')
+plt.close('all')
 labels = ['Atlantic', 'Pacific', 'Continental', 'Artic']
 colors = ['r', 'g', 'b', 'k']
-ax     = pyplot.axes([0.13,0.15,0.84,0.83])
+ax     = plt.axes([0.13,0.15,0.84,0.83])
 for y,color,label in zip((y0,y1,y2,y3), colors, labels):
 	h  = ax.plot(y.T, color=color)
 	h[0].set_label(label)
@@ -51,10 +51,10 @@ ax.legend(loc='lower center')
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('Temperature', size=16)
 ax.set_ylim(-45, 25)
-pyplot.show()
+plt.show()
 
 
 
-# pyplot.savefig('fig_weather_0_data.pdf')
+# plt.savefig('fig_weather_0_data.pdf')
 
 

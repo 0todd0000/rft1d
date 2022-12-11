@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 eps           = np.finfo(float).eps
@@ -64,8 +64,8 @@ sf0D        = rft1d.f.sf0d(heights, df) #theoretical (0D)
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax        = pyplot.axes()
+plt.close('all')
+ax        = plt.axes()
 ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.plot(heights, sf0D, 'r-', label='Theoretical (0D)')
@@ -73,7 +73,7 @@ ax.set_xlabel('$u$', size=20)
 ax.set_ylabel('$P (F_\mathrm{max} > u)$', size=20)
 ax.legend()
 ax.set_title('ANOVA validation (1D)', size=20)
-pyplot.show()
+plt.show()
 
 
 

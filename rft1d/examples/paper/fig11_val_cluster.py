@@ -1,7 +1,7 @@
 
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -23,7 +23,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -55,10 +55,10 @@ P0      = np.array([[rftcalc.p.cluster(k0, h)  for k0 in K0/FWHM]  for h in heig
 
 
 #(2) Plot results:
-pyplot.close('all')
+plt.close('all')
 colors  = ['b', 'g', 'r', 'orange']
 labels  = ['$u$ = %.1f'%h for h in heights]
-ax      = pyplot.axes([0.17,0.14,0.80,0.84])
+ax      = plt.axes([0.17,0.14,0.80,0.84])
 for color,p,p0,label in zip(colors,P,P0,labels):
 	ax.plot(K0, p,  'o', color=color, markersize=5)
 	ax.plot(K0, p0, '-', color=color, label=label)
@@ -68,7 +68,7 @@ ax.legend()
 ax.set_xlabel('$x$', size=16)
 ax.set_ylabel('$P(k_{max}) > x$', size=16)
 ax.set_ylim(0, 0.25)
-pyplot.show()
+plt.show()
 
 
-# pyplot.savefig('fig_valid_gauss1d_clusters.pdf')
+# plt.savefig('fig_valid_gauss1d_clusters.pdf')

@@ -2,7 +2,7 @@
 from math import pi,log,sqrt,exp
 import numpy as np
 from scipy import stats
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -22,7 +22,7 @@ params = {	'backend':'ps', 'axes.labelsize':14,
 			'lines.linewidth':0.5,
 			'patch.linewidth':0.25,
 			'figure.figsize': [fig_width,fig_height]}
-pyplot.rcParams.update(params)
+plt.rcParams.update(params)
 
 
 
@@ -94,8 +94,8 @@ EC          = np.array(EC)
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax      = pyplot.axes([0.11,0.14,0.86,0.84])
+plt.close('all')
+ax      = plt.axes([0.11,0.14,0.86,0.84])
 colors  = ['b', 'r', 'g']
 for color,ec0,ec0u,ec in zip(colors, expectedEC, expectedECunbroken, EC):
 	ax.plot(heights, ec0u, '-', lw=1, color=color)    #expectation for an unbroken field
@@ -113,10 +113,10 @@ ax.legend()
 ### label the axes:
 ax.set_xlabel('$u$', size=18)
 ax.set_ylabel('Hadwiger characteristic', size=16)
-pyplot.show()
+plt.show()
 
 
-# pyplot.savefig('fig_expected_EC_broken.pdf')
+# plt.savefig('fig_expected_EC_broken.pdf')
 
 
 

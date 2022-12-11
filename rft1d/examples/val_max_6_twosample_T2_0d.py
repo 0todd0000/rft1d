@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -39,13 +39,13 @@ sfE           = rft1d.T2.sf0d(heights, df)
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax            = pyplot.axes()
+plt.close('all')
+ax            = plt.axes()
 ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.set_xlabel('x', size=16)
 ax.set_ylabel('P (T $^2$ > x)', size=16)
 ax.legend()
 ax.set_title("Two-sample Hotelling's T2 validation (0D)", size=20)
-pyplot.show()
+plt.show()
 

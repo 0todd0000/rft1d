@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 
@@ -37,8 +37,8 @@ sfE_broken = rft1d.norm.sf(heights, nodes, FWHM)  #theoretical
 
 
 #(3) Plot results:
-pyplot.close('all')
-ax         = pyplot.axes()
+plt.close('all')
+ax         = plt.axes()
 ax.plot(heights, sfE_full,   'b-', label='Theoretical (full)')
 ax.plot(heights, sfE_broken, 'r-', label='Theoretical (broken)')
 ax.plot(heights, sf_full,    'bo', label='Simulated (full)')
@@ -47,5 +47,5 @@ ax.set_xlabel('x', size=16)
 ax.set_ylabel('$P (z_\mathrm{max} > x)$', size=20)
 ax.legend()
 ax.set_title('Broken field validation (Gaussian)', size=20)
-pyplot.show()
+plt.show()
 

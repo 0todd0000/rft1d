@@ -1,6 +1,6 @@
 
 import numpy as np
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import rft1d
 
 eps        = np.finfo(float).eps   #smallest float
@@ -32,10 +32,10 @@ P0      = np.array([[rftcalc.p.cluster(k0, h)  for k0 in K0/FWHM]  for h in heig
 
 
 #(2) Plot results:
-pyplot.close('all')
+plt.close('all')
 colors  = ['b', 'g', 'r', 'orange']
 labels  = ['u = %.1f'%h for h in heights]
-ax      = pyplot.axes()
+ax      = plt.axes()
 for color,p,p0,label in zip(colors,P,P0,labels):
 	ax.plot(K0, p,  'o', color=color)
 	ax.plot(K0, p0, '-', color=color, label=label)
@@ -46,4 +46,4 @@ ax.set_xlabel('$x$', size=20)
 ax.set_ylabel('$P(k_{max}) > x$', size=20)
 ax.set_ylim(0, 0.25)
 ax.set_title('Upcrossing extent validations (Gaussian fields)', size=20)
-pyplot.show()
+plt.show()
