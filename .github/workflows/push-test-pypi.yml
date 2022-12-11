@@ -22,6 +22,6 @@ jobs:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
       run: |
-        python setup.py sdist bdist_wheel
+        python -m pip install -U setuptools wheel build
         twine --repository testpypi upload dist/*
 
