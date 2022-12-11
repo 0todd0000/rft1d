@@ -23,5 +23,5 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
       run: |
         python -m pip install -U setuptools wheel build
-        twine --repository testpypi upload dist/*
+        twine upload -r pypitest dist/*
 
