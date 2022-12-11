@@ -1,9 +1,8 @@
 
 import numpy as np
-from scipy import stats
-from matplotlib import pyplot,cm
+from matplotlib import pyplot
 import rft1d
-import myplot,myh5
+
 
 
 eps        = np.finfo(float).eps   #smallest float

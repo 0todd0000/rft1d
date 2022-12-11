@@ -5,22 +5,23 @@ The core RFT computations are conducted inside **prob.rft**, and the
 **RFTCalculator** class serves as a high-level interface to **prob.rft**
 '''
 
-# Copyright (C) 2015  Todd Pataky
-# version: 0.1.3 (2015/12/27)
+# Copyright (C) 2022  Todd Pataky
+
 
 
 from math import pi,log,sqrt,exp
 import numpy as np
 from scipy import stats,optimize
 from scipy.special import gammaln,gamma
-import geom
+from . import geom
 
 # CONSTANTS:
 FOUR_LOG2   = 4*log(2)
 SQRT_4LOG2  = sqrt(4*log(2))
 SQRT_2      = sqrt(2)
 TWO_PI      = 2*pi
-eps         = np.finfo(np.float).eps
+# eps         = np.finfo(np.float).eps
+eps         = np.finfo(float).eps
 
 
 

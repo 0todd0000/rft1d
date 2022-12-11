@@ -100,12 +100,12 @@ All distributions share the following functions:
 
 '''
 
-# Copyright (C) 2015  Todd Pataky
-# version: 0.1.3 (2015/12/27)
+# Copyright (C) 2016  Todd Pataky
+
 
 import numpy as np
 from scipy import stats
-from prob import RFTCalculator, RFTCalculatorResels
+from . prob import RFTCalculator, RFTCalculatorResels
 
 
 def add_docstrings(distname, ndf=0):

@@ -1,6 +1,5 @@
 
 import numpy as np
-from scipy import stats,optimize
 from matplotlib import pyplot,cm
 import rft1d
 
