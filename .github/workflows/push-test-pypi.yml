@@ -1,4 +1,4 @@
-name: master-push-pypi
+name: push-test-pypi
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 
 jobs:
-  publish-pypi:
+  publish-test-pypi:
     runs-on: ubuntu-latest
 
     steps:
