@@ -22,8 +22,7 @@ jobs:
       run: python -m build .
     - name: Test with pytest
       run: |
-        pip install -r requirements.txt
-        export PYTHONPATH=src
+        python -m pip install -U pytest pytest-explicit numpy scipy matplotlib
         # pytest tests/ --run-all
         python -m pytest tests/
         
