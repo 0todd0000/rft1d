@@ -1,7 +1,7 @@
 
 import pytest
-import rft1d
-print(rft1d)
+# import rft1d
+# print(rft1d)
 
 
 @pytest.mark.slow
