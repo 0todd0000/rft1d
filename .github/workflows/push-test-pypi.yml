@@ -26,5 +26,7 @@ jobs:
         password: ${{ secrets.TEST_PYPI_TOKEN }}
         skip_existing: true
         repository_url: https://test.pypi.org/legacy/
-
+    - name: Test with pytest
+      run: |
+        pytest
 
