@@ -27,11 +27,13 @@ classifiers = [
 	"Programming Language :: Python :: 3.9",
 ]
 
-dependencies = [
-  "numpy",
-  "scipy",
-  "matplotlib",
-]
+dependencies = {file = ["requirements.txt"]}
+
+# dependencies = [
+#   "numpy",
+#   "scipy",
+#   "matplotlib",
+# ]
 
 
 
