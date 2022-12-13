@@ -23,7 +23,9 @@ jobs:
     - name: Test with pytest
       run: |
         export PYTHONPATH=src
-        pytest tests/ --run-all
+        # pytest tests/ --run-all
+        python -m pytest tests/
+        
     # - name: Publish
     #   uses: pypa/gh-action-pypi-publish@master
     #   with:
