@@ -158,7 +158,7 @@ def poisson_cdf(a, b):
 	return p
 
 
-def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm12'):
+def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm12', _0d_check=True):
 	'''
 	Random Field Theory probabilities and expectations using unified Euler Characteristic (EC) theory.
 	This code is based on "spm_P_RF.m" and "spm_P.m" from the spm8 and spm12 Matlab packages
@@ -311,7 +311,8 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 			if k>0:
 				P,p   = None, None
 	P        = _replaceWithBonferroniIfPossible(STAT, P, c, k, Z, df, Q, n)
-	P        = _replaceWith0DpValueIfPossible(STAT, P, c, k, Z, df, Q, n)
+	if _0d_check:
+		P    = _replaceWith0DpValueIfPossible(STAT, P, c, k, Z, df, Q, n)
 	return P, p, Ec, Ek, EN
 
 
