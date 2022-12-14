@@ -12,7 +12,7 @@ fpathNPZ        = os.path.join(dir0,  'data-spm12b', 'testcases_p_RF.npz')
 with np.load(fpathNPZ) as z:
 	params      = z['params']
 	expected    = z['expected']
-mgr             = rt.TestCaseManager( params, expected, atol=1e-7 )
+mgr             = rt.P_RF_TestCaseManager( params, expected, atol=1e-7 )
 
 
 # # example single case (for debugging)

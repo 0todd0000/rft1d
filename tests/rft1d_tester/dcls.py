@@ -28,6 +28,26 @@ class P_RF_Parameters(object):
 		return s
 		
 
+class UC_RF_Parameters(object):
+	
+	STATS = ['Z', 'T', 'F', 'X2']
+	
+	def __init__(self, x):
+		stat,alpha,v1,v2,r1,r2,n = x
+		self.stat   = self.STATS[ int(stat) ]
+		self.alpha  = float( alpha )
+		self.df     = float(v1), float(v2)
+		self.resels = float(r1), float(r2)
+		self.n      = int( n )
+		
+	def __repr__(self):
+		s   = 'P_RF_Parameters\n'
+		s  += f'    stat   = {self.stat}\n'
+		s  += f'    alpha  = {self.alpha}\n'
+		s  += f'    df     = {self.df}\n'
+		s  += f'    resels = {self.resels}\n'
+		s  += f'    n      = {self.n}\n'
+		return s
 
 
 class P_RF_Results(object):
@@ -75,3 +95,23 @@ class P_RF_Results(object):
 		else:
 			x   = P - P0
 		return x
+
+
+
+class UC_RF_Results(object):
+	
+	inf   = 1e+8
+	
+	def __init__(self, x):
+		self.u   = x
+		
+	def __repr__(self):
+		s   = 'UC_RF_Results\n'
+		s  += f'    u      = {self.u:.7f}\n'
+		return s
+		
+		
+	def __sub__(self, expected):
+		d   = self.u - expected.u
+		return d
+		
