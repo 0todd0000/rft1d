@@ -24,8 +24,10 @@ jobs:
       run: |
         python -m pip install -U pytest pytest-explicit numpy scipy matplotlib
         export PYTHONPATH=src
-        # pytest tests/ --run-all
-        python -m pytest tests/
+        # python -m pytest tests/
+        python -m pytest tests/ --run-all
+        
+        
         
     # - name: Publish
     #   uses: pypa/gh-action-pypi-publish@master
