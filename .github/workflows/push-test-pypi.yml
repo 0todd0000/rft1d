@@ -1,8 +1,9 @@
-name: push-test-pypi
+name: push-pypi
+# name: push-test-pypi
 
 on:
   push:
-    branches: [ v0.2 ]
+    branches: [ master ]
 
 
 jobs:
@@ -27,8 +28,14 @@ jobs:
         python -m pytest tests/
         # python -m pytest tests/ --run-all
         
-        
-        
+    - name: Publish
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+      run: |
+        python setup.py sdist bdist_wheel
+        twine upload dist/*
+
     # - name: Publish
     #   uses: pypa/gh-action-pypi-publish@master
     #   with:
