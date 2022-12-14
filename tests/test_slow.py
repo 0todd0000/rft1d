@@ -24,6 +24,6 @@ def test_load_mat():
 	assert params.shape[0]   == 2268000
 	assert params.shape[1]   == 9
 	assert expected.shape[0] == 2268000
-	assert expected.shape[1] == 4
+	assert expected.shape[1] == 5
 
 
