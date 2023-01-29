@@ -44,7 +44,7 @@ class _TestCase(object):
 			r0   = self.results0
 			r    = self.get_rft1d_results()
 			d    = r - r0
-			np.testing.assert_allclose(d, 0, atol=self.atol)
+			np.testing.assert_allclose(d, 0, rtol=1e-5, atol=self.atol)
 			
 			
 

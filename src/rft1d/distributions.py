@@ -100,11 +100,11 @@ All distributions share the following functions:
 
 '''
 
-# Copyright (C) 2016  Todd Pataky
+# Copyright (C) 2023  Todd Pataky
 
 
 import numpy as np
-from scipy import stats
+# from scipy import stats
 from . prob import RFTCalculator, RFTCalculatorResels
 
 
@@ -444,10 +444,11 @@ class Gaussian(_RFTDistribution):
 	Gaussian distributions are accessible via **rft1d.norm** and **rft1d.distributions.norm**
 	'''
 	def __init__(self):
-		super(Gaussian, self).__init__('Z', 0)
+		super().__init__('Z', 0)
 	def isf(self, alpha, nodes, FWHM, withBonf=False):
 		return super(Gaussian, self).isf(alpha, None, nodes, FWHM, withBonf)
-	def isf0d(self, alpha):	
+	def isf0d(self, alpha):
+		from scipy import stats
 		return stats.norm.isf(alpha)
 	def p_cluster(self, k, u, nodes, FWHM, withBonf=False):
 		return super(Gaussian, self).p_cluster(k, u, None, nodes, FWHM, withBonf)
@@ -456,16 +457,18 @@ class Gaussian(_RFTDistribution):
 	def sf(self, u, nodes, FWHM, withBonf=False):
 		return super(Gaussian, self).sf(u, None, nodes, FWHM, withBonf)
 	def sf0d(self, heights):
+		from scipy import stats
 		return stats.norm.sf(heights)
 
 
 @add_docstrings('t', ndf=1)
 class StudentsT(_RFTDistribution):
 	def __init__(self):
-		super(StudentsT, self).__init__('T', 1)
+		super().__init__('T', 1)
 	def isf(self, alpha, df, nodes, FWHM, withBonf=False):
 		return super(StudentsT, self).isf(alpha, df, nodes, FWHM, withBonf)
 	def isf0d(self, alpha, df):	
+		from scipy import stats
 		return stats.t.isf(alpha, df)
 	def p_cluster(self, k, u, df, nodes, FWHM, withBonf=False):
 		return super(StudentsT, self).p_cluster(k, u, df, nodes, FWHM, withBonf)
@@ -474,16 +477,18 @@ class StudentsT(_RFTDistribution):
 	def sf(self, u, df, nodes, FWHM, withBonf=False):
 		return super(StudentsT, self).sf(u, df, nodes, FWHM, withBonf)
 	def sf0d(self, u, df):
+		from scipy import stats
 		return stats.t.sf(u, df)
 
 
 @add_docstrings('chi2', ndf=1)
 class Chi2(_RFTDistribution):
 	def __init__(self):
-		super(Chi2, self).__init__('X2', 1)
+		super().__init__('X2', 1)
 	def isf(self, alpha, df, nodes, FWHM, withBonf=False):
 		return super(Chi2, self).isf(alpha, df, nodes, FWHM, withBonf)
 	def isf0d(self, alpha, df):	
+		from scipy import stats
 		return stats.chi2.isf(alpha, df)
 	def p_cluster(self, k, u, df, nodes, FWHM, withBonf=False):
 		return super(Chi2, self).p_cluster(k, u, df, nodes, FWHM, withBonf)
@@ -492,16 +497,18 @@ class Chi2(_RFTDistribution):
 	def sf(self, u, df, nodes, FWHM, withBonf=False):
 		return super(Chi2, self).sf(u, df, nodes, FWHM, withBonf)
 	def sf0d(self, u, df):
+		from scipy import stats
 		return stats.chi2.sf(u, df)
 
 
 @add_docstrings('f', ndf=2)
 class FisherSnedecorF(_RFTDistribution):
 	def __init__(self):
-		super(FisherSnedecorF, self).__init__('F', 2)
+		super().__init__('F', 2)
 	def isf(self, alpha, df, nodes, FWHM, withBonf=False):
 		return super(FisherSnedecorF, self).isf(alpha, df, nodes, FWHM, withBonf)
-	def isf0d(self, alpha, df):	
+	def isf0d(self, alpha, df):
+		from scipy import stats
 		return stats.f.isf(alpha, df[0], df[1])
 	def p_cluster(self, k, u, df, nodes, FWHM, withBonf=False):
 		return super(FisherSnedecorF, self).p_cluster(k, u, df, nodes, FWHM, withBonf)
@@ -510,13 +517,14 @@ class FisherSnedecorF(_RFTDistribution):
 	def sf(self, u, df, nodes, FWHM, withBonf=False):
 		return super(FisherSnedecorF, self).sf(u, df, nodes, FWHM, withBonf)
 	def sf0d(self, u, df):
+		from scipy import stats
 		return stats.f.sf(u, df[0], df[1])
 
 
 @add_docstrings('T2', ndf=2)
 class HotellingsT2(_RFTDistribution):
 	def __init__(self):
-		super(HotellingsT2, self).__init__('T2', 2)
+		super().__init__('T2', 2)
 	def isf(self, alpha, df, nodes, FWHM, withBonf=False):
 		return super(HotellingsT2, self).isf(alpha, df, nodes, FWHM, withBonf)
 	def isf0d(self, alpha, df):
@@ -529,6 +537,7 @@ class HotellingsT2(_RFTDistribution):
 			>>> rft1d.T2.isf0d(0.05, (2,14))
 			>>> rft1d.T2.isf0d([0.01, 0.05, 0.10], (2,14))
 		'''
+		from scipy import stats
 		p,m    = map(float,df)
 		df_F   = p, m - p + 1
 		fstar  = stats.f.isf(alpha, df_F[0], df_F[1])
@@ -549,6 +558,7 @@ class HotellingsT2(_RFTDistribution):
 
 			>>> rft1d.T2.sf0d([0,1,2], (2,14))
 		'''
+		from scipy import stats
 		p,m    = map(float,df)
 		if isinstance(u, (int,float)):
 			uF = u * ( (m-p+1)/(p*m) )

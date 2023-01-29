@@ -70,11 +70,11 @@ def test_random_100():
 
 
 
-# about 6-7 min to run
-@pytest.mark.slow
-def test_all():
-	for i in range( mgr.ncases ):
-		case = mgr.get_single_case_by_index( i )
-		case.test()
+# # about 6-7 min to run
+# @pytest.mark.slow
+# def test_all():
+# 	for i in range( mgr.ncases ):
+# 		case = mgr.get_single_case_by_index( i )
+# 		case.test()
 
 

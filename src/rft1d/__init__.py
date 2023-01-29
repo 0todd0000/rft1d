@@ -1,7 +1,13 @@
 
-__version__  = '0.2.0'   # (2022.12.14)
+__version__  = '0.2.1'   # (2023.01.29)
 
-from . import data, distributions, geom, prob, random
+__all__ = ['data', 'distributions', 'geom', 'prob', 'random']
+
+from . import data
+from . import distributions
+from . import geom
+from . import prob
+from . import random
 
 randn1d      = random.randn1d
 multirandn1d = random.multirandn1d

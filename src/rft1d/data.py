@@ -7,11 +7,8 @@ Current datasets include:
 	* Weather (Ramsay & Silverman, 2005)
 '''
 
-# Copyright (C) 2016  Todd Pataky
+# Copyright (C) 2023  Todd Pataky
 
-import os
-import numpy as np
-from scipy.io import loadmat
 
 
 
@@ -49,6 +46,9 @@ def weather():
 	>>> from matplotlib import pyplot
 	>>> pyplot.plot(y.T)
 	'''
+	import os
+	import numpy as np
+	from scipy.io import loadmat
 	fname    = os.path.join(os.path.dirname(__file__), 'data', 'weather', 'daily.mat')
 	M        = loadmat(fname)
 	Y        = M['tempav'].T

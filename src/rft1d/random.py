@@ -7,13 +7,13 @@ If a large number of random fields are required (e.g. for RFT validations)
 it may be more efficient to use the **Generator1D** and **GeneratorMulti1D** classes.
 '''
 
-# Copyright (C) 2016  Todd Pataky
+# Copyright (C) 2023  Todd Pataky
 
 
 
 from math import sqrt,log
 import numpy as np
-from scipy.ndimage import gaussian_filter1d
+# from scipy.ndimage import gaussian_filter1d
 
 
 eps        = np.finfo(float).eps   #smallest float
@@ -126,6 +126,7 @@ class Generator1D(object):
 		self.i1     = int(self.i1)
 
 	def _smooth(self, y):
+		from scipy.ndimage import gaussian_filter1d
 		return self.SCALE*gaussian_filter1d(y, self.SD, axis=1, mode='wrap')
 	
 	def generate_sample(self):

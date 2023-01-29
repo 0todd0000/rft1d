@@ -5,14 +5,15 @@ The core RFT computations are conducted inside **prob.rft**, and the
 **RFTCalculator** class serves as a high-level interface to **prob.rft**
 '''
 
-# Copyright (C) 2022  Todd Pataky
+# Copyright (C) 2023  Todd Pataky
 
 
 
 from math import pi,log,sqrt,exp
 import numpy as np
-from scipy import stats,optimize
-from scipy.special import gammaln,gamma
+# from scipy import stats
+# from scipy.special import gammaln,gamma
+# from scipy.special import gammaln
 from . import geom
 
 # CONSTANTS:
@@ -54,8 +55,10 @@ def p_bonferroni(STAT, z, df, Q, n=1):
 		>>> rft1d.prob.p_bonferroni('Z', 3.1, None, 101) #yields 0.098
 	
 	'''
+	from scipy import stats
 	if STAT=='Z':
-		p     = stats.norm.sf(z)
+		p     = 1 - stats.norm.cdf(z)
+		# p     = stats.norm.sf(z)
 	if STAT=='T':
 		p     = stats.t.sf(z, df[1])
 	elif STAT=='F':
@@ -89,7 +92,9 @@ def _replaceWith0DpValueIfPossible(STAT, P, c, csize, z, df, Q, n=1):
 		return P
 
 def ec_density_Z(z):
+	from scipy import stats
 	ec0d        = 1 - stats.norm.cdf(z)
+	# ec0d        = stats.norm.sf(z)
 	ec1d        = SQRT_4LOG2 / TWO_PI   *  exp(-0.5*(z*z))
 	return [ec0d, ec1d]
 
@@ -99,16 +104,20 @@ def ec_density_T(z, df):
 	Reference:  Worsley KJ et al. (1996) Hum Brain Mapp 4:58-73
 	Reference:  Worsley KJ et al. (2004) [Eqn.2 and Table 2]
 	'''
+	from scipy import stats
+	from scipy.special import gammaln
 	v    = float(df[1])
 	a    = FOUR_LOG2
 	b    = np.exp((gammaln((v+1)/2) - gammaln(v/2)))
 	c    = (1+z**2/v)**((1-v)/2)
 	EC   = []
-	EC.append(  1 - stats.t.cdf(z,v)  )  #dim: 0
+	EC.append(  stats.t.sf(z,v)  )  #dim: 0
 	EC.append(  a**0.5 / TWO_PI * c  )   #dim: 1
 	return EC
 
 def ec_density_F(z, df):
+	from scipy import stats
+	from scipy.special import gammaln
 	if z<0:   
 		return [1, np.inf]    #to bypass warnings in critical threshold calculation
 	k,v  = map(float, df)
@@ -121,6 +130,8 @@ def ec_density_F(z, df):
 	return EC
 
 def ec_density_X2(z, df):
+	from scipy import stats
+	from scipy.special import gammaln
 	v    = float(df[1])
 	a    = FOUR_LOG2 / TWO_PI
 	b    = z ** ((v-1)/2)  * np.exp(-z/2 -gammaln(v/2))  /  (2**((v-2)/2))
@@ -151,6 +162,7 @@ def ec_density(STAT, z, df):
 def poisson_cdf(a, b):
 	# return stats.poisson.cdf(a, b)
 	# returns zero when b<0 to matches spm8 results
+	from scipy import stats
 	if b <= 0:
 		p   = 0.0
 	else:
@@ -274,6 +286,8 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 		EM   = R*EC
 		EN   = EC[0]*R[-1]
 	else:
+		from scipy.special import gamma
+		# from math import gamma
 		### SLOW CODE -- but useful for D>1  (following spm8)
 		# P = np.linalg.matrix_power( np.triu(linalg.toeplitz(EC*G)), n )
 		# P = P[0,]
@@ -295,6 +309,8 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 	if (k==0) or (D==0):
 		p    = 1.0
 	else:
+		# from math import gamma
+		from scipy.special import gamma
 		beta = (gamma(0.5*D+1)/Ek) **(2/D)
 		p    = np.exp( -beta*(k**(2/D)) )
 	#Poisson clumping heuristic (for multiple clusters)
@@ -322,6 +338,7 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 ################################
 
 def _approx_threshold(STAT, alpha, df, resels, n):
+	from scipy import stats
 	# if two_tailed:
 	# 	alpha   = 0.5*alpha
 	a   = (alpha/sum(resels))**(1.0/n)
@@ -346,13 +363,14 @@ def isf(STAT, alpha, df, resels, n, Q=None, version='spm12'):
 	'''
 	Inverse survival function
 	'''
+	from scipy.optimize import fmin
 	if isinstance(alpha, (int,float)):
 		alpha       = [alpha]
 	zstar = []
 	for aaa in alpha:
 		z0    = _approx_threshold(STAT, aaa, df, resels, n)
 		fn    = lambda x : (rft(1, 0, STAT, x[0], df, resels, n, Q, False, version)[0] - aaa)**2
-		zzz   = optimize.fmin(fn, z0, xtol=1e-9, disp=0)[0]
+		zzz   = fmin(fn, z0, xtol=1e-9, disp=0)[0]
 		zstar.append(zzz)
 	return np.asarray(zstar)
 
