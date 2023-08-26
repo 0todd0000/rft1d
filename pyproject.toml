@@ -1,6 +1,6 @@
 [project]
 name            = "rft1d"
-version         = "0.2.1"
+version         = "0.2.2"
 description     = "'One-Dimensional Random Field Theory"
 readme          = "README.md"
 requires-python = ">=3.7"

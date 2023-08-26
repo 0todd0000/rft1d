@@ -1,5 +1,5 @@
 
-'''
+r'''
 SciPy-like interface to 1D RFT distributions.
 Currently implemented distributions include:
 
