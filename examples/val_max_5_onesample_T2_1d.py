@@ -4,15 +4,17 @@ import matplotlib.pyplot as plt
 import rft1d
 
 
+
 def here_hotellingsT2(y):
-	N       = y.shape[0]
-	m       = np.matrix(  y.mean(axis=0) )
-	T2      = []
-	for ii,mm in enumerate(m):
-		W   = np.matrix( np.cov(y[:,ii,:].T, ddof=1) )  #estimated covariance
-		t2  = N * mm * np.linalg.inv(W) * mm.T
-		T2.append(  float(t2)  )
-	return np.asarray(T2)
+    N       = y.shape[0]
+    m       = y.mean(axis=0)
+    T2      = []
+    for ii,mm in enumerate(m):
+        W   = np.cov(y[:,ii,:].T, ddof=1)  #estimated covariance
+        t2  = N * mm @ np.linalg.inv(W) @ mm.T
+        T2.append(  float(t2)  )
+    return np.asarray(T2)
+
 
 
 
@@ -33,9 +35,9 @@ df          = nComponents, nResponses-1   #p,m
 T2          = []
 generator   = rft1d.random.GeneratorMulti1D(nResponses, nNodes, nComponents, FWHM, W0)
 for i in range(nIterations):
-	y       = generator.generate_sample()
-	t2      = here_hotellingsT2(y)
-	T2.append( t2.max() )
+    y       = generator.generate_sample()
+    t2      = here_hotellingsT2(y)
+    T2.append( t2.max() )
 T2          = np.asarray(T2)
 
 
@@ -53,7 +55,7 @@ ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.plot(heights, sf0D, 'r-', label='Theoretical (0D)')
 ax.set_xlabel('$u$', size=20)
-ax.set_ylabel('$P (T^2_\mathrm{max} > u)$', size=20)
+ax.set_ylabel('$P (T^2_\\mathrm{max} > u)$', size=20)
 ax.legend()
 ax.set_title("One-sample Hotelling's T2 validation (1D)", size=20)
 plt.show()

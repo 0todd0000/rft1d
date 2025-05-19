@@ -5,22 +5,17 @@ import rft1d
 
 
 def tstat_regress(Y, x):
-	X      = np.ones((Y.shape[0],2))
-	X[:,0] = x
-	### assemble data:
-	Y      = np.matrix(Y)
-	X      = np.matrix(X)
-	c      = np.matrix([1,0]).T
-	### solve:
-	b      = np.linalg.pinv(X)*Y            #parameters
-	eij    = Y - X*b                        #residuals
-	R      = eij.T*eij                      #residuals sum of squares
-	df     = Y.shape[0] - 2                 #degrees of freedom
-	sigma2 = np.diag(R)/df                  #variance
-	### compute t statistic
-	t = np.array(c.T*b).flatten()  /   np.sqrt(sigma2*float(c.T*(np.linalg.inv(X.T*X))*c))
-	return t
-
+    X      = np.ones((Y.shape[0],2))
+    X[:,0] = x
+    c      = [1,0]
+    ### solve:
+    b      = np.linalg.pinv(X) @ Y          #parameters
+    eij    = Y - X @ b                      #residuals
+    R      = eij.T @ eij                    #residuals sum of squares
+    df     = Y.shape[0] - 2                 #degrees of freedom
+    sigma2 = np.diag(R)/df                  #variance
+    ### compute t statistic
+    return np.array(c@b).flatten()  /   np.sqrt(sigma2*float(c@(np.linalg.inv(X.T@X))@c))
 
 
 
@@ -59,7 +54,7 @@ ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.plot(heights, sf0D, 'r-', label='Theoretical (0D)')
 ax.set_xlabel('$u$', size=20)
-ax.set_ylabel('$P (t_\mathrm{max} > u)$', size=20)
+ax.set_ylabel('$P (t_\\mathrm{max} > u)$', size=20)
 ax.legend()
 ax.set_title('Linear regression validation (1D)', size=20)
 plt.show()

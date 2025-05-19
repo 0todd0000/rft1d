@@ -9,14 +9,15 @@ eps         = np.finfo(float).eps
 
 
 def here_hotellingsT2(y):
-	N       = y.shape[0]
-	m       = np.matrix(  y.mean(axis=0) )
-	T2      = []
-	for ii,mm in enumerate(m):
-		W   = np.matrix( np.cov(y[:,ii,:].T, ddof=1) )  #estimated covariance
-		t2  = N * mm * np.linalg.inv(W) * mm.T
-		T2.append(  float(t2)  )
-	return np.asarray(T2)
+    N       = y.shape[0]
+    m       = y.mean(axis=0)
+    T2      = []
+    for ii,mm in enumerate(m):
+        W   = np.cov(y[:,ii,:].T, ddof=1)  #estimated covariance
+        t2  = N * mm @ np.linalg.inv(W) @ mm.T
+        T2.append(  float(t2)  )
+    return np.asarray(T2)
+
 
 
 
@@ -44,9 +45,9 @@ rftcalc      = rft1d.prob.RFTCalculator(STAT='T2', df=df, nodes=nNodes, FWHM=FWH
 T2          = []
 generator   = rft1d.random.GeneratorMulti1D(nResponses, nNodes, nComponents, FWHM, W0)
 for i in range(nIterations):
-	y       = generator.generate_sample()
-	t2      = here_hotellingsT2(y)
-	T2.append( t2  )
+    y       = generator.generate_sample()
+    t2      = here_hotellingsT2(y)
+    T2.append( t2  )
 T2          = np.asarray(T2)
 
 
@@ -65,8 +66,8 @@ colors  = ['b', 'g', 'r', 'orange']
 labels  = ['u = %.1f'%h for h in heights]
 ax      = plt.axes()
 for color,p,p0,label in zip(colors,P,P0,labels):
-	ax.plot(K0, p,  'o', color=color)
-	ax.plot(K0, p0, '-', color=color, label=label)
+    ax.plot(K0, p,  'o', color=color)
+    ax.plot(K0, p0, '-', color=color, label=label)
 ax.plot([0,1],[10,10], 'k-', label='Theoretical')
 ax.plot([0,1],[10,10], 'ko-', label='Simulated')
 ax.set_xlabel('x', size=16)

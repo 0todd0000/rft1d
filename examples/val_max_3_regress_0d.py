@@ -7,22 +7,18 @@ import matplotlib.pyplot as plt
 
 
 def tstat_regress(Y, x):
-	Y      = np.array([Y]).T
-	X      = np.ones((Y.shape[0],2))
-	X[:,0] = x
-	### assemble data:
-	Y      = np.matrix(Y)
-	X      = np.matrix(X)
-	c      = np.matrix([1,0]).T
-	### solve:
-	b      = np.linalg.pinv(X)*Y            #parameters
-	eij    = Y - X*b                        #residuals
-	R      = eij.T*eij                      #residuals sum of squares
-	df     = Y.shape[0] - 2                 #degrees of freedom
-	sigma2 = np.diag(R)/df                  #variance
-	### compute t statistic
-	return np.array(c.T*b).flatten()  /   np.sqrt(sigma2*float(c.T*(np.linalg.inv(X.T*X))*c))
-
+    Y      = np.array([Y]).T
+    X      = np.ones((Y.shape[0],2))
+    X[:,0] = x
+    c      = [1,0]
+    ### solve:
+    b      = np.linalg.pinv(X) @ Y          #parameters
+    eij    = Y - X @ b                      #residuals
+    R      = eij.T @ eij                    #residuals sum of squares
+    df     = Y.shape[0] - 2                 #degrees of freedom
+    sigma2 = np.diag(R)/df                  #variance
+    ### compute t statistic
+    return np.array(c@b).flatten()  /   np.sqrt(sigma2*float(c@(np.linalg.inv(X.T@X))@c))
 
 
 
@@ -38,9 +34,9 @@ df          = nResponses - 2
 #(1) Generate random data and compute test statistic:
 T           = []
 for i in range(nIterations):
-	y       = np.random.randn(nResponses)
-	t       = tstat_regress(y, x)
-	T.append(t)
+    y       = np.random.randn(nResponses)
+    t       = tstat_regress(y, x)
+    T.append(t)
 T           = np.asarray(T)
 
 

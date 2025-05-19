@@ -4,18 +4,18 @@ import matplotlib.pyplot as plt
 import rft1d
 
 def here_hotellingsT2(y):
-	N       = y.shape[0]
-	m       = np.matrix(  y.mean(axis=0) )
-	T2      = []
-	for ii,mm in enumerate(m):
-		W   = np.matrix( np.cov(y[:,ii,:].T, ddof=1) )  #estimated covariance
-		t2  = N * mm * np.linalg.inv(W) * mm.T
-		T2.append(  float(t2)  )
-	return np.asarray(T2)
+    N       = y.shape[0]
+    m       = y.mean(axis=0)
+    T2      = []
+    for ii,mm in enumerate(m):
+        W   = np.cov(y[:,ii,:].T, ddof=1)  #estimated covariance
+        t2  = N * mm @ np.linalg.inv(W) @ mm.T
+        T2.append(  float(t2)  )
+    return np.asarray(T2)
 
 
-	
-	
+
+
 
 #(0) Set parameters:
 np.random.seed(0)
@@ -39,9 +39,9 @@ nodes[60:85]    = False
 generator   = rft1d.random.GeneratorMulti1D(nResponses, nodes, nComponents, FWHM, W0)
 T2          = []
 for i in range(nIterations):
-	y       = generator.generate_sample()
-	t2      = here_hotellingsT2(y)
-	T2.append( np.nanmax(t2) )
+    y       = generator.generate_sample()
+    t2      = here_hotellingsT2(y)
+    T2.append( np.nanmax(t2) )
 T2          = np.array(T2)
 
 
@@ -62,7 +62,7 @@ ax.plot(heights, sfE_full,   'b-', label='Theoretical (full)')
 ax.plot(heights, sfE_broken, 'r-', label='Theoretical (broken)')
 ax.plot(heights, sf,         'ro', label='Simulated (broken)')
 ax.set_xlabel('x', size=16)
-ax.set_ylabel('$P (T^2_\mathrm{max} > x)$', size=20)
+ax.set_ylabel('$P (T^2_\\mathrm{max} > x)$', size=20)
 ax.legend()
 ax.set_title('Broken field validation ($T^2$)', size=20)
 plt.show()

@@ -4,16 +4,16 @@ import matplotlib.pyplot as plt
 import rft1d
 
 
-def here_hotellingsT2(y):
-	N       = y.shape[0]
-	m       = np.matrix(  y.mean(axis=0) )
-	T2      = []
-	for ii,mm in enumerate(m):
-		W   = np.matrix( np.cov(y[:,ii,:].T, ddof=1) )  #estimated covariance
-		t2  = N * mm * np.linalg.inv(W) * mm.T
-		T2.append(  float(t2)  )
-	return np.asarray(T2)
 
+def here_hotellingsT2(y):
+    N       = y.shape[0]
+    m       = y.mean(axis=0)
+    T2      = []
+    for ii,mm in enumerate(m):
+        W   = np.cov(y[:,ii,:].T, ddof=1)  #estimated covariance
+        t2  = N * mm @ np.linalg.inv(W) @ mm.T
+        T2.append(  float(t2)  )
+    return np.asarray(T2)
 
 
 
@@ -41,13 +41,13 @@ rftcalc         = rft1d.prob.RFTCalculator(STAT='T2', df=df, nodes=nNodes, FWHM=
 T2max       = []
 generator   = rft1d.random.GeneratorMulti1D(nResponses, nNodes, nComponents, FWHM, W0)
 for i in range(nIterations):
-	T2      = []
-	for i in range(nTestStatFields):
-		y   = generator.generate_sample()
-		t2  = here_hotellingsT2(y)
-		T2.append( t2 )
-	T2conj  = np.min(T2, axis=0)  #minimum across the test stat fields
-	T2max.append(  T2conj.max()  )
+    T2      = []
+    for i in range(nTestStatFields):
+        y   = generator.generate_sample()
+        t2  = here_hotellingsT2(y)
+        T2.append( t2 )
+    T2conj  = np.min(T2, axis=0)  #minimum across the test stat fields
+    T2max.append(  T2conj.max()  )
 T2max       = np.array(T2max)
 
 
@@ -65,7 +65,7 @@ ax          = plt.axes()
 ax.plot(heights, sf,   'o',  label='Simulated')
 ax.plot(heights, sfE,  '-',  label='Theoretical')
 ax.set_xlabel('$u$', size=20)
-ax.set_ylabel('$P(T^2_\mathrm{conj} > u)$', size=20)
+ax.set_ylabel('$P(T^2_\\mathrm{conj} > u)$', size=20)
 ax.legend()
 ax.set_title('Conjunction validation ($T^2$ fields)', size=20)
 plt.show()
