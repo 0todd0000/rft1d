@@ -19,12 +19,11 @@ df          = nComponents, nResponses-1   #p,m
 #(1) Generate random data and compute test statistic:
 T2          = []
 for i in range(nIterations):
-	y       = np.random.multivariate_normal(np.zeros(nComponents), W0, nResponses)
-	y       = np.matrix(y)
-	m       = y.mean(axis=0)  #estimated mean
-	W       = np.matrix( np.cov(y.T, ddof=1) )  #estimated covariance
-	t2      = nResponses * m * np.linalg.inv(W) * m.T
-	T2.append(float(t2))
+    y       = np.random.multivariate_normal(np.zeros(nComponents), W0, nResponses)
+    m       = y.mean(axis=0)  #estimated mean
+    W       = np.cov(y.T, ddof=1)  #estimated covariance
+    t2      = nResponses * m @ np.linalg.inv(W) @ m.T
+    T2.append(float(t2))
 T2          = np.asarray(T2)
 
 

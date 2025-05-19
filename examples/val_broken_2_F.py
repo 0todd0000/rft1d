@@ -6,32 +6,30 @@ import rft1d
 eps           = np.finfo(float).eps
 
 def here_anova1(Y, X, X0, Xi, X0i, df):
-	Y         = np.matrix(Y)
-	### estimate parameters:
-	b         = Xi*Y
-	eij       = Y - X*b
-	R         = eij.T*eij
-	### reduced design:
-	b0        = X0i*Y
-	eij0      = Y - X0*b0
-	R0        = eij0.T*eij0
-	### compute F statistic:
-	F         = ((np.diag(R0)-np.diag(R))/df[0]) / (np.diag(R+eps)/df[1])
-	return F
+    ### estimate parameters:
+    b         = Xi @ Y
+    eij       = Y - X @ b
+    R         = eij.T @ eij
+    ### reduced design:
+    b0        = X0i @ Y
+    eij0      = Y - X0 @ b0
+    R0        = eij0.T @ eij0
+    ### compute F statistic:
+    F         = ((np.diag(R0)-np.diag(R))/df[0]) / (np.diag(R+eps)/df[1])
+    return F
 
 def here_design_matrices(nResponses, nGroups):
-	nTotal    = sum(nResponses)
-	X         = np.zeros((nTotal,nGroups))
-	i0        = 0
-	for i,n in enumerate(nResponses):
-		X[i0:i0+n,i] = 1
-		i0   += n
-	X         = np.matrix(X)
-	X0        = np.matrix(np.ones(nTotal)).T  #reduced design matrix
-	Xi,X0i    = np.linalg.pinv(X), np.linalg.pinv(X0) #pseudo-inverses
-	return X,X0,Xi,X0i
-	
-	
+    nTotal    = sum(nResponses)
+    X         = np.zeros((nTotal,nGroups))
+    i0        = 0
+    for i,n in enumerate(nResponses):
+        X[i0:i0+n,i] = 1
+        i0   += n
+    X0        = np.ones((nTotal,1))
+    Xi,X0i    = np.linalg.pinv(X), np.linalg.pinv(X0) #pseudo-inverses
+    return X,X0,Xi,X0i
+
+
 
 #(0) Set parameters:
 np.random.seed(0)
@@ -56,9 +54,9 @@ nodes[60:85]    = False
 generator   = rft1d.random.Generator1D(nTotal, nodes, FWHM)
 F           = []
 for i in range(nIterations):
-	y       = generator.generate_sample()
-	f       = here_anova1(y, X, X0, Xi, X0i, df)
-	F.append( np.nanmax(f) )
+    y       = generator.generate_sample()
+    f       = here_anova1(y, X, X0, Xi, X0i, df)
+    F.append( np.nanmax(f) )
 F           = np.array(F)
 
 
@@ -79,7 +77,7 @@ ax.plot(heights, sfE_full,   'b-', label='Theoretical (full)')
 ax.plot(heights, sfE_broken, 'r-', label='Theoretical (broken)')
 ax.plot(heights, sf,         'ro', label='Simulated (broken)')
 ax.set_xlabel('x', size=16)
-ax.set_ylabel('$P (F_\mathrm{max} > x)$', size=20)
+ax.set_ylabel('$P (F_\\mathrm{max} > x)$', size=20)
 ax.legend()
 ax.set_title('Broken field validation (F)', size=20)
 plt.show()

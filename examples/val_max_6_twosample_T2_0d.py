@@ -17,18 +17,18 @@ nTotal        = nResponsesA + nResponsesB
 df            = nComponents, float(nTotal-2)
 
 
+
 #(1) Generate random data and compute test statistic:
 T2            = []
 JA,JB         = nResponsesA, nResponsesB
 for i in range(nIterations):
-	yA        = np.random.multivariate_normal(np.zeros(nComponents), W0, JA)
-	yB        = np.random.multivariate_normal(np.zeros(nComponents), W0, JB)
-	yA,yB     = np.matrix(yA), np.matrix(yB)
-	mA,mB     = yA.mean(axis=0), yB.mean(axis=0)  #means
-	WA,WB     = np.cov(yA.T), np.cov(yB.T)
-	W         = ((JA-1)*WA + (JB-1)*WB) / (JA+JB-2)
-	t2        = (JA*JB)/float(JA+JB)  * (mB-mA) * np.linalg.inv(W) * (mB-mA).T
-	T2.append(float(t2))
+    yA        = np.random.multivariate_normal(np.zeros(nComponents), W0, JA)
+    yB        = np.random.multivariate_normal(np.zeros(nComponents), W0, JB)
+    mA,mB     = yA.mean(axis=0), yB.mean(axis=0)  #means
+    WA,WB     = np.cov(yA.T), np.cov(yB.T)
+    W         = ((JA-1)*WA + (JB-1)*WB) / (JA+JB-2)
+    t2        = (JA*JB)/float(JA+JB)  * (mB-mA) @ np.linalg.inv(W) @ (mB-mA).T
+    T2.append(float(t2))
 T2            = np.asarray(T2)
 
 

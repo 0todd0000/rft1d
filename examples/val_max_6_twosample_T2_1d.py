@@ -3,19 +3,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 import rft1d
 
-def here_hotellingsT2_2samp(yA, yB):
-	NA,NB   = float(yA.shape[0]), float(yB.shape[0])
-	N       = NA + NB
-	mA,mB   = np.matrix(yA.mean(axis=0)), np.matrix(yB.mean(axis=0))
-	T2      = []
-	for ii,(mmA,mmB) in enumerate(zip(mA,mB)):
-		yyA,yyB = np.matrix(yA[:,ii,:]), np.matrix(yB[:,ii,:])
-		WA,WB   = np.cov(yyA.T), np.cov(yyB.T)
-		W       = ((NA-1)*WA + (NB-1)*WB) / (N-2)
-		t2      = (NA*NB)/float(NA+NB)  * (mmB-mmA) * np.linalg.inv(W) * (mmB-mmA).T
-		T2.append(  float(t2)  )
-	return np.asarray(T2)
 
+
+def here_hotellingsT2_2samp(yA, yB):
+    NA,NB   = float(yA.shape[0]), float(yB.shape[0])
+    N       = NA + NB
+    mA,mB   = yA.mean(axis=0), yB.mean(axis=0)
+    T2      = []
+    for ii,(mmA,mmB) in enumerate(zip(mA,mB)):
+        yyA,yyB = yA[:,ii,:], yB[:,ii,:]
+        WA,WB   = np.cov(yyA.T), np.cov(yyB.T)
+        W       = ((NA-1)*WA + (NB-1)*WB) / (N-2)
+        t2      = (NA*NB)/float(NA+NB)  * (mmB-mmA) @ np.linalg.inv(W) @ (mmB-mmA).T
+        T2.append(  float(t2)  )
+    return np.asarray(T2)
 
 
 
@@ -38,10 +39,10 @@ T2          = []
 generatorA  = rft1d.random.GeneratorMulti1D(nResponsesA, nNodes, nComponents, FWHM, W0)
 generatorB  = rft1d.random.GeneratorMulti1D(nResponsesB, nNodes, nComponents, FWHM, W0)
 for i in range(nIterations):
-	yA      = generatorA.generate_sample()
-	yB      = generatorA.generate_sample()
-	t2      = here_hotellingsT2_2samp(yA, yB)
-	T2.append(  t2.max()  )
+    yA      = generatorA.generate_sample()
+    yB      = generatorA.generate_sample()
+    t2      = here_hotellingsT2_2samp(yA, yB)
+    T2.append(  t2.max()  )
 T2          = np.asarray(T2)
 
 
@@ -59,7 +60,7 @@ ax.plot(heights, sf, 'o', label='Simulated')
 ax.plot(heights, sfE, '-', label='Theoretical')
 ax.plot(heights, sf0D, 'r-', label='Theoretical (0D)')
 ax.set_xlabel('$u$', size=20)
-ax.set_ylabel('$P (T^2_\mathrm{max} > u)$', size=20)
+ax.set_ylabel('$P (T^2_\\mathrm{max} > u)$', size=20)
 ax.legend()
 ax.set_title("Two-sample Hotelling's T2 validation (1D)", size=20)
 plt.show()

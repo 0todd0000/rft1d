@@ -22,14 +22,14 @@ df          = nA + nB - 2
 #(1) Generate Gaussian 1D fields, compute test stat, store field maximum:
 T         = []
 for i in range(nIterations):
-	y     = rft1d.randn1d(nTotal, nNodes, FWHM)
-	#compute test stat:
-	yA,yB = y[:nA], y[nA:]
-	mA,mB = yA.mean(axis=0), yB.mean(axis=0)
-	sA,sB = yA.std(ddof=1, axis=0), yB.std(ddof=1, axis=0)
-	s     = np.sqrt(    ((nA-1)*sA*sA + (nB-1)*sB*sB)  /  df     )
-	t     = (mA-mB) / ( s *np.sqrt(1.0/nA + 1.0/nB))
-	T.append( t.max() )
+    y     = rft1d.randn1d(nTotal, nNodes, FWHM)
+    #compute test stat:
+    yA,yB = y[:nA], y[nA:]
+    mA,mB = yA.mean(axis=0), yB.mean(axis=0)
+    sA,sB = yA.std(ddof=1, axis=0), yB.std(ddof=1, axis=0)
+    s     = np.sqrt(    ((nA-1)*sA*sA + (nB-1)*sB*sB)  /  df     )
+    t     = (mA-mB) / ( s *np.sqrt(1.0/nA + 1.0/nB))
+    T.append( t.max() )
 T         = np.asarray(T)
 
 

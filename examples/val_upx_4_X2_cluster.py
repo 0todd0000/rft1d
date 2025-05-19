@@ -9,33 +9,42 @@ eps            = np.finfo(float).eps
 
 
 def here_cca_single_node(y, x):
-	N          = y.shape[0]
-	X,Y        = np.matrix(x.T).T, np.matrix(y)
-	Z          = np.matrix(np.ones(N)).T
-	Rz         = np.eye(N) - Z*np.linalg.inv(Z.T*Z)*Z.T
-	XStar      = Rz * X
-	YStar      = Rz * Y
-	p,r        = 1.0, 1.0   #nContrasts, nNuisanceFactors
-	m          = N - p - r
-	H          = YStar.T * XStar  *  np.linalg.inv( XStar.T * XStar  )  * XStar.T * YStar / p
-	W          = YStar.T  * (np.eye(nResponses)  -  XStar*np.linalg.inv(XStar.T*XStar)*XStar.T) * YStar  / m
-	#estimate maximum canonical correlation:
-	F          = np.linalg.inv(W)*H
-	ff         = np.linalg.eigvals(  F  )
-	fmax       = float( np.real(ff.max()) )
-	r2max      = fmax * p  / (m + fmax*p)
-	rmax       = sqrt(r2max)
-	### compute test statistic:
-	p,m        = float(N), float(y.shape[1])
-	x2         = -(p-1-0.5*(m+2)) * log(  (1-rmax**2) )
-	return x2
+    N          = y.shape[0]
+    # X,Y        = np.array(x), np.array(y)
+    X          = x[:,np.newaxis] if x.ndim==1 else x
+    Y          = y[:,np.newaxis] if y.ndim==1 else y
+    Z          = np.ones((N,1))
+    Rz         = np.eye(N) - Z @ np.linalg.inv(Z.T@Z) @ Z.T
+    XStar      = Rz @ X
+    YStar      = Rz @ Y
+    p,r        = 1.0, 1.0   #nContrasts, nNuisanceFactors
+    m          = N - p - r
+    H          = YStar.T @ XStar  @  np.linalg.inv( XStar.T @ XStar  )  @ XStar.T @ YStar / p
+    W          = YStar.T  @ (np.eye(nResponses)  -  XStar@np.linalg.inv(XStar.T@XStar)@XStar.T) @ YStar  / m
+    #estimate maximum canonical correlation:
+    F          = np.linalg.inv(W) @ H
+    ff         = np.linalg.eigvals(  F  )
+    fmax       = float( np.real(ff.max()) )
+    r2max      = fmax * p  / (m + fmax*p)
+    rmax       = sqrt(r2max)
+    ### compute test statistic:
+    p,m        = float(N), float(y.shape[1])
+    x2         = -(p-1-0.5*(m+2)) * log(  (1-rmax**2) )
+    return x2
+
 
 
 def here_cca(y, x):
-	Q  = y.shape[1]
-	z  = [here_cca_single_node(y[:,q,:], x)   for q in range(Q)]
-	return np.array(z)
-
+    Q  = y.shape[1]
+    b  = np.any(np.isnan(y), axis=0)[:,0]
+    z  = []
+    for q in range(Q):
+        yy  = y[:,q,:]
+        if np.any(np.isnan(yy)):
+            z.append(0)
+        else:
+            z.append(   here_cca_single_node(yy, x)  )
+    return np.array(z)
 
 
 #(0) Set parameters:
@@ -62,9 +71,9 @@ rftcalc      = rft1d.prob.RFTCalculator(STAT='X2', df=(1,df), nodes=nNodes, FWHM
 X2          = []
 generator   = rft1d.random.GeneratorMulti1D(nResponses, nNodes, nComponents, FWHM, W0)
 for i in range(nIterations):
-	y       = generator.generate_sample()
-	chi2    = here_cca(y, x)
-	X2.append( chi2  )
+    y       = generator.generate_sample()
+    chi2    = here_cca(y, x)
+    X2.append( chi2  )
 X2          = np.asarray(X2)
 
 
@@ -83,13 +92,13 @@ colors  = ['b', 'g', 'r', 'orange']
 labels  = ['u = %.1f'%h for h in heights]
 ax      = plt.axes()
 for color,p,p0,label in zip(colors,P,P0,labels):
-	ax.plot(K0, p,  'o', color=color)
-	ax.plot(K0, p0, '-', color=color, label=label)
+    ax.plot(K0, p,  'o', color=color)
+    ax.plot(K0, p0, '-', color=color, label=label)
 ax.plot([0,1],[10,10], 'k-', label='Theoretical')
 ax.plot([0,1],[10,10], 'ko-', label='Simulated')
 ax.set_xlabel('x', size=16)
 ax.set_ylabel('P(k_max) > x', size=16)
 ax.set_ylim(0, 0.30)
 ax.legend()
-ax.set_title('Upcrossing extent validations ($\chi^2$ fields)', size=20)
+ax.set_title('Upcrossing extent validations ($\\chi^2$ fields)', size=20)
 plt.show()
