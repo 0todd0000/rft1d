@@ -3,6 +3,7 @@
 [![Scipy](https://img.shields.io/badge/SciPy-654FF0?style=for-the-badge&logo=SciPy&logoColor=white)](https://scipy.org)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 ![version](https://img.shields.io/badge/version-0.2.4-blue)
+![downloads](https://static.pepy.tech/badge/rft1d/month)
 
 rft1d
 =====
@@ -19,7 +20,7 @@ observed in experimentally measured 1D continua including scalar and vector time
 
 Pataky TC (2016) RFT1D: Smooth One-Dimensional Random Field Upcrossing Probabilities in Python.
 <b>Journal of Statistical Software</b> 71(7): 1-22. https://doi.org/10.18637/jss.v071.i07
- 
+
 Documentation is available at:
 [www.spm1d.org/rft1d](http://spm1d.org/rft1d)
 
