@@ -1,26 +1,26 @@
 
 import numpy as np
 from scipy import stats,optimize
-import matplotlib.pyplot as plt,cm
+import matplotlib.pyplot as plt
 import rft1d
 
 
 
 
-### EPS production preliminaries:
-fig_width_mm  = 100
-fig_height_mm = 80
-mm2in = 1/25.4
-fig_width  = fig_width_mm*mm2in  	# width in inches
-fig_height = fig_height_mm*mm2in    # height in inches
-params = {	'backend':'ps', 'axes.labelsize':14,
-			'font.size':12, 'text.usetex': False, 'legend.fontsize':12,
-			'xtick.labelsize':8, 'ytick.labelsize':8,
-			'font.family':u'Times New Roman',  #Times
-			'lines.linewidth':0.5,
-			'patch.linewidth':0.25,
-			'figure.figsize': [fig_width,fig_height]}
-plt.rcParams.update(params)
+# ### EPS production preliminaries:
+# fig_width_mm  = 100
+# fig_height_mm = 80
+# mm2in = 1/25.4
+# fig_width  = fig_width_mm*mm2in      # width in inches
+# fig_height = fig_height_mm*mm2in    # height in inches
+# params = {    'backend':'ps', 'axes.labelsize':14,
+#             'font.size':12, 'text.usetex': False, 'legend.fontsize':12,
+#             'xtick.labelsize':8, 'ytick.labelsize':8,
+#             'font.family':u'Times New Roman',  #Times
+#             'lines.linewidth':0.5,
+#             'patch.linewidth':0.25,
+#             'figure.figsize': [fig_width,fig_height]}
+# plt.rcParams.update(params)
 
 
 
@@ -38,7 +38,7 @@ for alpha in ALPHAs:
 	objfn  = lambda x: (rft1d.prob.p_bonferroni('Z', x, None, nNodes) - alpha)**2
 	x0     = 5.0
 	ustar  = optimize.fmin(objfn, 5, disp=0)
-	ISFbonf.append( float(ustar) )
+	ISFbonf.append( float(ustar.ravel()[0]) )
 
 
 #(2) Inverse survival function (RFT)

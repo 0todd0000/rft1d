@@ -9,20 +9,20 @@ eps        = np.finfo(float).eps   #smallest float
 
 
 
-### EPS production preliminaries:
-fig_width_mm  = 100
-fig_height_mm = 80
-mm2in = 1/25.4
-fig_width  = fig_width_mm*mm2in  	# width in inches
-fig_height = fig_height_mm*mm2in    # height in inches
-params = {	'backend':'ps', 'axes.labelsize':14,
-			'font.size':12, 'text.usetex': False, 'legend.fontsize':12,
-			'xtick.labelsize':8, 'ytick.labelsize':8,
-			'font.family':'Times New Roman',  #Times
-			'lines.linewidth':0.5,
-			'patch.linewidth':0.25,
-			'figure.figsize': [fig_width,fig_height]}
-plt.rcParams.update(params)
+# ### EPS production preliminaries:
+# fig_width_mm  = 100
+# fig_height_mm = 80
+# mm2in = 1/25.4
+# fig_width  = fig_width_mm*mm2in      # width in inches
+# fig_height = fig_height_mm*mm2in    # height in inches
+# params = {    'backend':'ps', 'axes.labelsize':14,
+#             'font.size':12, 'text.usetex': False, 'legend.fontsize':12,
+#             'xtick.labelsize':8, 'ytick.labelsize':8,
+#             'font.family':'Times New Roman',  #Times
+#             'lines.linewidth':0.5,
+#             'patch.linewidth':0.25,
+#             'figure.figsize': [fig_width,fig_height]}
+# plt.rcParams.update(params)
 
 
 
@@ -68,8 +68,8 @@ ax.plot([0,1],[10,10], 'k-', label='Theoretical')
 ax.plot([0,1],[10,10], 'ko-', label='Simulated', markersize=5)
 ax.legend()
 ### axis labels:
-ax.set_xlabel('$k_\mathrm{min}$', size=16)
-ax.set_ylabel('$P(c | k_\mathrm{min}) >= 2$', size=16)
+ax.set_xlabel(r'$k_\mathrm{min}$', size=16)
+ax.set_ylabel(r'$P(c | k_\mathrm{min}) >= 2$', size=16)
 ax.set_ylim(0, 0.08)
 plt.show()
 
