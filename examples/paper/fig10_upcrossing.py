@@ -56,20 +56,20 @@ def plot_filled(y, ax, thresh=None, plot_thresh=True, color='k', lw=2, facecolor
 
 
 
-### EPS production preliminaries:
-fig_width_mm  = 200
-fig_height_mm = 85
-mm2in = 1/25.4
-fig_width  = fig_width_mm*mm2in  	# width in inches
-fig_height = fig_height_mm*mm2in    # height in inches
-params = {	'backend':'ps', 'axes.labelsize':14,
-			'font.size':12, 'text.usetex': False, 'legend.fontsize':12,
-			'xtick.labelsize':8, 'ytick.labelsize':8,
-			'font.family':'Times New Roman',  #Times
-			'lines.linewidth':0.5,
-			'patch.linewidth':0.25,
-			'figure.figsize': [fig_width,fig_height]}
-plt.rcParams.update(params)
+# ### EPS production preliminaries:
+# fig_width_mm  = 200
+# fig_height_mm = 85
+# mm2in = 1/25.4
+# fig_width  = fig_width_mm*mm2in      # width in inches
+# fig_height = fig_height_mm*mm2in    # height in inches
+# params = {    'backend':'ps', 'axes.labelsize':14,
+#             'font.size':12, 'text.usetex': False, 'legend.fontsize':12,
+#             'xtick.labelsize':8, 'ytick.labelsize':8,
+#             'font.family':'Times New Roman',  #Times
+#             'lines.linewidth':0.5,
+#             'patch.linewidth':0.25,
+#             'figure.figsize': [fig_width,fig_height]}
+# plt.rcParams.update(params)
 
 
 
@@ -104,19 +104,19 @@ for i in ind:
 	ax1.plot([i,i], [h,y[i]], '0.7')
 ax1.text(31, 0.58, 'extent (nodes)', color='w', ha='center', size=14)
 ### label threshold:
-ax0.text(72, 0.4, 'threshold  $u$', color=color0, size=12)
+ax0.text(72, 0.4, r'threshold  $u$', color=color0, size=12)
 ### plot maximum:
 ax0.plot(y.argmax(), y.max(), 'o', markersize=5, markerfacecolor='w', markeredgecolor=color0)
 ax1.plot(y.argmax(), y.max(), 'o', markersize=12, markerfacecolor='w', markeredgecolor=color0)
 ax0.plot([48]*2, [0,y.max()], '-', lw=3, marker='<', color=color0)
-ax0.text(52, y.max(), 'maximum height  $z_{\mathrm{max}}$', color=color0, size=12)
+ax0.text(52, y.max(), r'maximum height  $z_{\mathrm{max}}$', color=color0, size=12)
 ### plot extent:
 ax1.hlines(h, 0, 100, color=color0, linestyle='-', lw=3)
 ax1.plot([24.1,37.9], [0.519]*2, '^-', lw=3, color=color0)
 ax1.text(31, 0.49, 'extent (interpolated)', color=color0, ha='center', size=14)
 ### axes labels:
 [ax.set_xlabel('Field position  (%)')   for ax in AX]
-ax0.text(-0.15, 0.5, '$z$', size=24, transform=ax0.transAxes, rotation=90, va='center')
+ax0.text(-0.15, 0.5, r'$z$', size=24, transform=ax0.transAxes, rotation=90, va='center')
 ### annotate:
 plt.setp(ax0, xlim=(0,100), ylim=(-1.2,1.2))
 plt.setp(ax1, xlim=(23,39), ylim=(0.47,0.92))

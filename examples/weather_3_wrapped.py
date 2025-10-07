@@ -11,7 +11,7 @@ In this case the upcrossings at the start and end of the cycle
 import os
 import numpy as np
 from scipy.io import loadmat
-from scipy.ndimage.filters import gaussian_filter1d
+from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
 
