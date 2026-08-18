@@ -4,21 +4,21 @@ Datasets used by the example scripts.
 This module is deliberately NOT part of the rft1d package -- rft1d itself
 needs no data files.  Scripts in this directory can use it directly:
 
-    >>> import data
-    >>> weather = data.weather()
+    >>> import _rft1d_data
+    >>> weather = _rft1d_data.weather()
 
-and scripts in ./paper/ need the parent directory on sys.path first:
+Scripts in ./paper/ need this directory on sys.path first:
 
     >>> import os, sys
-    >>> sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir)))
-    >>> import data
+    >>> sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    >>> import _rft1d_data
 
 Current datasets include:
 
     * Weather (Ramsay & Silverman, 2005)
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 
 
@@ -52,7 +52,7 @@ def weather():
 
     :Example use:
 
-    >>> weather = data.weather()
+    >>> weather = _rft1d_data.weather()
     >>> y = weather['Atlantic']  # (15 x 365) numpy array
     >>> from matplotlib import pyplot
     >>> pyplot.plot(y.T)

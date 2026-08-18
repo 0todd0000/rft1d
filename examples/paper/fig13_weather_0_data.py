@@ -3,9 +3,9 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
-import os, sys                      # rft1d_ex_data lives one directory up
+import os, sys                      # _rft1d_data lives one directory up
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-import rft1d_ex_data
+import _rft1d_data
 
 
 # ### EPS production preliminaries:
@@ -27,7 +27,7 @@ import rft1d_ex_data
 
 
 #(0) Load weather data:
-weather  = rft1d_ex_data.weather() #dictionay containing geographical locations
+weather  = _rft1d_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 y0       = weather['Atlantic']
 y1       = weather['Pacific']
