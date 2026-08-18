@@ -6,17 +6,17 @@ import rft1d
 
 
 def scalar2color(x, cmap=plt.cm.jet, xmin=None, xmax=None):
-	x          = np.asarray(x, dtype=float)
-	if xmin is None:
-		xmin   = x.min()
-	if xmax is None:
-		xmax   = x.max()
-	xn         = (x - xmin)  / (xmax-xmin)
-	xn        *= 255
-	xn         = np.asarray(xn, dtype=int)
-	colors     = cmap(xn)
-	return colors
-	
+    x          = np.asarray(x, dtype=float)
+    if xmin is None:
+        xmin   = x.min()
+    if xmax is None:
+        xmax   = x.max()
+    xn         = (x - xmin)  / (xmax-xmin)
+    xn        *= 255
+    xn         = np.asarray(xn, dtype=int)
+    colors     = cmap(xn)
+    return colors
+    
 
 
 # ### EPS production preliminaries:
@@ -50,9 +50,9 @@ heights    = np.linspace(2, 4, 21)
 #(1) Simulate data and compute survival function:
 SF         = []
 for W in WW:
-	y      = rft1d.random.randn1d(nResponses, nNodes, W, pad=True)
-	sf     = np.array(  [ (y.max(axis=1)>h).mean()  for h in heights]  )
-	SF.append(sf)
+    y      = rft1d.random.randn1d(nResponses, nNodes, W, pad=True)
+    sf     = np.array(  [ (y.max(axis=1)>h).mean()  for h in heights]  )
+    SF.append(sf)
 
 
 
@@ -60,9 +60,9 @@ for W in WW:
 calc   = rft1d.prob.RFTCalculator(STAT='Z', nodes=nNodes, FWHM=WW[0], withBonf=False)
 SFE        = []
 for W in WW:
-	calc.set_fwhm(W)
-	sfE    = calc.sf(heights)
-	SFE.append(sfE)
+    calc.set_fwhm(W)
+    sfE    = calc.sf(heights)
+    SFE.append(sfE)
 #standard normal for comparison:
 sfN        = stats.norm.sf(heights)
 
@@ -73,8 +73,8 @@ plt.close('all')
 ax         = plt.axes([0.15,0.14,0.82,0.84])
 colors     = scalar2color(range(len(WW)+2), cmap=plt.cm.PuRd)
 for W,sf,sfE,c in zip(WW,SF,SFE,colors[2:]):
-	ax.plot(heights, sf,  'o', color=c, markersize=5, label='FWHM = %d%%'%W)
-	ax.plot(heights, sfE, '-', color=c)
+    ax.plot(heights, sf,  'o', color=c, markersize=5, label='FWHM = %d%%'%W)
+    ax.plot(heights, sfE, '-', color=c)
 ax.plot(heights[[0,-1]],[2,2], 'k-', label='Theoretical')
 ax.plot(heights, sfN, 'k-', lw=3, label='Standard normal')
 ax.text(0.5, -0.15, r'$u$', size=20, transform=ax.transAxes, ha='center')

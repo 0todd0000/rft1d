@@ -7,18 +7,18 @@ import rft1d
 
 
 def scalar2color(x, cmap=plt.cm.jet, xmin=None, xmax=None):
-	x          = np.asarray(x, dtype=float)
-	if xmin is None:
-		xmin   = x.min()
-	if xmax is None:
-		xmax   = x.max()
-	xn         = (x - xmin)  / (xmax-xmin)
-	xn        *= 255
-	xn         = np.asarray(xn, dtype=int)
-	colors     = cmap(xn)
-	return colors
-	
-	
+    x          = np.asarray(x, dtype=float)
+    if xmin is None:
+        xmin   = x.min()
+    if xmax is None:
+        xmax   = x.max()
+    xn         = (x - xmin)  / (xmax-xmin)
+    xn        *= 255
+    xn         = np.asarray(xn, dtype=int)
+    colors     = cmap(xn)
+    return colors
+    
+    
 
 # ### EPS production preliminaries:
 # fig_width_mm  = 100
@@ -50,9 +50,9 @@ heights    = np.linspace(2.5, 4.0, 21)
 rftcalc    = rft1d.prob.RFTCalculator(STAT='Z', nodes=nNodes, FWHM=FWHMs[0], withBonf=False)
 SFE        = []
 for W in FWHMs:
-	rftcalc.set_fwhm(W)
-	sfE    = rftcalc.p.upcrossing(heights)
-	SFE.append(sfE)
+    rftcalc.set_fwhm(W)
+    sfE    = rftcalc.p.upcrossing(heights)
+    SFE.append(sfE)
 #Bonferroni-corrected survival function:
 sfB        = [rft1d.prob.p_bonferroni('Z', u, None, nNodes)  for u in heights]
 
@@ -63,7 +63,7 @@ plt.close('all')
 ax         = plt.axes([0.15,0.14,0.82,0.84])
 colors     = scalar2color(range(len(FWHMs)+2), cmap=plt.cm.PuRd)
 for W,sfE,c in zip(FWHMs,SFE,colors[2:]):
-	ax.plot(heights, sfE, '-', lw=2, color=c, label='FWHM = %d%%'%W)
+    ax.plot(heights, sfE, '-', lw=2, color=c, label='FWHM = %d%%'%W)
 ax.plot(heights, sfB, 'k--', lw=4, label='Bonferroni')
 ax.text(0.5, -0.15, r'$u$', size=20, transform=ax.transAxes, ha='center')
 ax.text(-0.17, 0.5, r'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transAxes, va='center', rotation=90)

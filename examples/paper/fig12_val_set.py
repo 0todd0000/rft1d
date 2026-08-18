@@ -61,8 +61,8 @@ plt.close('all')
 colors  = ['b', 'g', 'r']
 ax      = plt.axes([0.17,0.14,0.80,0.84])
 for color,p,p0,u in zip(colors,P,P0,heights):
-	ax.plot(K0, p,  'o', color=color, markersize=5)
-	ax.plot(K0, p0, '-', color=color, label='$u$ = %.1f'%u)
+    ax.plot(K0, p,  'o', color=color, markersize=5)
+    ax.plot(K0, p0, '-', color=color, label='$u$ = %.1f'%u)
 ### legend:
 ax.plot([0,1],[10,10], 'k-', label='Theoretical')
 ax.plot([0,1],[10,10], 'ko-', label='Simulated', markersize=5)

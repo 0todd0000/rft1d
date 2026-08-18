@@ -26,9 +26,9 @@ nodes[50:75] = False
 generator   = rft1d.random.Generator1D(nResponses, nodes, FWHM)
 T           = []
 for i in range(nIterations):
-	y       = generator.generate_sample()
-	t       = y.mean(axis=0) / y.std(ddof=1, axis=0) * sqrtN
-	T.append( np.nanmax(t) )
+    y       = generator.generate_sample()
+    t       = y.mean(axis=0) / y.std(ddof=1, axis=0) * sqrtN
+    T.append( np.nanmax(t) )
 T           = np.array(T)
 
 

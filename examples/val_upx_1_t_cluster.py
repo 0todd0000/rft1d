@@ -28,9 +28,9 @@ rftcalc      = rft1d.prob.RFTCalculator(STAT='T', df=(1,df), nodes=nNodes, FWHM=
 T           = []
 generator   = rft1d.random.Generator1D(nResponses, nNodes, FWHM)
 for i in range(nIterations):
-	y       = generator.generate_sample()
-	t       = y.mean(axis=0) / y.std(ddof=1, axis=0) * sqrtN
-	T.append( t )
+    y       = generator.generate_sample()
+    t       = y.mean(axis=0) / y.std(ddof=1, axis=0) * sqrtN
+    T.append( t )
 T           = np.asarray(T)
 
 
@@ -49,8 +49,8 @@ colors  = ['b', 'g', 'r', 'orange']
 labels  = ['u = %.1f'%h for h in heights]
 ax      = plt.axes()
 for color,p,p0,label in zip(colors,P,P0,labels):
-	ax.plot(K0, p,  'o', color=color)
-	ax.plot(K0, p0, '-', color=color, label=label)
+    ax.plot(K0, p,  'o', color=color)
+    ax.plot(K0, p0, '-', color=color, label=label)
 ax.plot([0,1],[10,10], 'k-', label='Theoretical')
 ax.plot([0,1],[10,10], 'ko-', label='Simulated')
 ax.set_xlabel('x', size=16)

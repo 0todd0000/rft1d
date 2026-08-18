@@ -35,7 +35,7 @@ def test_random_100():
     for i in ind:
         case = mgr.get_single_case_by_index( i )
         # if case.params.stat=='Z':
-        # 	continue
+        #     continue
         # print( case )
         case.test()
 
@@ -48,7 +48,7 @@ def test_random_100000():
     for i in ind:
         case = mgr.get_single_case_by_index( i )
         # if case.params.stat=='Z':
-        # 	continue
+        #     continue
         # print(case)
         case.test()
 
@@ -56,6 +56,6 @@ def test_random_100000():
 # # about 6-7 min to run
 # @pytest.mark.full
 # def test_all():
-# 	for i in range( mgr.ncases ):
-# 		case = mgr.get_single_case_by_index( i )
-# 		case.test()
+#     for i in range( mgr.ncases ):
+#         case = mgr.get_single_case_by_index( i )
+#         case.test()

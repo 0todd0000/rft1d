@@ -3,28 +3,28 @@ name            = "rft1d"
 version         = "0.2.5"
 description     = "'One-Dimensional Random Field Theory"
 readme          = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 # license         = "GPL version 3"
 # license = {file = "LICENSE.txt"}
 
 keywords        = [
-	"statistics",
-	"probability",
-	"hypothesis testing",
-	"functional data analysis",
-	"time series analysis",
-	"continuum data analysis"
+    "statistics",
+    "probability",
+    "hypothesis testing",
+    "functional data analysis",
+    "time series analysis",
+    "continuum data analysis"
 ]
 
 authors         = [
-	{name = "Todd Pataky", email = "0todd0@gmail.com" } # Optional
+    {name = "Todd Pataky", email = "0todd0@gmail.com" } # Optional
 ]
 
 classifiers = [
-	"Development Status :: 4 - Beta",
-	"License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-	"Topic :: Scientific/Engineering",
-	"Programming Language :: Python :: 3.9",
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3.9",
 ]
 
 
@@ -42,12 +42,6 @@ dependencies = [
 "Homepage"    = "https://www.spm1d.org/rft1d"
 "Source"      = "https://github.com/0todd0000/rft1d"
 "Bug Reports" = "https://github.com/0todd0000/rft1d/issues"
-
-
-
-
-[tool.setuptools]
-package-data  = {"rft1d.data.weather" = ["*.py", "*.npz", "*.npy", "*.m", "*.mat", "*.txt"]}
 
 
 

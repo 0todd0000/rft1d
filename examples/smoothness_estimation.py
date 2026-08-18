@@ -19,9 +19,9 @@ nNodes     = 101
 FWHM       = np.linspace(1, 50, 21) #actual FWHM
 FWHMe      = [] #estimated FWHM
 for w in FWHM:
-	y      = rft1d.random.randn1d(nResponses, nNodes, w, pad=False)
-	FWHMe.append(   rft1d.geom.estimate_fwhm(y)   )
-	print( 'Actual FWHM: %06.3f, estimated FWHM: %06.3f' %(w, FWHMe[-1]) )
+    y      = rft1d.random.randn1d(nResponses, nNodes, w, pad=False)
+    FWHMe.append(   rft1d.geom.estimate_fwhm(y)   )
+    print( 'Actual FWHM: %06.3f, estimated FWHM: %06.3f' %(w, FWHMe[-1]) )
 
 
 #(2) Plot results:

@@ -77,10 +77,10 @@ class P_RF_Results(object):
         if (self.Ek > self.inf) and (expected.Ek > self.inf):
             x0 = 0
         # if (self.Ek > 50) and (expected.Ek > 50):
-        # 	x0 = 0
+        #     x0 = 0
         # if (self.Ek)
         # if (self.P > 0.8) and (self.p > 0.8):
-        # 	x0 = 0
+        #     x0 = 0
         return np.array( [x0,x1,x2,x3] )
 
     def _sub_Ek(self, Ek, Ek0):
