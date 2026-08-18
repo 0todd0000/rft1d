@@ -33,6 +33,9 @@ or
 import numpy as np
 import matplotlib.pyplot as plt
 import rft1d
+import os, sys                      # rft1d_ex_data lives one directory up
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import rft1d_ex_data
 ### generate random data:
 seed        = [18]*5 + [0]
 nResponses  = 8
@@ -1009,7 +1012,7 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 import rft1d
 ### load data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = rft1d_ex_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:
@@ -1037,7 +1040,7 @@ from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
 ### load data
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = rft1d_ex_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 y0       = weather['Atlantic']
 y1       = weather['Pacific']
@@ -1118,7 +1121,7 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import rft1d
 ### load data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = rft1d_ex_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:
@@ -1185,7 +1188,7 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import rft1d
 ### load data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = rft1d_ex_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:
@@ -1254,7 +1257,7 @@ from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
 ### load data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = rft1d_ex_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:

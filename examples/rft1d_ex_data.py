@@ -1,6 +1,17 @@
-
 '''
-Example datasets
+Datasets used by the example scripts.
+
+This module is deliberately NOT part of the rft1d package -- rft1d itself
+needs no data files.  Scripts in this directory can use it directly:
+
+    >>> import rft1d_ex_data
+    >>> weather = rft1d_ex_rft1d_ex_data.weather()
+
+Scripts in ./paper/ need this directory on sys.path first:
+
+    >>> import os, sys
+    >>> sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    >>> import rft1d_ex_data
 
 Current datasets include:
 
@@ -17,7 +28,7 @@ def weather():
     This dataset was made available by Prof. James O. Ramsay
     of McGill University. The dataset was download from:
     http://www.psych.mcgill.ca/misc/fda/downloads/FDAfuns/Matlab
-    on 16 August 2014 (see the `./examples/weather` directory).
+    on 16 August 2014 (see the `./_datafiles/weather` directory).
 
     No license was found with that dataset. Only "daily.m" and
     "daily.mat" from that dataset are redistributed here, on
@@ -41,7 +52,7 @@ def weather():
 
     :Example use:
 
-    >>> weather = rft1d.data.weather()
+    >>> weather = rft1d_ex_rft1d_ex_data.weather()
     >>> y = weather['Atlantic']  # (15 x 365) numpy array
     >>> from matplotlib import pyplot
     >>> pyplot.plot(y.T)

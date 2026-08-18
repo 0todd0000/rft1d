@@ -19,12 +19,12 @@ df            = nA + nB - 2
 #(1) Generate Gaussian data and compute test statistic:
 T             = []
 for i in range(nIterations):
-	yA,yB     = np.random.randn(nResponsesA), np.random.randn(nResponsesB)
-	mA,mB     = yA.mean(), yB.mean()
-	sA,sB     = yA.std(ddof=1), yB.std(ddof=1)
-	s         = sqrt(    ((nA-1)*sA*sA + (nB-1)*sB*sB)  /  df     )
-	t         = (mA-mB) / ( s *sqrt(1.0/nA + 1.0/nB))
-	T.append(t)
+    yA,yB     = np.random.randn(nResponsesA), np.random.randn(nResponsesB)
+    mA,mB     = yA.mean(), yB.mean()
+    sA,sB     = yA.std(ddof=1), yB.std(ddof=1)
+    s         = sqrt(    ((nA-1)*sA*sA + (nB-1)*sB*sB)  /  df     )
+    t         = (mA-mB) / ( s *sqrt(1.0/nA + 1.0/nB))
+    T.append(t)
 T             = np.asarray(T)
 
 

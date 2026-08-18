@@ -3,11 +3,12 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
+import rft1d_ex_data
 
 
 
 #(0) Load weather data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = rft1d_ex_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 y0       = weather['Atlantic']
 y1       = weather['Pacific']
@@ -28,8 +29,8 @@ labels = ['Atlantic', 'Pacific', 'Continental', 'Artic']
 colors = ['r', 'g', 'b', 'k']
 ax     = plt.axes()
 for y,color,label in zip((y0,y1,y2,y3), colors, labels):
-	h  = ax.plot(y.T, color=color)
-	h[0].set_label(label)
+    h  = ax.plot(y.T, color=color)
+    h[0].set_label(label)
 ax.set_xlabel('Day', size=16)
 ax.set_ylabel('Temperature', size=16)
 ax.legend()

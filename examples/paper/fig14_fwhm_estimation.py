@@ -34,14 +34,14 @@ nIterations = 50  #raise this to 500 to reproduce the results from the paper
 W           = np.linspace(1, 50, 15) #actual FWHM
 We          = [] #estimated FWHM
 for w in W:
-	we      = []
-	# g       = rft1d.random.Generator1D(nResponses, nNodes, w)
-	for i in range(nIterations):
-		y   = rft1d.random.randn1d(nResponses, nNodes, w)
-		# y       = g.generate_sample()
-		we.append( rft1d.geom.estimate_fwhm(y) )
-	We.append(we)
-	print( 'Actual FWHM: %06.3f, estimated FWHM: %06.3f' %(w, np.mean(We[-1])) )
+    we      = []
+    # g       = rft1d.random.Generator1D(nResponses, nNodes, w)
+    for i in range(nIterations):
+        y   = rft1d.random.randn1d(nResponses, nNodes, w)
+        # y       = g.generate_sample()
+        we.append( rft1d.geom.estimate_fwhm(y) )
+    We.append(we)
+    print( 'Actual FWHM: %06.3f, estimated FWHM: %06.3f' %(w, np.mean(We[-1])) )
 We          = np.array(We)
 
 

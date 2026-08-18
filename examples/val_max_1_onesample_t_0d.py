@@ -18,9 +18,9 @@ sqrtN         = sqrt(nResponses)
 #(1) Generate Gaussian data and compute test statistic:
 T             = []
 for i in range(nIterations):
-	y         = np.random.randn(nResponses)
-	t         = y.mean() / y.std(ddof=1) * sqrtN
-	T.append(t)
+    y         = np.random.randn(nResponses)
+    t         = y.mean() / y.std(ddof=1) * sqrtN
+    T.append(t)
 T             = np.asarray(T)
 
 

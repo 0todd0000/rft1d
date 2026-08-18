@@ -173,11 +173,6 @@ def _api_random():
     return '\n'.join(_describe_module(rft1d.random, 'random'))
 
 
-@case('api.data')
-def _api_data():
-    return '\n'.join(_describe_module(rft1d.data, 'data'))
-
-
 # ---------------------------------------------------------------------------
 # prob.rft  and  EC densities
 # ---------------------------------------------------------------------------
@@ -766,24 +761,3 @@ def _generator_attrs(g):
 
 
 _add_random_cases()
-
-
-# ---------------------------------------------------------------------------
-# data
-# ---------------------------------------------------------------------------
-
-@case('data.weather.shapes')
-def _weather_shapes():
-    d = rft1d.data.weather()
-    return [len(d)] + [v for k in sorted(d) for v in d[k].shape]
-
-
-@case('data.weather.checksums')
-def _weather_checksums():
-    d = rft1d.data.weather()
-    return [d[k].sum() for k in sorted(d)]
-
-
-@case('data.weather.keys')
-def _weather_keys():
-    return repr(sorted(rft1d.data.weather()))

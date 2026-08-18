@@ -34,9 +34,9 @@ df            = nResponses - 2
 T           = []
 generator   = rft1d.random.Generator1D(nResponses, nNodes, FWHM)
 for i in range(nIterations):
-	y       = generator.generate_sample()
-	t       = tstat_regress(y, x)
-	T.append( t.max() )
+    y       = generator.generate_sample()
+    t       = tstat_regress(y, x)
+    T.append( t.max() )
 T           = np.asarray(T)
 
 

@@ -22,11 +22,21 @@ import os
 import numpy as np
 import pytest
 
+import rft1d
 from rft1d_tester import characterization as ch
 
 
 FPATH = os.path.join(os.path.dirname(__file__), 'data-characterization',
                      'golden.npz')
+
+### The golden values describe the source tree next to this test suite.  If
+### "import rft1d" resolves somewhere else -- a stale build/ or egg-info copy,
+### an installed wheel, or another checkout earlier on PYTHONPATH -- then every
+### case that the refactor deliberately changed will fail, which looks alarming
+### and says nothing useful.  Check it once, up front, and say so plainly.
+REPO_SRC   = os.path.abspath(os.path.join(os.path.dirname(__file__), os.pardir,
+                                          'src', 'rft1d'))
+IMPORTED   = os.path.dirname(os.path.abspath(rft1d.__file__))
 
 with np.load(FPATH, allow_pickle=False) as z:
     GOLDEN = {k: z[k] for k in z.files}
@@ -35,6 +45,27 @@ GOLDEN_NAMES = [str(s) for s in GOLDEN['__names__']]
 
 RTOL = 1e-10
 ATOL = 1e-12
+
+
+def test_imported_package_is_the_one_under_test():
+    '''
+    Guard against testing one copy of rft1d against another copy's golden file.
+
+    Set RFT1D_ALLOW_FOREIGN_SOURCE=1 to test an installed copy on purpose.
+    '''
+    if os.environ.get('RFT1D_ALLOW_FOREIGN_SOURCE'):
+        pytest.skip('RFT1D_ALLOW_FOREIGN_SOURCE is set')
+    assert IMPORTED == REPO_SRC, (
+        '"import rft1d" resolved to a different copy of the package than the '
+        'one these golden values were recorded from, so the cases that this '
+        'branch deliberately changed will all fail.\n'
+        f'  imported : {IMPORTED}\n'
+        f'  expected : {REPO_SRC}\n'
+        'Put this repository\'s src/ first on PYTHONPATH (or uninstall the '
+        'other copy), then re-run.  Quick check:\n'
+        '  python -c "import rft1d.geom; print(rft1d.geom.__file__)"\n'
+        'a path ending in "geom/__init__.py" is this branch; one ending in '
+        '"geom.py" is the pre-refactor package.')
 
 
 def test_case_inventory():
