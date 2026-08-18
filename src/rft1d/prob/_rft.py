@@ -95,8 +95,7 @@ def _replaceWith0DpValueIfPossible(STAT, P, c, csize, z, df, Q, n=1):
 
 
 def poisson_cdf(a, b):
-    # return stats.poisson.cdf(a, b)
-    # returns zero when b<0 to matches spm8 results
+    # returns zero when b<0, to match spm8 results
     from scipy import stats
     if b <= 0:
         p   = 0.0
@@ -222,13 +221,10 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
         EN   = EC[0]*R[-1]
     else:
         from scipy.special import gamma
-        # from math import gamma
-        ### SLOW CODE -- but useful for D>1  (following spm8)
-        # P = np.linalg.matrix_power( np.triu(linalg.toeplitz(EC*G)), n )
-        # P = P[0,]
-        ### FASTER CODE (Edit TCP 2013.12.02) -- in 1D case this is about 25 times faster than using np.linalg.matrix_power
-        # a,b   = EC*G
-        # P     = a**n, n*b*a**(n-1)
+        ### spm8 forms this as a matrix power:
+        ###     P = np.linalg.matrix_power( np.triu(linalg.toeplitz(EC*G)), n )[0,]
+        ### in the 1D case that reduces to the two terms below, which is about
+        ### 25 times faster  (Edit TCP 2013.12.02)
         G    = sqrt(pi) / (gamma(0.5*np.arange(1,D+1)))
         a,b  = EC*G
         P    = a**n, n*b*a**(n-1)
@@ -244,7 +240,6 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
     if (k==0) or (D==0):
         p    = 1.0
     else:
-        # from math import gamma
         from scipy.special import gamma
         beta = (gamma(0.5*D+1)/Ek) **(2/D)
         p    = np.exp( -beta*(k**(2/D)) )
@@ -273,8 +268,6 @@ def rft(c, k, STAT, Z, df, R, n=1, Q=None, expectations_only=False, version='spm
 
 def _approx_threshold(STAT, alpha, df, resels, n):
     from scipy import stats
-    # if two_tailed:
-    #     alpha   = 0.5*alpha
     a   = (alpha/sum(resels))**(1.0/n)
     if STAT=='Z':
         zstar = stats.norm.isf(a)

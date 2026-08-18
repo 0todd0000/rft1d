@@ -22,7 +22,7 @@ def _float_if_possible(x):
         return x
 
 
-class _Expected(object):
+class _Expected:
     def __init__(self, calc):
         self._calc  = calc
     def _require_fwhm(self, methodname):
@@ -98,7 +98,7 @@ class _Expected(object):
 
 
 
-class _Probability(object):
+class _Probability:
     def __init__(self, calc):
         self._calc  = calc
     def cluster(self, k, u):
@@ -182,7 +182,7 @@ class _Probability(object):
 
 
 
-class RFTCalculator(object):
+class RFTCalculator:
     '''
     A convenience class for high-level access to RFT probabilities.
 
