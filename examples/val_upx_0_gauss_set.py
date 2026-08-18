@@ -39,8 +39,8 @@ plt.close('all')
 colors  = ['b', 'g', 'r']
 ax      = plt.axes()
 for color,p,p0,u in zip(colors,P,P0,heights):
-	ax.plot(K0, p,  'o', color=color)
-	ax.plot(K0, p0, '-', color=color, label='u = %.1f'%u)
+    ax.plot(K0, p,  'o', color=color)
+    ax.plot(K0, p0, '-', color=color, label='u = %.1f'%u)
 ax.set_xlabel('x', size=16)
 ax.set_ylabel('P(c, k_min) > x', size=16)
 ax.legend()

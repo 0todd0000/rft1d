@@ -31,13 +31,13 @@ import rft1d
 ###    a random field using the Hadwiger characteristic of excursion sets,
 ###    with applications to medical images. Annals of Statistics, 640-669.
 def here_expected_ec_0d(u):
-	return stats.norm.sf(u)
+    return stats.norm.sf(u)
 def here_expected_ec_1d(Q, FWHM, u):
-	return (Q-1)/FWHM * sqrt(4*log(2)) / (2*pi) * exp(-0.5*(u*u))
+    return (Q-1)/FWHM * sqrt(4*log(2)) / (2*pi) * exp(-0.5*(u*u))
 ### actual EC:
 def here_ec(b):
-	L,n = rft1d.geom.bwlabel(b)
-	return n
+    L,n = rft1d.geom.bwlabel(b)
+    return n
 
 
 
@@ -51,19 +51,19 @@ heights     = np.linspace(0, 4, 21)
 ### simulate random fields and compute their EC:
 EC          = []
 for W in FWHM:
-	y       = rft1d.randn1d(nIterations, nNodes, W, pad=True)
-	ec      = np.array([[here_ec(yy>u)  for u in heights]   for yy in y]).mean(axis=0)
-	EC.append(ec)
+    y       = rft1d.randn1d(nIterations, nNodes, W, pad=True)
+    ec      = np.array([[here_ec(yy>u)  for u in heights]   for yy in y]).mean(axis=0)
+    EC.append(ec)
 EC          = np.array(EC)
 
 
 #(1) Expected EC:
 E0,E1 = [],[]
 for W in FWHM:
-	e0    = np.array([here_expected_ec_0d(u)  for u in heights])
-	e1    = np.array([here_expected_ec_1d(nNodes, W, u)  for u in heights])
-	E0.append(e0)
-	E1.append(e1)
+    e0    = np.array([here_expected_ec_0d(u)  for u in heights])
+    e1    = np.array([here_expected_ec_1d(nNodes, W, u)  for u in heights])
+    E0.append(e0)
+    E1.append(e1)
 
 
 #(2) Plot results:
@@ -71,15 +71,15 @@ plt.close('all')
 ax      = plt.axes([0.11,0.14,0.86,0.84])
 colors  = ['b', 'g', 'r']
 for color,e0,e1,ec in zip(colors, E0, E1, EC):
-	ax.plot(heights, e1, '--', color=color)    #just the 1D EC density
-	ax.plot(heights, e0+e1, '-', color=color)  #with 0D EC added
-	ax.plot(heights, ec, 'o', color=color, markersize=5)
+    ax.plot(heights, e1, '--', color=color)    #just the 1D EC density
+    ax.plot(heights, e0+e1, '-', color=color)  #with 0D EC added
+    ax.plot(heights, ec, 'o', color=color, markersize=5)
 ### add a legend:
 ax.plot([0,1],[1000,1000], 'k--', label='$EC$  (Hasofer, 1978)')
 ax.plot([0,1],[1000,1000], 'k-', label='$HC$  (Worsley, 1995)')
 ax.plot([0,1],[1000,1000], 'ko', label='Simulated', markersize=5)
 for color,W in zip(colors,FWHM):
-	ax.plot([0,1],[1000,1000], '-', lw=2, color=color, label='FWHM = %d'%W)
+    ax.plot([0,1],[1000,1000], '-', lw=2, color=color, label='FWHM = %d'%W)
 ax.set_ylim(0,6)
 ax.legend()
 ### label the axes:

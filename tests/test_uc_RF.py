@@ -10,8 +10,8 @@ import pytest
 dir0            = os.path.dirname( __file__ )
 fpathNPZ        = os.path.join(dir0,  'data-spm12b', 'testcases_uc_RF.npz')
 with np.load(fpathNPZ) as z:
-	params      = z['params']   # PARAMETERS:  'stat', 'alpha', 'df1', 'df2', 'r1', 'r2', 'n'
-	expected    = z['expected']
+    params      = z['params']   # PARAMETERS:  'stat', 'alpha', 'df1', 'df2', 'r1', 'r2', 'n'
+    expected    = z['expected']
 
 # # reduce dataset
 # i0  = params[:,0] == 0
@@ -57,24 +57,22 @@ mgr             = rt.UC_RF_TestCaseManager( params, expected, atol=1e-7 )
 
 
 def test_single_case():
-	case = mgr.get_single_case_by_index( 0 )
-	case.test()
+    case = mgr.get_single_case_by_index( 0 )
+    case.test()
 
 
 def test_random_100():
-	np.random.seed(0)
-	ind  = np.random.permutation( mgr.ncases )[:100]
-	for i in ind:
-		case = mgr.get_single_case_by_index( i )
-		case.test()
+    np.random.seed(0)
+    ind  = np.random.permutation( mgr.ncases )[:100]
+    for i in ind:
+        case = mgr.get_single_case_by_index( i )
+        case.test()
 
 
 
 # # about 6-7 min to run
 # @pytest.mark.slow
 # def test_all():
-# 	for i in range( mgr.ncases ):
-# 		case = mgr.get_single_case_by_index( i )
-# 		case.test()
-
-
+#     for i in range( mgr.ncases ):
+#         case = mgr.get_single_case_by_index( i )
+#         case.test()

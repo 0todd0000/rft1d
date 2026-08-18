@@ -25,13 +25,13 @@ rftcalc         = rft1d.prob.RFTCalculator(STAT='T', df=(1,df), nodes=nNodes, FW
 generator       = rft1d.random.Generator1D(nResponses, nNodes, FWHM)
 Tmax            = []
 for i in range(nIterations):
-	T           = []
-	for i in range(nTestStatFields):
-		y       = generator.generate_sample()
-		t       = y.mean(axis=0) / y.std(ddof=1, axis=0) * sqrtN
-		T.append( t )
-	Tconj       = np.min(T, axis=0)  #minimum across the test stat fields
-	Tmax.append(  Tconj.max()  )
+    T           = []
+    for i in range(nTestStatFields):
+        y       = generator.generate_sample()
+        t       = y.mean(axis=0) / y.std(ddof=1, axis=0) * sqrtN
+        T.append( t )
+    Tconj       = np.min(T, axis=0)  #minimum across the test stat fields
+    Tmax.append(  Tconj.max()  )
 Tmax            = np.array(Tmax)
 
 

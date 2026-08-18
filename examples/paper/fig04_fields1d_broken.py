@@ -6,18 +6,18 @@ import rft1d
 
 
 def scalar2color(x, cmap=plt.cm.jet, xmin=None, xmax=None):
-	x          = np.asarray(x, dtype=float)
-	if xmin is None:
-		xmin   = x.min()
-	if xmax is None:
-		xmax   = x.max()
-	xn         = (x - xmin)  / (xmax-xmin)
-	xn        *= 255
-	xn         = np.asarray(xn, dtype=int)
-	colors     = cmap(xn)
-	return colors
-	
-	
+    x          = np.asarray(x, dtype=float)
+    if xmin is None:
+        xmin   = x.min()
+    if xmax is None:
+        xmax   = x.max()
+    xn         = (x - xmin)  / (xmax-xmin)
+    xn        *= 255
+    xn         = np.asarray(xn, dtype=int)
+    colors     = cmap(xn)
+    return colors
+    
+    
 
 # ### EPS production preliminaries:
 # fig_width_mm  = 240
@@ -78,8 +78,8 @@ plt.setp(AX, xlim=(0,100), ylim=(-3.8,3.8))
 plt.setp([ax1,ax2], yticklabels=[])
 ### panel labels:
 for i,(ax,w) in enumerate(zip(AX,FWHM)):
-	s   = '(%s)  FWHM = %d%%' %(chr(97+i), w)
-	ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
+    s   = '(%s)  FWHM = %d%%' %(chr(97+i), w)
+    ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
 ### label the axes:
 [ax.set_xlabel('Field position  (%)', size=18)   for ax in AX]
 ax0.text(-0.15, 0.5, '$z$', size=24, transform=ax0.transAxes, rotation=90, va='center')

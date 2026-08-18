@@ -3,6 +3,9 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
+import os, sys                      # _rft1d_data lives one directory up
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _rft1d_data
 
 
 
@@ -27,17 +30,17 @@ import rft1d
 
 
 def here_tstat2(yA, yB):
-	nA,nB  = yA.shape[0], yB.shape[0]
-	mA,mB  = yA.mean(axis=0), yB.mean(axis=0)
-	sA,sB  = yA.std(ddof=1, axis=0), yB.std(ddof=1, axis=0)
-	s      = np.sqrt(    ((nA-1)*sA*sA + (nB-1)*sB*sB)  /  (nA + nB - 2)     )
-	t      = (mA-mB) / ( s *np.sqrt(1.0/nA + 1.0/nB))
-	return t
+    nA,nB  = yA.shape[0], yB.shape[0]
+    mA,mB  = yA.mean(axis=0), yB.mean(axis=0)
+    sA,sB  = yA.std(ddof=1, axis=0), yB.std(ddof=1, axis=0)
+    s      = np.sqrt(    ((nA-1)*sA*sA + (nB-1)*sB*sB)  /  (nA + nB - 2)     )
+    t      = (mA-mB) / ( s *np.sqrt(1.0/nA + 1.0/nB))
+    return t
 
 
 
 #(0) Load weather data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = _rft1d_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:
@@ -57,10 +60,10 @@ nIter    = 1000
 T        = []
 y        = np.vstack((yA,yB))  #all responses (unlabeled)
 for iii in range(nIter):
-	ind      = np.random.permutation(N)
-	i0,i1    = ind[:nA], ind[nA:]
-	yyA,yyB  = y[i0], y[i1]
-	T.append(  here_tstat2(yyA, yyB).max()  )  #t field maximum
+    ind      = np.random.permutation(N)
+    i0,i1    = ind[:nA], ind[nA:]
+    yyA,yyB  = y[i0], y[i1]
+    T.append(  here_tstat2(yyA, yyB).max()  )  #t field maximum
 ### critical threshold:
 alpha    = 0.05
 tstar    = np.percentile(T, 100*(1-alpha))
@@ -73,12 +76,12 @@ k0       = calc.cluster_extents(t0, tstar, interp=True)  #original cluster metri
 nIter    = 1000
 K        = []
 for iii in range(nIter):
-	ind      = np.random.permutation(N)
-	i0,i1    = ind[:nA], ind[nA:]
-	yyA,yyB  = y[i0], y[i1]
-	t        = here_tstat2(yyA, yyB)
-	k        = calc.cluster_extents(t, tstar, interp=True)
-	K.append( max(k) )
+    ind      = np.random.permutation(N)
+    i0,i1    = ind[:nA], ind[nA:]
+    yyA,yyB  = y[i0], y[i1]
+    t        = here_tstat2(yyA, yyB)
+    k        = calc.cluster_extents(t, tstar, interp=True)
+    K.append( max(k) )
 K        = np.array(K)
 ### probabilities:
 Pcluster = [(K>=kk).mean()  for kk in k0]

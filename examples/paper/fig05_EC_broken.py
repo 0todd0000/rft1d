@@ -31,16 +31,16 @@ import rft1d
 ###    a random field using the Hadwiger characteristic of excursion sets,
 ###    with applications to medical images. Annals of Statistics, 640-669.
 def here_ec_0d(u, nSegments):   #0D component
-	return nSegments * stats.norm.sf(u)
+    return nSegments * stats.norm.sf(u)
 def here_ec_1d(u, fieldSize, FWHM):
-	return float(fieldSize)/W * sqrt(4*log(2)) / (2*pi) * exp(-0.5*(u*u))  #1D component
+    return float(fieldSize)/W * sqrt(4*log(2)) / (2*pi) * exp(-0.5*(u*u))  #1D component
 ### actual EC:
 def here_ec_actual(yy, u):
-	y   = yy.copy()
-	y[np.isnan(yy)] = -1e9
-	b   = y>u
-	L,n = rft1d.geom.bwlabel(b)  #actually the Hadwiger characteristic
-	return n
+    y   = yy.copy()
+    y[np.isnan(yy)] = -1e9
+    b   = y>u
+    L,n = rft1d.geom.bwlabel(b)  #actually the Hadwiger characteristic
+    return n
 
 
 
@@ -66,28 +66,28 @@ fieldSize    = nNodesTotal - nSegments
 expectedEC           = []
 expectedECunbroken   = []
 for W in FWHM:
-	EC0,EC0u         = [],[]
-	for u in heights:
-		ec0          = here_ec_0d(u, nSegments)
-		ec1          = here_ec_1d(u, fieldSize, W)
-		### expectations for unbroken fields:
-		ec0u         = here_ec_0d(u, 1)
-		ec1u         = here_ec_1d(u, fieldSize, W)
-		EC0.append( ec0 + ec1 )
-		EC0u.append( ec0u + ec1u )
-	expectedEC.append(EC0)
-	expectedECunbroken.append(EC0u)
+    EC0,EC0u         = [],[]
+    for u in heights:
+        ec0          = here_ec_0d(u, nSegments)
+        ec1          = here_ec_1d(u, fieldSize, W)
+        ### expectations for unbroken fields:
+        ec0u         = here_ec_0d(u, 1)
+        ec1u         = here_ec_1d(u, fieldSize, W)
+        EC0.append( ec0 + ec1 )
+        EC0u.append( ec0u + ec1u )
+    expectedEC.append(EC0)
+    expectedECunbroken.append(EC0u)
 expectedEC           = np.array(expectedEC)
 expectedECunbroken   = np.array(expectedECunbroken)
-	
+    
 
 
 #(2) Simulate broken random fields and compute their EC:
 EC          = []
 for W in FWHM:
-	y       = rft1d.randn1d(nIterations, nodes, W, pad=True)
-	ec      = np.array([[here_ec_actual(yy, u)  for u in heights]   for yy in y]).mean(axis=0)
-	EC.append(ec)
+    y       = rft1d.randn1d(nIterations, nodes, W, pad=True)
+    ec      = np.array([[here_ec_actual(yy, u)  for u in heights]   for yy in y]).mean(axis=0)
+    EC.append(ec)
 EC          = np.array(EC)
 
 
@@ -98,15 +98,15 @@ plt.close('all')
 ax      = plt.axes([0.11,0.14,0.86,0.84])
 colors  = ['b', 'r', 'g']
 for color,ec0,ec0u,ec in zip(colors, expectedEC, expectedECunbroken, EC):
-	ax.plot(heights, ec0u, '-', lw=1, color=color)    #expectation for an unbroken field
-	ax.plot(heights, ec0, ':', lw=2, color=color)  #expectation for broken field
-	ax.plot(heights, ec, 'o', color=color, markersize=5)  #simulated data
+    ax.plot(heights, ec0u, '-', lw=1, color=color)    #expectation for an unbroken field
+    ax.plot(heights, ec0, ':', lw=2, color=color)  #expectation for broken field
+    ax.plot(heights, ec, 'o', color=color, markersize=5)  #simulated data
 ### add a legend:
 ax.plot([0,1],[1000,1000], 'k-', lw=1, label='Unbroken field')
 ax.plot([0,1],[1000,1000], 'k:', lw=2, label='Broken field')
 ax.plot([0,1],[1000,1000], 'ko', label='Simulated (broken field)', markersize=5)
 for color,W in zip(colors,FWHM):
-	ax.plot([0,1],[1000,1000], '-', lw=2, color=color, label='FWHM = %d'%W)
+    ax.plot([0,1],[1000,1000], '-', lw=2, color=color, label='FWHM = %d'%W)
 ax.set_xlim(heights.min(), heights.max())
 ax.set_ylim(0, EC.max())
 ax.legend()

@@ -1,9 +1,8 @@
 
-__version__ = '0.2.5'  # 2025-10-07
+__version__ = '0.2.6'  # 2026-08-18
 
-__all__ = ['data', 'distributions', 'geom', 'prob', 'random']
+__all__ = ['distributions', 'geom', 'prob', 'random']
 
-from . import data
 from . import distributions
 from . import geom
 from . import prob

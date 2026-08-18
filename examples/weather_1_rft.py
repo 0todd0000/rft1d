@@ -3,12 +3,13 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
+import _rft1d_data
 
 
 
 
 #(0) Load weather data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = _rft1d_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:

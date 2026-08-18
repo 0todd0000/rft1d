@@ -1,30 +1,30 @@
 [project]
 name            = "rft1d"
-version         = "0.2.5"
+version         = "0.2.6"
 description     = "'One-Dimensional Random Field Theory"
 readme          = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 # license         = "GPL version 3"
 # license = {file = "LICENSE.txt"}
 
 keywords        = [
-	"statistics",
-	"probability",
-	"hypothesis testing",
-	"functional data analysis",
-	"time series analysis",
-	"continuum data analysis"
+    "statistics",
+    "probability",
+    "hypothesis testing",
+    "functional data analysis",
+    "time series analysis",
+    "continuum data analysis"
 ]
 
 authors         = [
-	{name = "Todd Pataky", email = "0todd0@gmail.com" } # Optional
+    {name = "Todd Pataky", email = "0todd0@gmail.com" } # Optional
 ]
 
 classifiers = [
-	"Development Status :: 4 - Beta",
-	"License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-	"Topic :: Scientific/Engineering",
-	"Programming Language :: Python :: 3.9",
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Topic :: Scientific/Engineering",
+    "Programming Language :: Python :: 3.9",
 ]
 
 
@@ -46,12 +46,16 @@ dependencies = [
 
 
 
-[tool.setuptools]
-package-data  = {"rft1d.data.weather" = ["*.py", "*.npz", "*.npy", "*.m", "*.mat", "*.txt"]}
-
-
-
-
 [build-system]
 requires      = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers   = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "serial",
+]

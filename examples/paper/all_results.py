@@ -33,6 +33,9 @@ or
 import numpy as np
 import matplotlib.pyplot as plt
 import rft1d
+import os, sys                      # _rft1d_data lives one directory up
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import _rft1d_data
 ### generate random data:
 seed        = [18]*5 + [0]
 nResponses  = 8
@@ -123,7 +126,7 @@ HC      = [1, 1, 1,   2, 2, 2]
 for i,(ax,ec,hc) in enumerate(zip(AX,EC,HC)):
     s   = '(%s)  EC=%d, HC=%d' %(chr(97+i), ec, hc)
     ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
-plt.show()
+plt.show(block=False)
 print( 'Figure 2 (Page 3):' )
 print( '   [see Figure 2]' )
 print
@@ -1009,7 +1012,7 @@ import numpy as np
 from scipy.ndimage import gaussian_filter1d
 import rft1d
 ### load data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = _rft1d_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:
@@ -1037,7 +1040,7 @@ from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
 ### load data
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = _rft1d_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 y0       = weather['Atlantic']
 y1       = weather['Pacific']
@@ -1118,7 +1121,7 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import rft1d
 ### load data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = _rft1d_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:
@@ -1185,7 +1188,7 @@ import scipy.stats
 import matplotlib.pyplot as plt
 import rft1d
 ### load data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = _rft1d_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:
@@ -1254,7 +1257,7 @@ from scipy.ndimage import gaussian_filter1d
 import matplotlib.pyplot as plt
 import rft1d
 ### load data:
-weather  = rft1d.data.weather() #dictionay containing geographical locations
+weather  = _rft1d_data.weather() #dictionay containing geographical locations
 ### choose two geographical locations:
 yA,yB    = weather['Atlantic'], weather['Continental']
 ### smooth:
@@ -1325,5 +1328,13 @@ print
 
 
 print( '\n\n\nSCRIPT FINISHED.' )
+
+
+### every figure above is drawn with "show(block=False)" so that the script
+### keeps running;  this final blocking show() keeps all of them on screen
+### until they are closed.  Without it the process would exit here and every
+### window would disappear.
+import matplotlib.pyplot as plt
+plt.show()
 
 

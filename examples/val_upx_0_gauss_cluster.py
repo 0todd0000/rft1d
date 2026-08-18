@@ -37,8 +37,8 @@ colors  = ['b', 'g', 'r', 'orange']
 labels  = ['u = %.1f'%h for h in heights]
 ax      = plt.axes()
 for color,p,p0,label in zip(colors,P,P0,labels):
-	ax.plot(K0, p,  'o', color=color)
-	ax.plot(K0, p0, '-', color=color, label=label)
+    ax.plot(K0, p,  'o', color=color)
+    ax.plot(K0, p0, '-', color=color, label=label)
 ax.plot([0,1],[10,10], 'k-', label='Theoretical')
 ax.plot([0,1],[10,10], 'ko-', label='Simulated')
 ax.legend()
