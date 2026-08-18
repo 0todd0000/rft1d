@@ -409,6 +409,27 @@ DISTS = {'norm': ('Z', None), 't': ('T', 8), 'chi2': ('X2', 8),
          'f': ('F', (2, 14)), 'T2': ('T2', (2, 14))}
 
 
+def _docstring(obj):
+    '''
+    A docstring normalized so that it compares equal across Python versions.
+
+    Python 3.13 strips the common leading indentation from docstrings at
+    compile time -- but only from real docstrings, not from strings assigned
+    to __doc__ afterwards.  Most of this package's docstrings are assigned by
+    the add_docstrings decorator and so keep their indentation on every
+    version, while the two written literally in HotellingsT2 lose theirs on
+    3.13.  Raw __doc__ text is therefore not portable.
+
+    inspect.cleandoc removes that common indentation itself, giving the same
+    result on every version.  Wording and relative indentation -- which is
+    what the reST in these docstrings depends on -- are preserved, so a real
+    documentation change still fails the comparison.
+    '''
+    doc = obj.__doc__
+    return inspect.cleandoc(doc) if doc else 'None'
+
+
+
 def _dist_call(dist, method, df, args_before, args_after, **kwargs):
     '''
     Call *method* on *dist*, inserting *df* between *args_before* and
@@ -488,18 +509,10 @@ def _add_distribution_cases():
                    dist.sf_resels(heights, rdf, (1, 50.0), withBonf=True,
                                   nNodes=101)))
         # docstring injection (the DISTFLAG/DOFFLAG decorator)
-        _register(f'dist.docstring.{dname}.sf',
-                  lambda dist=dist: dist.sf.__doc__ or 'None')
-        _register(f'dist.docstring.{dname}.isf',
-                  lambda dist=dist: dist.isf.__doc__ or 'None')
-        _register(f'dist.docstring.{dname}.p_cluster',
-                  lambda dist=dist: dist.p_cluster.__doc__ or 'None')
-        _register(f'dist.docstring.{dname}.p_set',
-                  lambda dist=dist: dist.p_set.__doc__ or 'None')
-        _register(f'dist.docstring.{dname}.sf0d',
-                  lambda dist=dist: dist.sf0d.__doc__ or 'None')
-        _register(f'dist.docstring.{dname}.isf0d',
-                  lambda dist=dist: dist.isf0d.__doc__ or 'None')
+        for mname in ('sf', 'isf', 'p_cluster', 'p_set', 'sf0d', 'isf0d'):
+            _register(f'dist.docstring.{dname}.{mname}',
+                      (lambda dist=dist, mname=mname:
+                       _docstring(getattr(dist, mname))))
         _register(f'dist.class.{dname}',
                   lambda dist=dist: type(dist).__name__)
 
