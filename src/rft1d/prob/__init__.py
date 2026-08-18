@@ -7,7 +7,7 @@ The implementation is split across private submodules;  every public name is
 re-exported here, so "rft1d.prob.<name>" is unchanged.
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 
 # NOTE:  the math functions below were incidental module-level names in the

@@ -2,7 +2,7 @@
 Connected-component labeling for binary 1D fields.
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 
 import numpy as np

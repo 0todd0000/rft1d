@@ -6,7 +6,7 @@ Measuring its extent is complicated by interpolation to the threshold,
 by upcrossings which touch the field boundary, and by wrapping.
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 
 import numpy as np

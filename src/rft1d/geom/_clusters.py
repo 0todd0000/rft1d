@@ -3,7 +3,7 @@ Geometric characteristics of the excursion set:  numbers of upcrossings,
 upcrossing extents, upcrossing minima and centroids.
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 
 import numpy as np

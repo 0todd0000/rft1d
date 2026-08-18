@@ -6,7 +6,7 @@ given field height;  the RFT expectations in "_rft.py" are assembled from
 these densities and the search volume's resel counts.
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 # NOTE:  scipy is imported inside the functions that need it (rather than
 # at module scope) to keep "import rft1d" fast

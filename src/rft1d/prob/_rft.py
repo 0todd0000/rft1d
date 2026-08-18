@@ -5,7 +5,7 @@ The core computation is "rft", which is based on "spm_P_RF.m" and "spm_P.m"
 from the spm8 and spm12 Matlab packages (http://www.fil.ion.ucl.ac.uk/spm/).
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 # NOTE:  scipy is imported inside the functions that need it (rather than
 # at module scope) to keep "import rft1d" fast

@@ -5,7 +5,7 @@ The resel counts define the field on which the random process occurs;  all
 RFT expectations stem directly from them.
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 
 from math import log

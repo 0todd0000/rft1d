@@ -3,7 +3,7 @@ Convenience classes offering high-level access to the RFT expectations and
 probabilities computed in "_rft.py".
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 
 import numpy as np
