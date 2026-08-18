@@ -14,7 +14,7 @@ import numpy as np
 from ._labeling import bwlabel
 
 
-class Upcrossing(object):
+class Upcrossing:
     '''
     A class for computing upcrossing extents.
     Computing upcrossing extents is simple if the upcrossing extent is to be
@@ -42,7 +42,7 @@ class Upcrossing(object):
         self.touch_neither = not (b[0] or b[-1])
         self.interp        = interp
         self.wrap          = wrap
-    
+
     def _interp(self, y, i0, h):
         i1    = i0+1
         y0,y1 = y[i0], y[i1]
@@ -148,6 +148,6 @@ class Upcrossing(object):
         else:
             m      = self.b.sum() - 1
         return m
-    
+
     def extent_nodes(self, h):
         return self.extent(h) + 1

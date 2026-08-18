@@ -14,22 +14,22 @@ def bwlabel(b, merge_wrapped=False):
     This function yields the same output as **scipy.ndimage.measurements.label**
     but is much faster for 1D fields.
     If *merge_wrapped*
-    
+
     :Parameters:
 
         *b* --- a binary field
-        
+
         *merge_wrapped* --- if True, boundary upcrossings will be merged into a single cluster.
 
     :Returns:
 
         *L* --- labeled upcrossings (array of integers)
-        
+
         *n* --- number of upcrossings
-    
-    
+
+
     :Example:
-    
+
         >>> y = rft1d.random.randn1d(1, 101, 10.0)
         >>> b = y > 2.0
         >>> L,n = rft1d.geom.bwlabel(b)

@@ -20,8 +20,8 @@ from ._constants import FOUR_LOG2, SQRT_4LOG2, TWO_PI
 
 def ec_density_Z(z):
     from scipy import stats
+    # note: "1 - cdf" (rather than "sf") is retained to match SPM
     ec0d        = 1 - stats.norm.cdf(z)
-    # ec0d        = stats.norm.sf(z)
     ec1d        = SQRT_4LOG2 / TWO_PI   *  exp(-0.5*(z*z))
     return [ec0d, ec1d]
 

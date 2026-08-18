@@ -327,7 +327,7 @@ def add_docstrings(distname, ndf=0):
 # Base class
 ###############################################################################
 
-class _RFTDistribution(object):
+class _RFTDistribution:
     '''
     Base class for the 1D RFT distributions.
 
