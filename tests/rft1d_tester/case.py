@@ -1,7 +1,6 @@
 
 import numpy as np
 import rft1d
-import pytest
 
 
 class _TestCase(object):
@@ -65,6 +64,3 @@ class UC_RF_TestCase( _TestCase ):
         r    = self.get_rft1d_results()
         d    = r - r0
         assert abs(d) < self.atol
-
-
-

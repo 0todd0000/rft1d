@@ -35,18 +35,18 @@ ALPHAs     = [0.001, 0.01, 0.05, 0.1]
 #(1) Inverse survival function (Bonferroni):
 ISFbonf    = []
 for alpha in ALPHAs:
-	objfn  = lambda x: (rft1d.prob.p_bonferroni('Z', x, None, nNodes) - alpha)**2
-	x0     = 5.0
-	ustar  = optimize.fmin(objfn, 5, disp=0)
-	ISFbonf.append( float(ustar.ravel()[0]) )
+    objfn  = lambda x: (rft1d.prob.p_bonferroni('Z', x, None, nNodes) - alpha)**2
+    x0     = 5.0
+    ustar  = optimize.fmin(objfn, 5, disp=0)
+    ISFbonf.append( float(ustar.ravel()[0]) )
 
 
 #(2) Inverse survival function (RFT)
 rftcalc    = rft1d.prob.RFTCalculator(STAT='Z', nodes=nNodes, FWHM=10, withBonf=False)
 ISF        = []
 for W in FWHMs:
-	rftcalc.set_fwhm(W)
-	ISF.append(  [rftcalc.isf(alpha) for alpha in ALPHAs]  )
+    rftcalc.set_fwhm(W)
+    ISF.append(  [rftcalc.isf(alpha) for alpha in ALPHAs]  )
 ISF        = np.asarray(ISF).T
 
 
@@ -57,12 +57,12 @@ plt.close('all')
 ax         = plt.axes([0.12,0.14,0.86,0.84])
 colors     = ['b', 'g', 'r', 'orange']
 for alpha,isf,isfbonf,color in zip(ALPHAs,ISF,ISFbonf,colors):
-	ax.plot(FWHMs, isf, color=color, lw=1)
-	ax.plot(FWHMs, [isfbonf]*len(FWHMs), '--', color=color, lw=1)
+    ax.plot(FWHMs, isf, color=color, lw=1)
+    ax.plot(FWHMs, [isfbonf]*len(FWHMs), '--', color=color, lw=1)
 ### label the isoprobabilities:
 XY         = [(0.31,0.75), (0.35,0.52), (0.3, 0.35), (0.1, (0.15))]
 for xy,alpha,color in zip(XY,ALPHAs,colors):
-	ax.text(xy[0], xy[1], r'$\alpha=%.3f$'%alpha, transform=ax.transAxes, color=color)
+    ax.text(xy[0], xy[1], r'$\alpha=%.3f$'%alpha, transform=ax.transAxes, color=color)
 ### create legend:
 ax.plot(FWHMs, [100]*len(FWHMs), 'k-', lw=1, label='RFT')
 ax.plot(FWHMs, [100]*len(FWHMs), 'k--', lw=1, label='Bonferroni')

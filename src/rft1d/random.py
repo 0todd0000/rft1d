@@ -7,19 +7,22 @@ If a large number of random fields are required (e.g. for RFT validations)
 it may be more efficient to use the **Generator1D** and **GeneratorMulti1D** classes.
 '''
 
-# Copyright (C) 2025  Todd Pataky
+# Copyright (C) 2026  Todd Pataky
 
 
 
-from math import sqrt,log
+# NOTE:  scipy is imported inside the functions that need it (rather than at
+# module scope) to keep "import rft1d" fast
+
+from math import log, sqrt
+
 import numpy as np
-# from scipy.ndimage import gaussian_filter1d
 
 
 eps        = np.finfo(float).eps   #smallest float
 
 
-class Generator1D(object):
+class Generator1D:
     '''
     Generator of smooth Gaussian random fields.
 
@@ -49,7 +52,7 @@ class Generator1D(object):
     '''
 
     def __init__(self, nResponses=1, nodes=101, FWHM=10, pad=False):
-        super(Generator1D, self).__init__()
+        super().__init__()
         self.FWHM          = float(FWHM)
         self.SCALE         = None    #scale factor to return smoothed data to unit variance
         self.SD            = None    #standard deviation of the Gaussian kernel
@@ -79,7 +82,7 @@ class Generator1D(object):
             self.nNodes = nodes
         elif np.ma.is_mask(nodes):
             if nodes.ndim!=1:
-                raise( ValueError('RFT1D Error:  the "nodes" argument must be a 1D boolean array. Received a %dD array'%arg.ndim)  )
+                raise( ValueError('RFT1D Error:  the "nodes" argument must be a 1D boolean array. Received a %dD array'%nodes.ndim)  )
             self.nNodes = nodes.size
             self.mask   = np.logical_not(nodes)
         else:
@@ -125,27 +128,6 @@ class Generator1D(object):
                 self.i1 = self.nNodes
             self.i0     = int(self.i0)
             self.i1     = int(self.i1)
-
-    # def _set_qi0i1(self, w):
-    #     if np.isinf(w):
-    #         self.q = self.i0 = self.i1 = None
-    #     elif self.pad:
-    #         n       = self.nNodes
-    #         if w<3:
-    #             q   = 2*n
-    #         else:
-    #             q   = 10*n
-    #         if w>50:
-    #             q  += n*(w-50)
-    #         self.q  = int(q)
-    #         self.i0 = self.q/2 - n/2
-    #         self.i1 = self.i0 + n
-    #     else:
-    #         self.q  = self.nNodes
-    #         self.i0 = 0
-    #         self.i1 = self.nNodes
-    #     self.i0     = int(self.i0)
-    #     self.i1     = int(self.i1)
 
     def _smooth(self, y):
         from scipy.ndimage import gaussian_filter1d
@@ -207,7 +189,7 @@ class GeneratorMulti1D(Generator1D):
     '''
 
     def __init__(self, nResponses=1, nodes=101, nComponents=2, FWHM=10, W=None, pad=False):
-        super(GeneratorMulti1D, self).__init__(nResponses, nodes, FWHM, pad)
+        super().__init__(nResponses, nodes, FWHM, pad)
         self.nComponents   = int(nComponents)
         if W is None:
             self.W         = np.eye(self.nComponents)
@@ -312,9 +294,3 @@ def randn1d(nResponses, nodes, FWHM=10.0, pad=False):
     if nResponses==1:
         y = y.flatten()
     return y
-
-
-
-
-
-

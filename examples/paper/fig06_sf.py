@@ -7,17 +7,17 @@ import rft1d
 
 
 def scalar2color(x, cmap=plt.cm.jet, xmin=None, xmax=None):
-	x          = np.asarray(x, dtype=float)
-	if xmin is None:
-		xmin   = x.min()
-	if xmax is None:
-		xmax   = x.max()
-	xn         = (x - xmin)  / (xmax-xmin)
-	xn        *= 255
-	xn         = np.asarray(xn, dtype=int)
-	colors     = cmap(xn)
-	return colors
-	
+    x          = np.asarray(x, dtype=float)
+    if xmin is None:
+        xmin   = x.min()
+    if xmax is None:
+        xmax   = x.max()
+    xn         = (x - xmin)  / (xmax-xmin)
+    xn        *= 255
+    xn         = np.asarray(xn, dtype=int)
+    colors     = cmap(xn)
+    return colors
+    
 
 
 # ### EPS production preliminaries:
@@ -49,9 +49,9 @@ heights    = np.linspace(2, 4, 21)
 rftcalc    = rft1d.prob.RFTCalculator(STAT='Z', nodes=nNodes, FWHM=WW[0], withBonf=False)
 SFE        = []
 for W in WW:
-	rftcalc.set_fwhm(W)
-	sfE    = rftcalc.p.upcrossing(heights)
-	SFE.append(sfE)
+    rftcalc.set_fwhm(W)
+    sfE    = rftcalc.p.upcrossing(heights)
+    SFE.append(sfE)
 #standard normal for comparison:
 sfN        = stats.norm.sf(heights)
 
@@ -62,7 +62,7 @@ plt.close('all')
 ax         = plt.axes([0.15,0.14,0.82,0.84])
 colors     = scalar2color(range(len(WW)+2), cmap=plt.cm.PuRd)
 for W,sfE,c in zip(WW,SFE,colors[2:]):
-	ax.plot(heights, sfE, '-', color=c, label='FWHM = %d%%'%W)
+    ax.plot(heights, sfE, '-', color=c, label='FWHM = %d%%'%W)
 ax.plot(heights, sfN, 'k-', lw=3, label='Standard normal')
 ax.text(0.5, -0.15, r'$u$', size=20, transform=ax.transAxes, ha='center')
 ax.text(-0.17, 0.5, r'P ($z_{\mathrm{max}}$ > $u$)', size=18, transform=ax.transAxes, va='center', rotation=90)

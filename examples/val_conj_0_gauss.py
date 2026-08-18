@@ -22,9 +22,9 @@ rftcalc         = rft1d.prob.RFTCalculator(STAT='Z', nodes=nNodes, FWHM=FWHM, n=
 generator       = rft1d.random.Generator1D(nTestStatFields, nNodes, FWHM)
 Zmax            = []
 for i in range(nIterations):
-	y           = generator.generate_sample()
-	Zconj       = y.min(axis=0)
-	Zmax.append(  Zconj.max()  )
+    y           = generator.generate_sample()
+    Zconj       = y.min(axis=0)
+    Zmax.append(  Zconj.max()  )
 Zmax            = np.array(Zmax)
 
 
