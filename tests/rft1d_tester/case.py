@@ -1,7 +1,6 @@
 
 import numpy as np
 import rft1d
-import pytest
 
 
 class _TestCase(object):
