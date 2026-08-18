@@ -1,9 +1,9 @@
 [project]
 name            = "rft1d"
-version         = "0.2.5"
+version         = "0.2.6"
 description     = "'One-Dimensional Random Field Theory"
 readme          = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.9"
 # license         = "GPL version 3"
 # license = {file = "LICENSE.txt"}
 
