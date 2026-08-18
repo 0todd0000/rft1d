@@ -126,7 +126,7 @@ HC      = [1, 1, 1,   2, 2, 2]
 for i,(ax,ec,hc) in enumerate(zip(AX,EC,HC)):
     s   = '(%s)  EC=%d, HC=%d' %(chr(97+i), ec, hc)
     ax.text(0.05, 0.9, s, transform=ax.transAxes, size=12)
-plt.show()
+plt.show(block=False)
 print( 'Figure 2 (Page 3):' )
 print( '   [see Figure 2]' )
 print
@@ -1328,5 +1328,13 @@ print
 
 
 print( '\n\n\nSCRIPT FINISHED.' )
+
+
+### every figure above is drawn with "show(block=False)" so that the script
+### keeps running;  this final blocking show() keeps all of them on screen
+### until they are closed.  Without it the process would exit here and every
+### window would disappear.
+import matplotlib.pyplot as plt
+plt.show()
 
 
