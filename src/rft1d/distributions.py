@@ -67,17 +67,17 @@ All distributions share the following functions:
 	To adopt the less-severe threshold use the keyword argument
 	*withBonf* as follows:
 
-		>>> rft1d.norm.sf(3, 101, 1.5, withBonf=False) #yields 0.179
-		>>> rft1d.norm.sf(3, 101, 1.5, withBonf=True)  #yields 0.136
+		>>> rft1d.norm.sf(3, 101, 1.5, withBonf=False) #yields 0.17932
+		>>> rft1d.norm.sf(3, 101, 1.5, withBonf=True)  #yields 0.13634
 
 	By default the *withBonf* argument is False.
 	
-		>>> rft1d.norm.sf(3, 101, 1.5)  #yields 0.179
+		>>> rft1d.norm.sf(3, 101, 1.5)  #yields 0.17932
 	
 	For smooth fields the keyword argument will have no effect:
 	
-		>>> rft1d.norm.sf(3, 101, 5.0, withBonf=False) #yields 0.0590
-		>>> rft1d.norm.sf(3, 101, 5.0, withBonf=True)  #yields 0.0590
+		>>> rft1d.norm.sf(3, 101, 5.0, withBonf=False) #yields 0.05845
+		>>> rft1d.norm.sf(3, 101, 5.0, withBonf=True)  #yields 0.05845
 		
 
 :Very smooth fields:
@@ -88,15 +88,15 @@ All distributions share the following functions:
 	systematically will cause the RFT results to converge to typical 0D results:
 
 		>>> scipy.stats.norm.sf(2)  #yields 0.02275
-		>>> rft1d.norm.sf(3, 101, 10.0) #yields 0.31710
-		>>> rft1d.norm.sf(3, 101, 100.0) #yields 0.05693
-		>>> rft1d.norm.sf(3, 101, 1000.0) #yields 0.02599
-		>>> rft1d.norm.sf(3, 101, 10000.0) #yields 0.02284
-		>>> rft1d.norm.sf(3, 101, 100000.0) #yields 0.02275
+		>>> rft1d.norm.sf(2, 101, 10.0) #yields 0.31710
+		>>> rft1d.norm.sf(2, 101, 100.0) #yields 0.05693
+		>>> rft1d.norm.sf(2, 101, 1000.0) #yields 0.02599
+		>>> rft1d.norm.sf(2, 101, 10000.0) #yields 0.02284
+		>>> rft1d.norm.sf(2, 101, 100000.0) #yields 0.02275
 
 	Setting the smoothness to infinite will return the same result:
 	
-		>>> rft1d.norm.sf(3, 101, np.inf) #yields 0.02275
+		>>> rft1d.norm.sf(2, 101, np.inf) #yields 0.02275
 
 '''
 

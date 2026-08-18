@@ -57,19 +57,21 @@ def p_bonferroni(STAT, z, df, Q, n=1):
     '''
     from scipy import stats
     if STAT=='Z':
+        # note: "1 - cdf" (rather than "sf") is retained to match SPM
         p     = 1 - stats.norm.cdf(z)
-        # p     = stats.norm.sf(z)
-    if STAT=='T':
+    elif STAT=='T':
         p     = stats.t.sf(z, df[1])
     elif STAT=='F':
         p     = stats.f.sf(z, df[0], df[1])
     elif STAT=='X2':
         p     = stats.chi2.sf(z, df[1])
     elif STAT=='T2':
-        p,m   = map(float,df)
-        v0,v1 = p, m - p + 1
-        zz    = z * ( (m-p+1)/(p*m) )
+        a,m   = map(float,df)
+        v0,v1 = a, m - a + 1
+        zz    = z * ( (m-a+1)/(a*m) )
         p     = stats.f.sf(zz, v0, v1)
+    else:
+        raise( ValueError('Statistic must be one of: ["Z", "T", "X2", "F", "T2"]') )
     p         = Q * (p**n)
     return min(p, 1)
 
@@ -356,7 +358,7 @@ def _approx_threshold(STAT, alpha, df, resels, n):
         fstar = stats.f.isf(a, df_F[0], df_F[1])
         zstar = fstar / ( (m-p+1)/(p*m) )
     else:
-        raise(ValueError, 'Statistic must be one of: "Z", "T", "X2", "F", "T2"')
+        raise ValueError('Statistic must be one of: "Z", "T", "X2", "F", "T2"')
     return zstar
 
 def isf(STAT, alpha, df, resels, n, Q=None, version='spm12'):
@@ -403,6 +405,9 @@ def _float_if_possible(x):
 class _Expected(object):
     def __init__(self, calc):
         self._calc  = calc
+    def _require_fwhm(self, methodname):
+        if (self._calc is None) or (self._calc.FWHM is None):
+            raise( ValueError('RFT1D Error:  "%s" is a node count, so it requires a FWHM. This calculator was constructed from resel counts only.'%methodname) )
     def nodes_per_upcrossing(self, u):
         '''
         Number of nodes expected for each uprcrossing at threshold *u*.
@@ -414,6 +419,7 @@ class _Expected(object):
 
         .. warning:: This is a node count, so is equivalent to: (FWHM x **resels_per_upcrossing**)  + 1
         '''
+        self._require_fwhm('nodes_per_upcrossing')
         x = self._calc.FWHM * self.resels_per_upcrossing(u) + 1
         return _float_if_possible(x)
     def number_of_upcrossings(self, u):
@@ -439,6 +445,7 @@ class _Expected(object):
 
         .. warning:: This is a node count, so is equivalent to: (FWHM x **number_of_suprathreshold_resels**)  + **number_of_upcrossings**
         '''
+        self._require_fwhm('number_of_suprathreshold_nodes')
         return self._calc.FWHM * self.number_of_suprathreshold_resels(u) + self.number_of_upcrossings(u)
     def number_of_suprathreshold_resels(self, u):
         '''
@@ -607,7 +614,7 @@ class RFTCalculator(object):
         self.nNodes   = None
         self.n        = n
         self.resels   = None
-        self.version  = 'spm12'
+        self.version  = version
         self.withBonf = None
         self._parse_nodes_argument(nodes)
         self.set_fwhm(FWHM)
@@ -635,7 +642,7 @@ class RFTCalculator(object):
             self.nNodes = nodes
         elif np.ma.is_mask(nodes):
             if nodes.ndim!=1:
-                raise( ValueError('RFT1D Error:  the "nodes" argument must be a 1D boolean array. Received a %dD array'%arg.ndim)  )
+                raise( ValueError('RFT1D Error:  the "nodes" argument must be a 1D boolean array. Received a %dD array'%nodes.ndim)  )
             self.nNodes = nodes.size
             self.mask   = np.logical_not(nodes)
         else:
@@ -747,7 +754,7 @@ class RFTCalculatorResels(RFTCalculator):
         self.nNodes   = nNodes
         self.n        = n
         self.resels   = tuple(resels)
-        self.version  = 'spm12'
+        self.version  = version
         self.withBonf = None
         self.set_bonf(withBonf)
         self.expected = _Expected(self)
@@ -759,7 +766,7 @@ class RFTCalculatorResels(RFTCalculator):
         s   += '   STAT     :  %s\n' %self.STAT
         s   += '   df       :  %s\n' %str(self.df)
         s   += '   resels   :  (%d, %.3f)\n' %self.resels
-        s   += '   FWHM     :  %.1f\n' %self.FWHM
+        s   += '   nNodes   :  %s\n' %self.nNodes
         s   += '   withBonf :  %s\n' %self.withBonf
         return s
 
