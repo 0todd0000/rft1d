@@ -1,9 +1,9 @@
 [project]
 name            = "rft1d"
-version         = "0.2.6"
+version         = "0.2.5"
 description     = "'One-Dimensional Random Field Theory"
 readme          = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.7"
 # license         = "GPL version 3"
 # license = {file = "LICENSE.txt"}
 
@@ -49,3 +49,13 @@ dependencies = [
 [build-system]
 requires      = ["setuptools>=43.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+
+
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers   = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "serial",
+]
