@@ -1,5 +1,5 @@
 
-__version__ = '0.2.6'  # 2026-08-18
+__version__ = '0.2.7'  # 2026-08-18
 
 __all__ = ['distributions', 'geom', 'prob', 'random']
 
