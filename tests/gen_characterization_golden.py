@@ -18,7 +18,13 @@ import numpy as np
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+SRC  = os.path.abspath(os.path.join(HERE, os.pardir, 'src'))
+
+### the same two entries tests/conftest.py adds for pytest, so that this script
+### can be run directly with no environment setup:
 sys.path.insert(0, HERE)
+if not os.environ.get('RFT1D_ALLOW_FOREIGN_SOURCE'):
+    sys.path.insert(0, SRC)
 
 from rft1d_tester import characterization as ch    # noqa: E402
 
