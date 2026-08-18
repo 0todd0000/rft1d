@@ -120,8 +120,8 @@ def _describe_module(mod, prefix):
         if inspect.isclass(obj):
             lines.append(f'{full} : class')
             for mname in sorted(dir(obj)):
-                if mname.startswith('__'):
-                    continue
+                if mname.startswith('_'):
+                    continue    # private members are free to change
                 m = getattr(obj, mname)
                 if callable(m):
                     try:
