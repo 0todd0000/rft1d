@@ -2,7 +2,7 @@
 [![Numpy](https://img.shields.io/badge/Numpy-777BB4?style=for-the-badge&logo=numpy&logoColor=white)](https://numpy.org)
 [![Scipy](https://img.shields.io/badge/SciPy-654FF0?style=for-the-badge&logo=SciPy&logoColor=white)](https://scipy.org)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-![version](https://img.shields.io/badge/version-0.2.7-blue)
+![version](https://img.shields.io/badge/version-0.2.8-blue)
 ![downloads](https://static.pepy.tech/badge/rft1d/month)
 
 rft1d
@@ -80,22 +80,15 @@ pytest -m "not slow"        # skip the 100,000-case validation (about 20 s)
 pytest tests/test_p_RF.py   # a single file
 ```
 
-There are two test types:
+The tests are:
 
 * `test_p_RF.py` and `test_uc_RF.py` check rft1d's probabilities and critical
   thresholds against reference values computed with [SPM12b](https://github.com/spm/spm12), which are stored in
   `tests/data-spm12b`.  These establish that **rft1d**'s probability calculations are <i>correct</i>.
-* `test_characterization.py` replays about 1,400 probes of the public API --
-  including an inventory of every public name and signature -- against values
-  recorded in `tests/data-characterization/golden.npz`.  These establish that
-  behaviour has not <i>changed</i>.
-
-If you deliberately change public behavior, re-record the golden values and
-review the resulting diff:
-
-```
-python tests/gen_characterization_golden.py
-```
+* `test_geom.py` checks cluster labeling, resel counts and cluster metrics
+  against hand-calculated values.
+* `test_random_rng.py` checks that random fields are reproducible when a seed
+  or generator is passed as `rng`.
 
 
 

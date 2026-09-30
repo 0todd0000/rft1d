@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-version_str  = '0.2.7'
+version_str  = '0.2.8'
 
 
 

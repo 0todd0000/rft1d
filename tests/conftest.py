@@ -4,11 +4,10 @@ Make the test suite locate its own source tree.
 Without this, "import rft1d" resolves to whatever happens to be importable
 first -- an installed wheel, a stale build/ or egg-info copy, or another
 checkout earlier on PYTHONPATH -- and the suite silently tests the wrong
-package.  (test_characterization.py detects that; this file prevents it.)
+package.  This file prevents that.
 
 Set RFT1D_ALLOW_FOREIGN_SOURCE=1 to skip the path insertion and test an
-installed copy on purpose;  the same variable relaxes the corresponding
-check in test_characterization.py.
+installed copy on purpose.
 '''
 
 import os

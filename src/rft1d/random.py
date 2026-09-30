@@ -22,6 +22,24 @@ import numpy as np
 eps        = np.finfo(float).eps   #smallest float
 
 
+def _resolve_rng(rng):
+    '''
+    Return the random number source for the *rng* argument.
+
+    None                        numpy's global random state (default; as in previous versions)
+    int                         seed for a new numpy.random.Generator
+    numpy.random.Generator      used as given
+    numpy.random.RandomState    used as given
+    '''
+    if rng is None:
+        return np.random
+    if isinstance(rng, (np.random.Generator, np.random.RandomState)):
+        return rng
+    if isinstance(rng, (int, np.integer)) and not isinstance(rng, bool):
+        return np.random.default_rng(int(rng))
+    raise ValueError('RFT1D Error:  the "rng" argument must be None, an integer seed, a numpy.random.Generator or a numpy.random.RandomState')
+
+
 class Generator1D:
     '''
     Generator of smooth Gaussian random fields.
@@ -36,6 +54,8 @@ class Generator1D:
 
         *pad* -- pad prior to smoothing (bool)
 
+        *rng* -- random number source: None (numpy's global random state), an integer seed, or a numpy.random.Generator / RandomState
+
     :Returns:
 
         A Generator1D object
@@ -44,15 +64,19 @@ class Generator1D:
 
         1. Generator1D is faster than randn1d for iteratively generating many random samples.
 
+        2. With an integer *rng* the generator is created once, so successive samples continue one reproducible sequence.
+
     :Examples:
 
         >>> g = rft1d.random.Generator1D(8, 101, 15.0)
         >>> y = g.generate_sample()
+        >>> g = rft1d.random.Generator1D(8, 101, 15.0, rng=0)   # reproducible
 
     '''
 
-    def __init__(self, nResponses=1, nodes=101, FWHM=10, pad=False):
+    def __init__(self, nResponses=1, nodes=101, FWHM=10, pad=False, rng=None):
         super().__init__()
+        self.rng           = _resolve_rng(rng)
         self.FWHM          = float(FWHM)
         self.SCALE         = None    #scale factor to return smoothed data to unit variance
         self.SD            = None    #standard deviation of the Gaussian kernel
@@ -135,12 +159,12 @@ class Generator1D:
 
     def generate_sample(self):
         if self.FWHM==0:
-            y    = np.random.randn(*self.shape)
+            y    = self.rng.standard_normal(self.shape)
         elif np.isinf(self.FWHM):
-            y    = np.random.randn(self.nResponses)
+            y    = self.rng.standard_normal(self.nResponses)
             y    = (   y*np.ones( tuple(self.shape) ).T   ).T
         else:
-            y   = np.random.randn(self.nResponses, self.q)
+            y   = self.rng.standard_normal((self.nResponses, self.q))
             y   = self._smooth(y)
             y   = y[:,self.i0:self.i1]
         if self.mask is not None:
@@ -173,6 +197,8 @@ class GeneratorMulti1D(Generator1D):
 
         *pad* -- pad prior to smoothing (bool)
 
+        *rng* -- random number source: None (numpy's global random state), an integer seed, or a numpy.random.Generator / RandomState
+
     :Returns:
 
         A GeneratorMulti1D object
@@ -188,8 +214,8 @@ class GeneratorMulti1D(Generator1D):
 
     '''
 
-    def __init__(self, nResponses=1, nodes=101, nComponents=2, FWHM=10, W=None, pad=False):
-        super().__init__(nResponses, nodes, FWHM, pad)
+    def __init__(self, nResponses=1, nodes=101, nComponents=2, FWHM=10, W=None, pad=False, rng=None):
+        super().__init__(nResponses, nodes, FWHM, pad, rng)
         self.nComponents   = int(nComponents)
         if W is None:
             self.W         = np.eye(self.nComponents)
@@ -212,12 +238,12 @@ class GeneratorMulti1D(Generator1D):
 
     def generate_sample(self):
         if self.FWHM==0:
-            y   = np.random.multivariate_normal(self.mu, self.W, (self.nResponses,self.q))
+            y   = self.rng.multivariate_normal(self.mu, self.W, (self.nResponses,self.q))
         elif np.isinf(self.FWHM):
-            y   = np.random.multivariate_normal(self.mu, self.W, (self.nResponses,))
+            y   = self.rng.multivariate_normal(self.mu, self.W, (self.nResponses,))
             y   = np.dstack(  [   (yy*np.ones( (self.nResponses,self.nNodes) ).T).T   for yy in y.T] )
         else:
-            y   = np.random.multivariate_normal(self.mu, self.W, (self.nResponses,self.q))
+            y   = self.rng.multivariate_normal(self.mu, self.W, (self.nResponses,self.q))
             y   = self._smooth(y)
             y   = y[:,self.i0:self.i1,:]
         if self.mask is not None:
@@ -226,7 +252,7 @@ class GeneratorMulti1D(Generator1D):
 
 
 
-def multirandn1d(nResponses, nodes, nComponents, FWHM=10.0, W=None, pad=False):
+def multirandn1d(nResponses, nodes, nComponents, FWHM=10.0, W=None, pad=False, rng=None):
     '''
     Generate smooth Gaussian multivariate random fields.
 
@@ -244,6 +270,8 @@ def multirandn1d(nResponses, nodes, nComponents, FWHM=10.0, W=None, pad=False):
 
         *pad* -- pad prior to smoothing (bool)
 
+        *rng* -- random number source: None (numpy's global random state), an integer seed, or a numpy.random.Generator / RandomState
+
     :Returns:
 
         A 3D numpy array with shape:  (*nResponses*, *nodes*, *nComponents*)
@@ -258,13 +286,14 @@ def multirandn1d(nResponses, nodes, nComponents, FWHM=10.0, W=None, pad=False):
 
         >>> y = rft1d.random.multirandn1d(8, 101, 3, 15.0)
         >>> y = rft1d.random.multirandn1d(1000, 101, 5, 65.0, W=np.eye(5), pad=True)
+        >>> y = rft1d.random.multirandn1d(8, 101, 3, 15.0, rng=0)   # reproducible
     '''
-    g     = GeneratorMulti1D(nResponses, nodes, nComponents, FWHM, W, pad)
+    g     = GeneratorMulti1D(nResponses, nodes, nComponents, FWHM, W, pad, rng)
     y     = g.generate_sample()
     return y
 
 
-def randn1d(nResponses, nodes, FWHM=10.0, pad=False):
+def randn1d(nResponses, nodes, FWHM=10.0, pad=False, rng=None):
     '''
     Generate smooth Gaussian random fields.
 
@@ -278,6 +307,8 @@ def randn1d(nResponses, nodes, FWHM=10.0, pad=False):
 
         *pad* -- pad prior to smoothing (bool)
 
+        *rng* -- random number source: None (numpy's global random state), an integer seed, or a numpy.random.Generator / RandomState
+
     :Returns:
 
         A 2D numpy array with shape:  (*nResponses*, *nodes*)
@@ -286,10 +317,11 @@ def randn1d(nResponses, nodes, FWHM=10.0, pad=False):
 
         >>> y = rft1d.random.randn1d(8, 101, 15.0)
         >>> y = rft1d.random.randn1d(1000, 101, 75.0, pad=True)
+        >>> y = rft1d.random.randn1d(8, 101, 15.0, rng=0)   # reproducible
 
     .. warning:: Padding is slow but necessary when 2 *FWHM* > *nodes*
     '''
-    g     = Generator1D(nResponses, nodes, FWHM, pad)
+    g     = Generator1D(nResponses, nodes, FWHM, pad, rng)
     y     = g.generate_sample()
     if nResponses==1:
         y = y.flatten()
