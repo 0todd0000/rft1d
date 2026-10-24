@@ -34,7 +34,9 @@ sys.path.insert(0, os.path.abspath('../examples'))  # _rft1d_data for the weathe
 extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.imgmath',
               'matplotlib.sphinxext.mathmpl',
-              'matplotlib.sphinxext.plot_directive']
+              'matplotlib.sphinxext.plot_directive',
+              'matplotlib.sphinxext.figmpl_directive']
+plot_srcset = ['2x']  # sharper figures on high-resolution screens
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
