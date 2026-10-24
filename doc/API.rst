@@ -1,0 +1,22 @@
+
+.. _label-API:
+
+API
+============================================
+
+.. toctree::
+   :maxdepth: 2
+
+   API/distributions.rst
+
+.. toctree::
+   :maxdepth: 3
+
+   API/geom.rst
+
+.. toctree::
+   :maxdepth: 2
+
+   API/prob.rst
+   API/random.rst
+

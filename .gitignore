@@ -5,3 +5,5 @@ __pycache__/
 *$py.class
 build/*
 *.egg-info/
+doc/_build/
+doc/build/
