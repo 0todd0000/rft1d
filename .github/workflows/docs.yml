@@ -4,7 +4,8 @@ name: docs
 # docs-html.  On master, signal spm1d.org so that the site fetches the new
 # build (needs the secret SITE_DISPATCH_TOKEN; without it that step is
 # skipped).  The pinned versions are needed by doc/_templates/layout.html
-# (Sphinx < 7) and by the validation figures (numpy < 2).
+# (Sphinx < 7) and by the validation figures (numpy < 2).  The figures use
+# Times New Roman.
 
 on:
   push:
@@ -23,8 +24,10 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install LaTeX
-        run: sudo apt-get update && sudo apt-get install -y texlive-latex-extra cm-super dvipng
+      - name: Install LaTeX and Times New Roman
+        run: |
+          echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+          sudo apt-get update && sudo apt-get install -y texlive-latex-extra cm-super dvipng ttf-mscorefonts-installer
 
       - name: Install dependencies
         run: pip install "sphinx==6.2.1" "sphinx_rtd_theme==1.2.2" "numpy<2" scipy matplotlib .
